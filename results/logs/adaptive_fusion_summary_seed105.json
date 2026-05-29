@@ -1,0 +1,28 @@
+{
+  "seed": 105,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "method": "adaptive_fusion",
+  "estimate_method": "argmax",
+  "actions": [
+    "wifi_heavy",
+    "vlp_heavy",
+    "balanced",
+    "graph_prior_heavy",
+    "recovery"
+  ],
+  "policy_type": "transparent_reliability_heuristic",
+  "uses_dsp_filtered_signals": true,
+  "uses_graph_prior": true,
+  "outputs": {
+    "adaptive_predictions": "results/processed/adaptive_fusion_predictions_seed105.csv",
+    "adaptive_metrics_table": "results/tables/table_adaptive_fusion_metrics_seed105.csv",
+    "adaptive_action_counts_table": "results/tables/table_adaptive_action_counts_seed105.csv",
+    "adaptive_runtime_table": "results/tables/table_adaptive_runtime_seed105.csv",
+    "adaptive_action_figure": "results/figures/fig6_adaptive_actions_seed105.png"
+  }
+}

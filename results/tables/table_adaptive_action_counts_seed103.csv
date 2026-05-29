@@ -1,0 +1,7 @@
+scenario,action,count
+s1_clean,vlp_heavy,100
+s2_wifi_degraded,vlp_heavy,100
+s3_vlp_blocked,graph_prior_heavy,32
+s3_vlp_blocked,vlp_heavy,68
+s4_mixed_dynamic,graph_prior_heavy,25
+s4_mixed_dynamic,vlp_heavy,75

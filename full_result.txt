@@ -905,12 +905,12 @@ Important limitation:
 [x] src/gsp_smoothing.py
 [x] Fig. 4 raw vs graph-smoothed probability heatmap
 [x] src/adaptive_fusion.py / adaptive reliability fusion
-[ ] repeated seed final experiment
-[ ] table_scenario_params.csv
-[ ] table_baseline_comparison.csv final multi-seed
-[ ] table_ablation.csv final multi-seed
-[ ] table_runtime.csv final multi-seed
-[ ] Fig. 5 scenario-wise localization error plot
+[x] repeated seed final experiment
+[x] table_scenario_params.csv
+[x] table_baseline_comparison.csv final multi-seed
+[x] table_ablation.csv final multi-seed
+[x] table_runtime.csv final multi-seed
+[x] Fig. 5 scenario-wise localization error plot
 [ ] paper/main.tex
 [ ] paper/references.bib
 
@@ -1260,3 +1260,164 @@ Paper interpretation:
 - Against static fusion, S4 mean error improves by about 14.31%, P90 by about 12.37%, and smoothness by about 32.76%.
 - Action usage is currently limited mostly to vlp_heavy and graph_prior_heavy for seed101; this is acceptable but must be framed as reliability-based switching, not rich RL.
 - These results are seed101 only; repeated-seed validation is required before final claims.
+
+==========================================================================================
+16. FINAL MULTI-SEED EXPERIMENT RESULTS
+==========================================================================================
+Updated: 2026-05-30 02:54:43
+
+Generated files:
+- src/final_experiments.py
+- results/tables/table_scenario_params.csv
+- results/tables/table_baseline_comparison.csv
+- results/tables/table_ablation.csv
+- results/tables/table_runtime.csv
+- results/tables/table_final_method_comparison_long.csv
+- results/figures/fig5_scenario_wise_error.png
+- results/logs/final_experiment_summary.json
+
+Final experiment summary:
+{
+  "generated_at": "2026-05-30 02:44:42",
+  "config_path": "configs/default.yaml",
+  "seeds": [
+    101,
+    102,
+    103,
+    104,
+    105
+  ],
+  "skip_run": false,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "metric_columns": [
+    "mean_error_m",
+    "median_error_m",
+    "p90_error_m",
+    "zone_accuracy",
+    "failure_rate",
+    "trajectory_smoothness_m_per_step"
+  ],
+  "outputs": {
+    "scenario_params": "results/tables/table_scenario_params.csv",
+    "baseline_comparison": "results/tables/table_baseline_comparison.csv",
+    "ablation": "results/tables/table_ablation.csv",
+    "runtime": "results/tables/table_runtime.csv",
+    "final_method_long": "results/tables/table_final_method_comparison_long.csv",
+    "fig5_scenario_wise_error": "results/figures/fig5_scenario_wise_error.png"
+  }
+}
+
+Scenario parameter averages:
+                  wifi_degraded_steps  vlp_blocked_steps  mixed_dynamic_steps  wifi_degraded_fraction  vlp_blocked_fraction  mixed_dynamic_fraction
+scenario                                                                                                                                           
+s1_clean                          0.0                0.0                  0.0                   0.000                 0.000                     0.0
+s2_wifi_degraded                 46.8                0.0                  0.0                   0.468                 0.000                     0.0
+s3_vlp_blocked                    0.0               38.2                  0.0                   0.000                 0.382                     0.0
+s4_mixed_dynamic                 35.0               24.8                100.0                   0.350                 0.248                     1.0
+
+Baseline comparison:
+        scenario        method  mean_error_m_mean  mean_error_m_std  median_error_m_mean  median_error_m_std  p90_error_m_mean  p90_error_m_std  zone_accuracy_mean  zone_accuracy_std  failure_rate_mean  failure_rate_std  trajectory_smoothness_m_per_step_mean  trajectory_smoothness_m_per_step_std
+        s1_clean static_fusion             0.4502            0.0115               0.4033              0.0315            0.7544           0.0316               0.950             0.0200              0.004            0.0089                                 0.4507                                0.0213
+        s1_clean      vlp_only             0.4515            0.0110               0.4046              0.0311            0.7556           0.0307               0.950             0.0200              0.004            0.0089                                 0.4548                                0.0274
+        s1_clean     wifi_only             1.3651            0.1708               0.9982              0.0523            2.6350           0.5347               0.502             0.0192              0.188            0.0536                                 1.9717                                0.3139
+s2_wifi_degraded static_fusion             0.4666            0.0293               0.4055              0.0333            0.7589           0.0874               0.944             0.0152              0.006            0.0055                                 0.4963                                0.0873
+s2_wifi_degraded      vlp_only             0.4507            0.0181               0.4055              0.0333            0.7573           0.0881               0.948             0.0130              0.004            0.0055                                 0.4619                                0.0397
+s2_wifi_degraded     wifi_only             2.2322            0.3109               1.5934              0.1890            5.0796           1.0962               0.326             0.0230              0.392            0.0646                                 3.1196                                0.4446
+  s3_vlp_blocked static_fusion             1.0129            0.0919               0.5249              0.0370            2.6668           0.3047               0.730             0.0543              0.168            0.0455                                 1.2826                                0.1378
+  s3_vlp_blocked      vlp_only             1.0150            0.0915               0.5249              0.0370            2.6890           0.3151               0.730             0.0543              0.170            0.0453                                 1.2853                                0.1354
+  s3_vlp_blocked     wifi_only             1.3695            0.1460               1.0471              0.0559            2.7921           0.4698               0.476             0.0251              0.192            0.0460                                 1.9779                                0.2301
+s4_mixed_dynamic static_fusion             0.7592            0.1009               0.4601              0.0283            1.7491           0.7040               0.842             0.0349              0.100            0.0354                                 0.9170                                0.1544
+s4_mixed_dynamic      vlp_only             0.7592            0.1009               0.4601              0.0283            1.7491           0.7040               0.842             0.0349              0.100            0.0354                                 0.9170                                0.1544
+s4_mixed_dynamic     wifi_only             1.9176            0.2257               1.4444              0.2931            3.9858           0.6141               0.358             0.0785              0.336            0.0942                                 2.7143                                0.4505
+
+Ablation table:
+        scenario                  ablation_stage  mean_error_m_mean  mean_error_m_std  median_error_m_mean  median_error_m_std  p90_error_m_mean  p90_error_m_std  zone_accuracy_mean  zone_accuracy_std  failure_rate_mean  failure_rate_std  trajectory_smoothness_m_per_step_mean  trajectory_smoothness_m_per_step_std
+        s1_clean         Adaptive DSP+GSP fusion             0.4515            0.0110               0.4046              0.0311            0.7556           0.0307               0.950             0.0200              0.004            0.0089                                 0.4548                                0.0274
+        s1_clean                   Static fusion             0.4502            0.0115               0.4033              0.0315            0.7544           0.0316               0.950             0.0200              0.004            0.0089                                 0.4507                                0.0213
+        s1_clean Static fusion + graph diffusion             0.7331            0.1207               0.6339              0.0888            1.3192           0.2682               0.792             0.1011              0.032            0.0268                                 0.8386                                0.1083
+        s1_clean      Static fusion + median DSP             0.6737            0.0195               0.6358              0.0381            1.0991           0.0355               0.830             0.0316              0.004            0.0089                                 0.3671                                0.0356
+        s1_clean                        VLP only             0.4515            0.0110               0.4046              0.0311            0.7556           0.0307               0.950             0.0200              0.004            0.0089                                 0.4548                                0.0274
+        s1_clean                       WiFi only             1.3651            0.1708               0.9982              0.0523            2.6350           0.5347               0.502             0.0192              0.188            0.0536                                 1.9717                                0.3139
+s2_wifi_degraded         Adaptive DSP+GSP fusion             0.4512            0.0188               0.4065              0.0344            0.7573           0.0881               0.948             0.0130              0.004            0.0055                                 0.4619                                0.0397
+s2_wifi_degraded                   Static fusion             0.4666            0.0293               0.4055              0.0333            0.7589           0.0874               0.944             0.0152              0.006            0.0055                                 0.4963                                0.0873
+s2_wifi_degraded Static fusion + graph diffusion             1.1078            0.1466               0.8531              0.0937            2.3077           0.4943               0.576             0.0503              0.138            0.0602                                 1.3983                                0.1138
+s2_wifi_degraded      Static fusion + median DSP             0.6700            0.0267               0.6440              0.0488            1.1050           0.0356               0.836             0.0241              0.002            0.0045                                 0.3645                                0.0271
+s2_wifi_degraded                        VLP only             0.4507            0.0181               0.4055              0.0333            0.7573           0.0881               0.948             0.0130              0.004            0.0055                                 0.4619                                0.0397
+s2_wifi_degraded                       WiFi only             2.2322            0.3109               1.5934              0.1890            5.0796           1.0962               0.326             0.0230              0.392            0.0646                                 3.1196                                0.4446
+  s3_vlp_blocked         Adaptive DSP+GSP fusion             0.7513            0.0311               0.5055              0.0142            1.5780           0.2006               0.794             0.0261              0.074            0.0114                                 0.6722                                0.0640
+  s3_vlp_blocked                   Static fusion             1.0129            0.0919               0.5249              0.0370            2.6668           0.3047               0.730             0.0543              0.168            0.0455                                 1.2826                                0.1378
+  s3_vlp_blocked Static fusion + graph diffusion             0.9225            0.0909               0.7505              0.0750            1.8541           0.2004               0.668             0.0563              0.084            0.0230                                 1.1181                                0.0699
+  s3_vlp_blocked      Static fusion + median DSP             0.9237            0.0507               0.6957              0.0745            1.7991           0.0873               0.718             0.0228              0.090            0.0122                                 0.6005                                0.0193
+  s3_vlp_blocked                        VLP only             1.0150            0.0915               0.5249              0.0370            2.6890           0.3151               0.730             0.0543              0.170            0.0453                                 1.2853                                0.1354
+  s3_vlp_blocked                       WiFi only             1.3695            0.1460               1.0471              0.0559            2.7921           0.4698               0.476             0.0251              0.192            0.0460                                 1.9779                                0.2301
+s4_mixed_dynamic         Adaptive DSP+GSP fusion             0.6112            0.0778               0.4600              0.0322            1.1980           0.3348               0.870             0.0485              0.040            0.0235                                 0.5353                                0.0665
+s4_mixed_dynamic                   Static fusion             0.7592            0.1009               0.4601              0.0283            1.7491           0.7040               0.842             0.0349              0.100            0.0354                                 0.9170                                0.1544
+s4_mixed_dynamic Static fusion + graph diffusion             1.0835            0.0712               0.8888              0.0616            2.1694           0.3652               0.574             0.0532              0.116            0.0385                                 1.3295                                0.0809
+s4_mixed_dynamic      Static fusion + median DSP             0.7936            0.0368               0.6779              0.0563            1.3616           0.2007               0.772             0.0303              0.044            0.0251                                 0.4627                                0.0300
+s4_mixed_dynamic                        VLP only             0.7592            0.1009               0.4601              0.0283            1.7491           0.7040               0.842             0.0349              0.100            0.0354                                 0.9170                                0.1544
+s4_mixed_dynamic                       WiFi only             1.9176            0.2257               1.4444              0.2931            3.9858           0.6141               0.358             0.0785              0.336            0.0942                                 2.7143                                0.4505
+
+Runtime table:
+method_family         scenario    runtime_method  mean_runtime_ms_per_step_mean  mean_runtime_ms_per_step_std
+     adaptive         s1_clean   adaptive_fusion                       2.934289                      0.064795
+     adaptive s2_wifi_degraded   adaptive_fusion                       2.978625                      0.125082
+     adaptive   s3_vlp_blocked   adaptive_fusion                       2.964594                      0.072374
+     adaptive s4_mixed_dynamic   adaptive_fusion                       2.964800                      0.051420
+     baseline         s1_clean     static_fusion                       0.070305                      0.001379
+     baseline         s1_clean          vlp_only                       0.697901                      0.013120
+     baseline         s1_clean         wifi_only                       0.695740                      0.013271
+     baseline s2_wifi_degraded     static_fusion                       0.069984                      0.001341
+     baseline s2_wifi_degraded          vlp_only                       0.691911                      0.014089
+     baseline s2_wifi_degraded         wifi_only                       0.683822                      0.013559
+     baseline   s3_vlp_blocked     static_fusion                       0.069602                      0.001720
+     baseline   s3_vlp_blocked          vlp_only                       0.692794                      0.017877
+     baseline   s3_vlp_blocked         wifi_only                       0.682781                      0.019243
+     baseline s4_mixed_dynamic     static_fusion                       0.070142                      0.001340
+     baseline s4_mixed_dynamic          vlp_only                       0.694909                      0.011622
+     baseline s4_mixed_dynamic         wifi_only                       0.684536                      0.013474
+          gsp         s1_clean graph_diffusion_1                       0.095871                      0.002193
+          gsp         s1_clean graph_diffusion_3                       0.089612                      0.001565
+          gsp         s1_clean         laplacian                       0.088897                      0.001359
+          gsp         s1_clean        static_raw                       1.859060                      0.036053
+          gsp s2_wifi_degraded graph_diffusion_1                       0.093496                      0.001595
+          gsp s2_wifi_degraded graph_diffusion_3                       0.088540                      0.001529
+          gsp s2_wifi_degraded         laplacian                       0.087573                      0.001779
+          gsp s2_wifi_degraded        static_raw                       1.825157                      0.041537
+          gsp   s3_vlp_blocked graph_diffusion_1                       0.094684                      0.001522
+          gsp   s3_vlp_blocked graph_diffusion_3                       0.089135                      0.001882
+          gsp   s3_vlp_blocked         laplacian                       0.087959                      0.001756
+          gsp   s3_vlp_blocked        static_raw                       1.846645                      0.049655
+          gsp s4_mixed_dynamic graph_diffusion_1                       0.094163                      0.001560
+          gsp s4_mixed_dynamic graph_diffusion_3                       0.088426                      0.001380
+          gsp s4_mixed_dynamic         laplacian                       0.087511                      0.001204
+          gsp s4_mixed_dynamic        static_raw                       1.838935                      0.042368
+
+Adaptive vs static fusion across seeds:
+                 mean_error_improvement_percent         p90_error_improvement_percent          failure_reduction         smoothness_improvement_percent         
+                                           mean     std                          mean      std              mean     std                           mean      std
+scenario                                                                                                                                                        
+s1_clean                                -0.3001  0.6709                       -0.1572   0.3515             0.000  0.0000                        -0.8560   1.9141
+s2_wifi_degraded                         3.0123  6.7485                        0.2238   0.5004             0.002  0.0045                         5.5480  10.9785
+s3_vlp_blocked                          25.5103  4.8099                       40.3511   8.6972             0.094  0.0428                        47.4786   2.8585
+s4_mixed_dynamic                        18.9005  9.6200                       26.2047  18.5037             0.060  0.0346                        40.5010  10.5982
+
+Best method per scenario by mean error:
+        scenario    method_label  mean_error_m
+        s1_clean   static_fusion        0.4502
+s2_wifi_degraded        vlp_only        0.4507
+  s3_vlp_blocked adaptive_fusion        0.7513
+s4_mixed_dynamic adaptive_fusion        0.6112
+
+Paper interpretation:
+- Multi-seed validation was completed for seeds 101, 102, 103, 104, and 105.
+- Static fusion remains best in the clean scenario.
+- VLP-only remains best in WiFi-degraded conditions because VLP is clean and highly informative.
+- Adaptive fusion is best in VLP-blocked and mixed-dynamic scenarios.
+- Adaptive fusion improves VLP-blocked mean error by about 25.51% and P90 by about 40.35% over static fusion.
+- Adaptive fusion improves mixed-dynamic mean error by about 18.90% and P90 by about 26.20% over static fusion.
+- The safe claim is robustness improvement under simulated optical blockage and mixed degradation, not universal dominance.

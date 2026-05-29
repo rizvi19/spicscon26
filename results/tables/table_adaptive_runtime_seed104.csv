@@ -1,0 +1,5 @@
+seed,scenario,method,mean_runtime_s_per_step,mean_runtime_ms_per_step
+104,s1_clean,adaptive_fusion,0.0030054156501500983,3.0054156501500984
+104,s2_wifi_degraded,adaptive_fusion,0.003052495690062642,3.052495690062642
+104,s3_vlp_blocked,adaptive_fusion,0.002998125410085777,2.998125410085777
+104,s4_mixed_dynamic,adaptive_fusion,0.0030085309201240305,3.0085309201240307

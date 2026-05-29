@@ -1,5 +1,5 @@
 {
-  "seed": 101,
+  "seed": 105,
   "room_width_m": 10.0,
   "room_height_m": 10.0,
   "grid_size": 10,
@@ -41,11 +41,11 @@
   "trajectory_steps": 100,
   "outputs": {
     "grid_cells": "results/raw/grid_cells.csv",
-    "trajectory": "results/raw/trajectory_seed101.csv",
-    "scenario_s1_clean": "results/raw/scenario_masks_seed101_s1_clean.csv",
-    "scenario_s2_wifi_degraded": "results/raw/scenario_masks_seed101_s2_wifi_degraded.csv",
-    "scenario_s3_vlp_blocked": "results/raw/scenario_masks_seed101_s3_vlp_blocked.csv",
-    "scenario_s4_mixed_dynamic": "results/raw/scenario_masks_seed101_s4_mixed_dynamic.csv",
+    "trajectory": "results/raw/trajectory_seed105.csv",
+    "scenario_s1_clean": "results/raw/scenario_masks_seed105_s1_clean.csv",
+    "scenario_s2_wifi_degraded": "results/raw/scenario_masks_seed105_s2_wifi_degraded.csv",
+    "scenario_s3_vlp_blocked": "results/raw/scenario_masks_seed105_s3_vlp_blocked.csv",
+    "scenario_s4_mixed_dynamic": "results/raw/scenario_masks_seed105_s4_mixed_dynamic.csv",
     "figure_layout": "results/figures/fig1_layout_trajectory.png"
   }
 }

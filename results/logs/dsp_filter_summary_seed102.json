@@ -1,0 +1,35 @@
+{
+  "seed": 102,
+  "filters": [
+    "moving_average",
+    "median",
+    "ema"
+  ],
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "dsp_config": {
+    "moving_average_window": 5,
+    "median_window": 5,
+    "ema_alpha": 0.35
+  },
+  "outputs": {
+    "filtered_s1_clean_moving_average": "results/processed/filtered_signals_seed102_s1_clean_moving_average.csv",
+    "filtered_s1_clean_median": "results/processed/filtered_signals_seed102_s1_clean_median.csv",
+    "filtered_s1_clean_ema": "results/processed/filtered_signals_seed102_s1_clean_ema.csv",
+    "filtered_s2_wifi_degraded_moving_average": "results/processed/filtered_signals_seed102_s2_wifi_degraded_moving_average.csv",
+    "filtered_s2_wifi_degraded_median": "results/processed/filtered_signals_seed102_s2_wifi_degraded_median.csv",
+    "filtered_s2_wifi_degraded_ema": "results/processed/filtered_signals_seed102_s2_wifi_degraded_ema.csv",
+    "filtered_s3_vlp_blocked_moving_average": "results/processed/filtered_signals_seed102_s3_vlp_blocked_moving_average.csv",
+    "filtered_s3_vlp_blocked_median": "results/processed/filtered_signals_seed102_s3_vlp_blocked_median.csv",
+    "filtered_s3_vlp_blocked_ema": "results/processed/filtered_signals_seed102_s3_vlp_blocked_ema.csv",
+    "filtered_s4_mixed_dynamic_moving_average": "results/processed/filtered_signals_seed102_s4_mixed_dynamic_moving_average.csv",
+    "filtered_s4_mixed_dynamic_median": "results/processed/filtered_signals_seed102_s4_mixed_dynamic_median.csv",
+    "filtered_s4_mixed_dynamic_ema": "results/processed/filtered_signals_seed102_s4_mixed_dynamic_ema.csv",
+    "filter_signal_variance_table": "results/tables/table_filter_signal_variance_seed102.csv",
+    "filter_sanity_figure": "results/figures/fig3_noisy_vs_filtered_signals.png"
+  }
+}

@@ -153,3 +153,47 @@ Main interpretation:
 - S2 WiFi degraded mean is similar, but P90/smoothness slightly improve.
 - Policy currently uses mostly vlp_heavy and graph_prior_heavy, so frame as transparent reliability-based switching.
 - Next major step: repeated-seed final experiment and ablation tables.
+
+
+FINAL MULTI-SEED RESULT SUMMARY
+Updated: 2026-05-30 02:54:43
+
+Generated:
+[x] src/final_experiments.py
+[x] results/tables/table_scenario_params.csv
+[x] results/tables/table_baseline_comparison.csv
+[x] results/tables/table_ablation.csv
+[x] results/tables/table_runtime.csv
+[x] results/tables/table_final_method_comparison_long.csv
+[x] results/figures/fig5_scenario_wise_error.png
+[x] results/logs/final_experiment_summary.json
+
+Seeds:
+101, 102, 103, 104, 105
+
+Best method per scenario by mean error:
+        scenario    method_label  mean_error_m
+        s1_clean   static_fusion        0.4502
+s2_wifi_degraded        vlp_only        0.4507
+  s3_vlp_blocked adaptive_fusion        0.7513
+s4_mixed_dynamic adaptive_fusion        0.6112
+
+Adaptive vs static fusion across seeds:
+                 mean_error_improvement_percent         p90_error_improvement_percent          failure_reduction         smoothness_improvement_percent         
+                                           mean     std                          mean      std              mean     std                           mean      std
+scenario                                                                                                                                                        
+s1_clean                                -0.3001  0.6709                       -0.1572   0.3515             0.000  0.0000                        -0.8560   1.9141
+s2_wifi_degraded                         3.0123  6.7485                        0.2238   0.5004             0.002  0.0045                         5.5480  10.9785
+s3_vlp_blocked                          25.5103  4.8099                       40.3511   8.6972             0.094  0.0428                        47.4786   2.8585
+s4_mixed_dynamic                        18.9005  9.6200                       26.2047  18.5037             0.060  0.0346                        40.5010  10.5982
+
+Main paper-ready conclusion:
+- Adaptive fusion is not universally best.
+- It preserves clean-case performance nearly unchanged.
+- It improves robustness strongly under VLP blockage and mixed dynamic degradation.
+- Main safe claim: reliability-aware adaptive fusion improves simulated blocked/mixed indoor positioning robustness over static fusion.
+
+NEXT STEP:
+1. Commit final repeated-seed experiment outputs.
+2. Improve final figures/tables if needed.
+3. Start paper/main.tex and references.bib.

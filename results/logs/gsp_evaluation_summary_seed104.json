@@ -1,0 +1,32 @@
+{
+  "seed": 104,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "gsp_methods": [
+    "static_raw",
+    "graph_diffusion_1",
+    "graph_diffusion_3",
+    "laplacian"
+  ],
+  "wifi_weight": 0.5,
+  "estimate_method": "expected",
+  "gsp_config": {
+    "neighbor_type": 4,
+    "smoothing_alpha": 0.25,
+    "lambda_values": [
+      0.05,
+      0.1,
+      0.2,
+      0.5
+    ]
+  },
+  "outputs": {
+    "gsp_predictions": "results/processed/gsp_predictions_seed104.csv",
+    "gsp_metrics_table": "results/tables/table_gsp_metrics_seed104.csv",
+    "gsp_runtime_table": "results/tables/table_gsp_runtime_seed104.csv"
+  }
+}

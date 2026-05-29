@@ -1,0 +1,24 @@
+{
+  "seed": 103,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "methods": [
+    "wifi_only",
+    "vlp_only",
+    "static_fusion"
+  ],
+  "wifi_weight_for_static_fusion": 0.5,
+  "estimate_method": "argmax",
+  "outputs": {
+    "predictions_s1_clean": "results/processed/baseline_predictions_seed103_s1_clean.csv",
+    "predictions_s2_wifi_degraded": "results/processed/baseline_predictions_seed103_s2_wifi_degraded.csv",
+    "predictions_s3_vlp_blocked": "results/processed/baseline_predictions_seed103_s3_vlp_blocked.csv",
+    "predictions_s4_mixed_dynamic": "results/processed/baseline_predictions_seed103_s4_mixed_dynamic.csv",
+    "baseline_metrics_table": "results/tables/table_baseline_metrics_seed103.csv",
+    "baseline_runtime_table": "results/tables/table_baseline_runtime_seed103.csv"
+  }
+}

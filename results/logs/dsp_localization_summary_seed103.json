@@ -1,0 +1,26 @@
+{
+  "seed": 103,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "signal_variants": [
+    "raw",
+    "moving_average",
+    "median",
+    "ema"
+  ],
+  "methods": [
+    "wifi_only",
+    "vlp_only",
+    "static_fusion"
+  ],
+  "wifi_weight_for_static_fusion": 0.5,
+  "estimate_method": "argmax",
+  "outputs": {
+    "dsp_localization_predictions": "results/processed/dsp_localization_predictions_seed103.csv",
+    "dsp_localization_metrics_table": "results/tables/table_dsp_localization_metrics_seed103.csv"
+  }
+}
