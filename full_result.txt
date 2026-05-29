@@ -1,0 +1,931 @@
+SPICSCON 2026 FULL RESULT LOG
+
+Generated/updated: 2026-05-30 01:30:11
+
+Project root: /media/shahriar-rizvi/Data/CSE/SPICSCON_2026
+
+
+==========================================================================================
+0. PLAN ALIGNMENT AND SAFE CLAIM
+==========================================================================================
+
+Working paper direction:
+Topology-Aware Adaptive Fusion of WiFi RSSI and Visible-Light Signals for Robust Simulated Indoor Positioning
+
+Safe claim boundary:
+This is a simulation-based, physically motivated, reproducible stress-test. The project must not claim real-world deployment, state-of-the-art performance, a new WiFi/VLP propagation model, a new VLP hardware system, or a new RL algorithm.
+
+Dependency order being followed:
+scope -> literature evidence -> repo/config -> environment/trajectory -> signal models -> probability maps -> baselines -> DSP -> GSP -> adaptive fusion -> repeated seeds -> paper writing
+
+
+==========================================================================================
+1. GIT AND PROJECT STATUS
+==========================================================================================
+
+
+------------------------------------------------------------------------------------------
+Git log
+------------------------------------------------------------------------------------------
+
+a9dd08c (HEAD -> main) Add DSP localization evaluation across signal variants
+f5cff73 Add DSP filters and signal variance analysis
+2f68658 Add WiFi VLP and static fusion baseline evaluation
+4992531 Add localization metrics utilities
+b83a116 Add probability map generation with stable probability floor
+40b6a9f Add WiFi and VLP signal models with scenario sanity outputs
+385310a Add environment generation and layout trajectory figure
+34fcc55 Initialize clean SPICSCON 2026 project setup
+
+------------------------------------------------------------------------------------------
+Git status
+------------------------------------------------------------------------------------------
+
+[clean working tree]
+
+------------------------------------------------------------------------------------------
+File inventory
+------------------------------------------------------------------------------------------
+
+
+[configs/*.yaml]
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/configs/default.yaml  (1080 bytes)
+
+[src/*.py]
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/src/__init__.py  (0 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/src/baselines.py  (10320 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/src/dsp_evaluation.py  (5843 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/src/dsp_filters.py  (10774 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/src/environment.py  (14761 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/src/metrics.py  (10666 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/src/probability_maps.py  (15722 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/src/signal_models.py  (11641 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/src/utils.py  (4768 bytes)
+
+[results/raw/*]
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/.gitkeep  (0 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/grid_cells.csv  (1510 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/scenario_masks_seed101_s1_clean.csv  (2132 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/scenario_masks_seed101_s2_wifi_degraded.csv  (2084 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/scenario_masks_seed101_s3_vlp_blocked.csv  (2090 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/scenario_masks_seed101_s4_mixed_dynamic.csv  (1974 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/signals_seed101_s1_clean.csv  (34705 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/signals_seed101_s2_wifi_degraded.csv  (35487 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/signals_seed101_s3_vlp_blocked.csv  (35285 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/signals_seed101_s4_mixed_dynamic.csv  (35371 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/raw/trajectory_seed101.csv  (3948 bytes)
+
+[results/processed/*]
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/.gitkeep  (0 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/baseline_predictions_seed101_s1_clean.csv  (32260 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/baseline_predictions_seed101_s2_wifi_degraded.csv  (34500 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/baseline_predictions_seed101_s3_vlp_blocked.csv  (33933 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/baseline_predictions_seed101_s4_mixed_dynamic.csv  (34181 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/dsp_localization_predictions_seed101.csv  (573905 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s1_clean_ema.csv  (34495 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s1_clean_median.csv  (34176 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s1_clean_moving_average.csv  (35486 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s2_wifi_degraded_ema.csv  (35254 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s2_wifi_degraded_median.csv  (34943 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s2_wifi_degraded_moving_average.csv  (36248 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s3_vlp_blocked_ema.csv  (35091 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s3_vlp_blocked_median.csv  (34726 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s3_vlp_blocked_moving_average.csv  (36058 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s4_mixed_dynamic_ema.csv  (35136 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s4_mixed_dynamic_median.csv  (34826 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/filtered_signals_seed101_s4_mixed_dynamic_moving_average.csv  (36140 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/processed/probability_sample_seed101_s2_wifi_degraded_t10.csv  (8118 bytes)
+
+[results/tables/*]
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/tables/.gitkeep  (0 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/tables/table_baseline_metrics_seed101.csv  (1639 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/tables/table_baseline_runtime_seed101.csv  (910 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/tables/table_dsp_localization_metrics_seed101.csv  (6280 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/tables/table_filter_signal_variance_seed101.csv  (2110 bytes)
+
+[results/figures/*]
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/figures/.gitkeep  (0 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/figures/fig1_layout_trajectory.png  (181825 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/figures/fig3_noisy_vs_filtered_signals.png  (514298 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/figures/fig_probability_map_sanity.png  (140869 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/figures/fig_signal_model_sanity.png  (587447 bytes)
+
+[results/logs/*]
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/logs/baseline_summary_seed101.json  (861 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/logs/conda_list.txt  (27676 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/logs/dsp_filter_summary_seed101.json  (1835 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/logs/dsp_localization_summary_seed101.json  (569 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/logs/environment_summary.json  (995 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/logs/metrics_sample_summary.json  (923 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/logs/probability_map_summary.json  (689 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/results/logs/signal_model_summary.json  (996 bytes)
+
+[notes/*]
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/notes/experiment_diary.md  (0 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/notes/literature_notes.md  (0 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/notes/poompat_slide_notes.md  (0 bytes)
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/notes/project_structure_decision.md  (428 bytes)
+
+[paper/figures/*]
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/paper/figures/.gitkeep  (0 bytes)
+
+[paper/tables/*]
+  /media/shahriar-rizvi/Data/CSE/SPICSCON_2026/paper/tables/.gitkeep  (0 bytes)
+
+==========================================================================================
+2. CONFIGURATION
+==========================================================================================
+
+project:
+  name: spicscon2026_graph_dsp_rl_indoor
+  seed_train: [1, 2, 3, 4, 5]
+  seed_test: [101, 102, 103, 104, 105]
+
+room:
+  width_m: 10
+  height_m: 10
+  grid_size: 10
+
+anchors:
+  wifi_ap:
+    - [1, 1]
+    - [9, 1]
+    - [5, 9]
+  leds:
+    - [2, 2]
+    - [8, 2]
+    - [2, 8]
+    - [8, 8]
+
+trajectory:
+  num_trajectories: 50
+  steps_per_trajectory: 100
+  max_step_m: 0.5
+
+wifi_model:
+  p0_dbm: -40
+  path_loss_n: 2.2
+  base_sigma_db: 2.0
+  noisy_sigma_db: 6.0
+  multipath_burst_prob: 0.12
+  shadowing_db_range: [3, 9]
+
+vlp_model:
+  led_power: 1.0
+  receiver_height_m: 1.0
+  ceiling_height_m: 3.0
+  base_sigma: 0.02
+  blockage_loss: 0.75
+  blockage_prob: 0.20
+
+dsp:
+  moving_average_window: 5
+  median_window: 5
+  ema_alpha: 0.35
+
+gsp:
+  neighbor_type: 4
+  smoothing_alpha: 0.25
+  lambda_values: [0.05, 0.1, 0.2, 0.5]
+
+rl:
+  policy_type: contextual_bandit
+  actions:
+    - wifi_heavy
+    - vlp_heavy
+    - balanced
+    - graph_prior_heavy
+    - recovery
+  epsilon: 0.15
+  learning_rate: 0.2
+  reward_type: negative_error
+
+metrics:
+  failure_threshold_m: 2.0
+  zone_radius_m: 1.0
+
+
+==========================================================================================
+3. ENVIRONMENT, GRID, TRAJECTORY, AND SCENARIOS
+==========================================================================================
+
+
+------------------------------------------------------------------------------------------
+Environment summary JSON
+------------------------------------------------------------------------------------------
+
+{
+  "seed": 101,
+  "room_width_m": 10.0,
+  "room_height_m": 10.0,
+  "grid_size": 10,
+  "num_cells": 100,
+  "num_graph_nodes": 100,
+  "num_graph_edges": 180,
+  "wifi_ap": [
+    [
+      1.0,
+      1.0
+    ],
+    [
+      9.0,
+      1.0
+    ],
+    [
+      5.0,
+      9.0
+    ]
+  ],
+  "leds": [
+    [
+      2.0,
+      2.0
+    ],
+    [
+      8.0,
+      2.0
+    ],
+    [
+      2.0,
+      8.0
+    ],
+    [
+      8.0,
+      8.0
+    ]
+  ],
+  "trajectory_steps": 100,
+  "outputs": {
+    "grid_cells": "results/raw/grid_cells.csv",
+    "trajectory": "results/raw/trajectory_seed101.csv",
+    "scenario_s1_clean": "results/raw/scenario_masks_seed101_s1_clean.csv",
+    "scenario_s2_wifi_degraded": "results/raw/scenario_masks_seed101_s2_wifi_degraded.csv",
+    "scenario_s3_vlp_blocked": "results/raw/scenario_masks_seed101_s3_vlp_blocked.csv",
+    "scenario_s4_mixed_dynamic": "results/raw/scenario_masks_seed101_s4_mixed_dynamic.csv",
+    "figure_layout": "results/figures/fig1_layout_trajectory.png"
+  }
+}
+
+------------------------------------------------------------------------------------------
+Grid cells CSV shape
+------------------------------------------------------------------------------------------
+
+results/raw/grid_cells.csv: shape=(100, 5), columns=['cell_id', 'row', 'col', 'x', 'y']
+
+------------------------------------------------------------------------------------------
+Trajectory CSV shape
+------------------------------------------------------------------------------------------
+
+results/raw/trajectory_seed101.csv: shape=(100, 3), columns=['t', 'x', 'y']
+
+------------------------------------------------------------------------------------------
+Scenario mask files
+------------------------------------------------------------------------------------------
+
+results/raw/scenario_masks_seed101_s1_clean.csv: shape=(100, 4), columns=['t', 'wifi_degraded', 'vlp_blocked', 'mixed_dynamic']
+s1_clean: wifi_degraded=0, vlp_blocked=0, mixed_dynamic=0
+results/raw/scenario_masks_seed101_s2_wifi_degraded.csv: shape=(100, 4), columns=['t', 'wifi_degraded', 'vlp_blocked', 'mixed_dynamic']
+s2_wifi_degraded: wifi_degraded=48, vlp_blocked=0, mixed_dynamic=0
+results/raw/scenario_masks_seed101_s3_vlp_blocked.csv: shape=(100, 4), columns=['t', 'wifi_degraded', 'vlp_blocked', 'mixed_dynamic']
+s3_vlp_blocked: wifi_degraded=0, vlp_blocked=42, mixed_dynamic=0
+results/raw/scenario_masks_seed101_s4_mixed_dynamic.csv: shape=(100, 4), columns=['t', 'wifi_degraded', 'vlp_blocked', 'mixed_dynamic']
+s4_mixed_dynamic: wifi_degraded=38, vlp_blocked=20, mixed_dynamic=100
+
+Figure saved: results/figures/fig1_layout_trajectory.png
+
+==========================================================================================
+4. SIGNAL MODEL OUTPUTS
+==========================================================================================
+
+
+------------------------------------------------------------------------------------------
+Signal model summary JSON
+------------------------------------------------------------------------------------------
+
+{
+  "seed": 101,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "num_time_steps": 100,
+  "wifi_signal_columns": [
+    "wifi_ap1_dbm",
+    "wifi_ap1_clean_dbm",
+    "wifi_ap2_dbm",
+    "wifi_ap2_clean_dbm",
+    "wifi_ap3_dbm",
+    "wifi_ap3_clean_dbm"
+  ],
+  "vlp_signal_columns": [
+    "vlp_led1_intensity",
+    "vlp_led1_clean_intensity",
+    "vlp_led2_intensity",
+    "vlp_led2_clean_intensity",
+    "vlp_led3_intensity",
+    "vlp_led3_clean_intensity",
+    "vlp_led4_intensity",
+    "vlp_led4_clean_intensity"
+  ],
+  "outputs": {
+    "signals_s1_clean": "results/raw/signals_seed101_s1_clean.csv",
+    "signals_s2_wifi_degraded": "results/raw/signals_seed101_s2_wifi_degraded.csv",
+    "signals_s3_vlp_blocked": "results/raw/signals_seed101_s3_vlp_blocked.csv",
+    "signals_s4_mixed_dynamic": "results/raw/signals_seed101_s4_mixed_dynamic.csv",
+    "signal_model_sanity_figure": "results/figures/fig_signal_model_sanity.png"
+  }
+}
+
+------------------------------------------------------------------------------------------
+Scenario-wise signal statistics
+------------------------------------------------------------------------------------------
+
+
+Scenario: s1_clean
+shape=(100, 21)
+wifi_degraded_steps=0, vlp_blocked_steps=0, mixed_dynamic_steps=0
+WiFi measured min/max/mean:
+      wifi_ap1_dbm  wifi_ap2_dbm  wifi_ap3_dbm
+min       -63.9877      -61.2503      -63.9826
+max       -49.3645      -34.0751      -42.0408
+mean      -57.1939      -50.1848      -57.0820
+VLP measured min/max/mean:
+      vlp_led1_intensity  vlp_led2_intensity  vlp_led3_intensity  vlp_led4_intensity
+min             0.016464            0.021300            0.007955            0.014175
+max             0.094489            0.245020            0.056164            0.163133
+mean            0.037762            0.121844            0.019873            0.043950
+
+Scenario: s2_wifi_degraded
+shape=(100, 21)
+wifi_degraded_steps=48, vlp_blocked_steps=0, mixed_dynamic_steps=0
+WiFi measured min/max/mean:
+      wifi_ap1_dbm  wifi_ap2_dbm  wifi_ap3_dbm
+min       -69.4882      -70.1197      -71.9476
+max       -45.9243      -28.1705      -38.8256
+mean      -57.5062      -51.1560      -57.8015
+VLP measured min/max/mean:
+      vlp_led1_intensity  vlp_led2_intensity  vlp_led3_intensity  vlp_led4_intensity
+min             0.015098            0.021706            0.007780            0.013931
+max             0.093708            0.243011            0.053872            0.163988
+mean            0.037654            0.122096            0.019641            0.043939
+
+Scenario: s3_vlp_blocked
+shape=(100, 21)
+wifi_degraded_steps=0, vlp_blocked_steps=42, mixed_dynamic_steps=0
+WiFi measured min/max/mean:
+      wifi_ap1_dbm  wifi_ap2_dbm  wifi_ap3_dbm
+min       -63.6811      -61.2758      -67.3383
+max       -50.7669      -35.5018      -41.6200
+mean      -57.7200      -50.0069      -57.2905
+VLP measured min/max/mean:
+      vlp_led1_intensity  vlp_led2_intensity  vlp_led3_intensity  vlp_led4_intensity
+min             0.005272            0.014896            0.003475            0.005061
+max             0.093589            0.245476            0.053970            0.163295
+mean            0.034562            0.112059            0.017520            0.040052
+
+Scenario: s4_mixed_dynamic
+shape=(100, 21)
+wifi_degraded_steps=38, vlp_blocked_steps=20, mixed_dynamic_steps=100
+WiFi measured min/max/mean:
+      wifi_ap1_dbm  wifi_ap2_dbm  wifi_ap3_dbm
+min       -69.6718      -66.6601      -72.1465
+max       -47.2921      -28.4101      -41.0115
+mean      -57.6327      -49.7952      -57.7211
+VLP measured min/max/mean:
+      vlp_led1_intensity  vlp_led2_intensity  vlp_led3_intensity  vlp_led4_intensity
+min             0.004950            0.022557            0.002862            0.003087
+max             0.094393            0.244795            0.055983            0.162882
+mean            0.036250            0.119720            0.019286            0.042501
+
+Figure saved: results/figures/fig_signal_model_sanity.png
+
+==========================================================================================
+5. PROBABILITY MAP OUTPUTS
+==========================================================================================
+
+
+------------------------------------------------------------------------------------------
+Probability map summary JSON
+------------------------------------------------------------------------------------------
+
+{
+  "seed": 101,
+  "scenario": "s2_wifi_degraded",
+  "time_step": 10,
+  "true_position": {
+    "x": 8.047852018915972,
+    "y": 3.3896047138916883
+  },
+  "wifi_estimate": {
+    "cell_id": 37,
+    "x": 7.5,
+    "y": 3.5,
+    "max_prob": 0.1782529109711462
+  },
+  "vlp_estimate": {
+    "cell_id": 37,
+    "x": 7.5,
+    "y": 3.5,
+    "max_prob": 0.5360591878660302
+  },
+  "static_fusion_estimate": {
+    "cell_id": 37,
+    "x": 7.5,
+    "y": 3.5,
+    "max_prob": 0.3571560494185882
+  },
+  "outputs": {
+    "probability_sample_csv": "results/processed/probability_sample_seed101_s2_wifi_degraded_t10.csv",
+    "probability_sanity_figure": "results/figures/fig_probability_map_sanity.png"
+  }
+}
+
+------------------------------------------------------------------------------------------
+Probability map numeric checks
+------------------------------------------------------------------------------------------
+
+results/processed/probability_sample_seed101_s2_wifi_degraded_t10.csv: shape=(100, 8), columns=['cell_id', 'row', 'col', 'x', 'y', 'p_wifi', 'p_vlp', 'p_static']
+
+Probability normalization and peak check:
+p_wifi: sum=1.000000000000, min=9.999999999787e-13, max=0.178253, zero_count=0, argmax_cell=37, argmax_xy=(7.500, 3.500)
+p_vlp: sum=1.000000000000, min=9.999999999020e-13, max=0.536059, zero_count=0, argmax_cell=37, argmax_xy=(7.500, 3.500)
+p_static: sum=1.000000000000, min=9.999999999403e-13, max=0.357156, zero_count=0, argmax_cell=37, argmax_xy=(7.500, 3.500)
+
+True position: (8.047852, 3.389605)
+wifi_estimate: cell=37, xy=(7.500, 3.500), max_prob=0.178253, error=0.5589 m
+vlp_estimate: cell=37, xy=(7.500, 3.500), max_prob=0.536059, error=0.5589 m
+static_fusion_estimate: cell=37, xy=(7.500, 3.500), max_prob=0.357156, error=0.5589 m
+
+Figure saved: results/figures/fig_probability_map_sanity.png
+
+==========================================================================================
+6. METRICS MODULE SANITY OUTPUT
+==========================================================================================
+
+{
+  "source": "results/logs/probability_map_summary.json",
+  "note": "Single-time-step sanity check only. Final metrics require full trajectories.",
+  "metrics": {
+    "wifi": {
+      "mean_error_m": 0.5588639850851388,
+      "median_error_m": 0.5588639850851388,
+      "p90_error_m": 0.5588639850851388,
+      "zone_accuracy": 1.0,
+      "failure_rate": 0.0,
+      "trajectory_smoothness_m_per_step": 0.0
+    },
+    "vlp": {
+      "mean_error_m": 0.5588639850851388,
+      "median_error_m": 0.5588639850851388,
+      "p90_error_m": 0.5588639850851388,
+      "zone_accuracy": 1.0,
+      "failure_rate": 0.0,
+      "trajectory_smoothness_m_per_step": 0.0
+    },
+    "static_fusion": {
+      "mean_error_m": 0.5588639850851388,
+      "median_error_m": 0.5588639850851388,
+      "p90_error_m": 0.5588639850851388,
+      "zone_accuracy": 1.0,
+      "failure_rate": 0.0,
+      "trajectory_smoothness_m_per_step": 0.0
+    }
+  }
+}
+
+==========================================================================================
+7. BASELINE LOCALIZATION RESULTS
+==========================================================================================
+
+
+------------------------------------------------------------------------------------------
+Baseline summary JSON
+------------------------------------------------------------------------------------------
+
+{
+  "seed": 101,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "methods": [
+    "wifi_only",
+    "vlp_only",
+    "static_fusion"
+  ],
+  "wifi_weight_for_static_fusion": 0.5,
+  "estimate_method": "argmax",
+  "outputs": {
+    "predictions_s1_clean": "results/processed/baseline_predictions_seed101_s1_clean.csv",
+    "predictions_s2_wifi_degraded": "results/processed/baseline_predictions_seed101_s2_wifi_degraded.csv",
+    "predictions_s3_vlp_blocked": "results/processed/baseline_predictions_seed101_s3_vlp_blocked.csv",
+    "predictions_s4_mixed_dynamic": "results/processed/baseline_predictions_seed101_s4_mixed_dynamic.csv",
+    "baseline_metrics_table": "results/tables/table_baseline_metrics_seed101.csv",
+    "baseline_runtime_table": "results/tables/table_baseline_runtime_seed101.csv"
+  }
+}
+
+------------------------------------------------------------------------------------------
+Baseline metrics and runtime
+------------------------------------------------------------------------------------------
+
+Baseline metrics table:
+        scenario        method  mean_error_m  median_error_m  p90_error_m  zone_accuracy  failure_rate  trajectory_smoothness_m_per_step  wifi_event_recovery_steps  vlp_event_recovery_steps
+        s1_clean     wifi_only      1.131141        1.000457     2.193678           0.50          0.12                          1.574651                       0.00                  0.000000
+        s1_clean      vlp_only      0.469043        0.420212     0.788909           0.93          0.00                          0.435779                       0.00                  0.000000
+        s1_clean static_fusion      0.469043        0.420212     0.788909           0.93          0.00                          0.435779                       0.00                  0.000000
+s2_wifi_degraded     wifi_only      1.929290        1.548560     4.276704           0.36          0.38                          2.808356                       0.25                  0.000000
+s2_wifi_degraded      vlp_only      0.472453        0.431291     0.724294           0.94          0.01                          0.522410                       0.00                  0.000000
+s2_wifi_degraded static_fusion      0.474797        0.431291     0.732491           0.93          0.01                          0.536695                       0.00                  0.000000
+  s3_vlp_blocked     wifi_only      1.191189        0.998095     2.386654           0.50          0.14                          1.654649                       0.00                  0.666667
+  s3_vlp_blocked      vlp_only      1.151758        0.585332     2.876175           0.65          0.22                          1.434474                       0.00                  2.666667
+  s3_vlp_blocked static_fusion      1.151758        0.585332     2.876175           0.65          0.22                          1.434474                       0.00                  2.666667
+s4_mixed_dynamic     wifi_only      1.885396        1.578655     3.505148           0.27          0.35                          2.613728                       2.00                  0.500000
+s4_mixed_dynamic      vlp_only      0.668751        0.462136     1.147505           0.85          0.06                          0.735544                       0.00                  0.000000
+s4_mixed_dynamic static_fusion      0.668751        0.462136     1.147505           0.85          0.06                          0.735544                       0.00                  0.000000
+
+Pivot: mean error
+method            static_fusion  vlp_only  wifi_only
+scenario                                            
+s1_clean                 0.4690    0.4690     1.1311
+s2_wifi_degraded         0.4748    0.4725     1.9293
+s3_vlp_blocked           1.1518    1.1518     1.1912
+s4_mixed_dynamic         0.6688    0.6688     1.8854
+
+Pivot: P90 error
+method            static_fusion  vlp_only  wifi_only
+scenario                                            
+s1_clean                 0.7889    0.7889     2.1937
+s2_wifi_degraded         0.7325    0.7243     4.2767
+s3_vlp_blocked           2.8762    2.8762     2.3867
+s4_mixed_dynamic         1.1475    1.1475     3.5051
+
+Pivot: failure rate
+method            static_fusion  vlp_only  wifi_only
+scenario                                            
+s1_clean                   0.00      0.00       0.12
+s2_wifi_degraded           0.01      0.01       0.38
+s3_vlp_blocked             0.22      0.22       0.14
+s4_mixed_dynamic           0.06      0.06       0.35
+
+Pivot: zone accuracy
+method            static_fusion  vlp_only  wifi_only
+scenario                                            
+s1_clean                   0.93      0.93       0.50
+s2_wifi_degraded           0.93      0.94       0.36
+s3_vlp_blocked             0.65      0.65       0.50
+s4_mixed_dynamic           0.85      0.85       0.27
+
+Runtime table:
+ seed         scenario        method  mean_runtime_s_per_step  mean_runtime_ms_per_step
+  101         s1_clean     wifi_only                 0.000655                  0.654988
+  101         s1_clean      vlp_only                 0.000654                  0.654205
+  101         s1_clean static_fusion                 0.000067                  0.066682
+  101 s2_wifi_degraded     wifi_only                 0.000651                  0.650575
+  101 s2_wifi_degraded      vlp_only                 0.000659                  0.658886
+  101 s2_wifi_degraded static_fusion                 0.000067                  0.067371
+  101   s3_vlp_blocked     wifi_only                 0.000663                  0.663261
+  101   s3_vlp_blocked      vlp_only                 0.000673                  0.673347
+  101   s3_vlp_blocked static_fusion                 0.000068                  0.068101
+  101 s4_mixed_dynamic     wifi_only                 0.000647                  0.646907
+  101 s4_mixed_dynamic      vlp_only                 0.000656                  0.656308
+  101 s4_mixed_dynamic static_fusion                 0.000067                  0.066798
+
+==========================================================================================
+8. DSP SIGNAL FILTERING RESULTS
+==========================================================================================
+
+
+------------------------------------------------------------------------------------------
+DSP filter summary JSON
+------------------------------------------------------------------------------------------
+
+{
+  "seed": 101,
+  "filters": [
+    "moving_average",
+    "median",
+    "ema"
+  ],
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "dsp_config": {
+    "moving_average_window": 5,
+    "median_window": 5,
+    "ema_alpha": 0.35
+  },
+  "outputs": {
+    "filtered_s1_clean_moving_average": "results/processed/filtered_signals_seed101_s1_clean_moving_average.csv",
+    "filtered_s1_clean_median": "results/processed/filtered_signals_seed101_s1_clean_median.csv",
+    "filtered_s1_clean_ema": "results/processed/filtered_signals_seed101_s1_clean_ema.csv",
+    "filtered_s2_wifi_degraded_moving_average": "results/processed/filtered_signals_seed101_s2_wifi_degraded_moving_average.csv",
+    "filtered_s2_wifi_degraded_median": "results/processed/filtered_signals_seed101_s2_wifi_degraded_median.csv",
+    "filtered_s2_wifi_degraded_ema": "results/processed/filtered_signals_seed101_s2_wifi_degraded_ema.csv",
+    "filtered_s3_vlp_blocked_moving_average": "results/processed/filtered_signals_seed101_s3_vlp_blocked_moving_average.csv",
+    "filtered_s3_vlp_blocked_median": "results/processed/filtered_signals_seed101_s3_vlp_blocked_median.csv",
+    "filtered_s3_vlp_blocked_ema": "results/processed/filtered_signals_seed101_s3_vlp_blocked_ema.csv",
+    "filtered_s4_mixed_dynamic_moving_average": "results/processed/filtered_signals_seed101_s4_mixed_dynamic_moving_average.csv",
+    "filtered_s4_mixed_dynamic_median": "results/processed/filtered_signals_seed101_s4_mixed_dynamic_median.csv",
+    "filtered_s4_mixed_dynamic_ema": "results/processed/filtered_signals_seed101_s4_mixed_dynamic_ema.csv",
+    "filter_signal_variance_table": "results/tables/table_filter_signal_variance_seed101.csv",
+    "filter_sanity_figure": "results/figures/fig3_noisy_vs_filtered_signals.png"
+  }
+}
+
+------------------------------------------------------------------------------------------
+DSP signal variance analysis
+------------------------------------------------------------------------------------------
+
+DSP filter signal variance table:
+        scenario    filter_name signal_group  raw_mean_std  filtered_mean_std  std_reduction_percent
+        s1_clean moving_average         wifi      4.364966           3.687939              15.510488
+        s1_clean moving_average          vlp      0.032694           0.030702               6.090217
+        s1_clean         median         wifi      4.364966           3.709478              15.017029
+        s1_clean         median          vlp      0.032694           0.031084               4.923259
+        s1_clean            ema         wifi      4.364966           3.664680              16.043343
+        s1_clean            ema          vlp      0.032694           0.030089               7.966347
+s2_wifi_degraded moving_average         wifi      6.144019           4.389450              28.557355
+s2_wifi_degraded moving_average          vlp      0.032645           0.030702               5.949215
+s2_wifi_degraded         median         wifi      6.144019           4.219648              31.321041
+s2_wifi_degraded         median          vlp      0.032645           0.031073               4.813099
+s2_wifi_degraded            ema         wifi      6.144019           4.369491              28.882199
+s2_wifi_degraded            ema          vlp      0.032645           0.030085               7.842161
+  s3_vlp_blocked moving_average         wifi      4.451588           3.733203              16.137739
+  s3_vlp_blocked moving_average          vlp      0.034620           0.030335              12.378135
+  s3_vlp_blocked         median         wifi      4.451588           3.759607              15.544595
+  s3_vlp_blocked         median          vlp      0.034620           0.032175               7.063894
+  s3_vlp_blocked            ema         wifi      4.451588           3.713579              16.578574
+  s3_vlp_blocked            ema          vlp      0.034620           0.029751              14.065255
+s4_mixed_dynamic moving_average         wifi      5.707335           3.968138              30.473014
+s4_mixed_dynamic moving_average          vlp      0.033877           0.031421               7.251559
+s4_mixed_dynamic         median         wifi      5.707335           4.182945              26.709321
+s4_mixed_dynamic         median          vlp      0.033877           0.031345               7.475092
+s4_mixed_dynamic            ema         wifi      5.707335           4.003248              29.857840
+s4_mixed_dynamic            ema          vlp      0.033877           0.030799               9.085836
+
+Pivot: std reduction percent
+filter_name                      ema  median  moving_average
+scenario         signal_group                               
+s1_clean         vlp            7.97    4.92            6.09
+                 wifi          16.04   15.02           15.51
+s2_wifi_degraded vlp            7.84    4.81            5.95
+                 wifi          28.88   31.32           28.56
+s3_vlp_blocked   vlp           14.07    7.06           12.38
+                 wifi          16.58   15.54           16.14
+s4_mixed_dynamic vlp            9.09    7.48            7.25
+                 wifi          29.86   26.71           30.47
+
+Figure saved: results/figures/fig3_noisy_vs_filtered_signals.png
+
+==========================================================================================
+9. DSP LOCALIZATION RESULTS
+==========================================================================================
+
+
+------------------------------------------------------------------------------------------
+DSP localization summary JSON
+------------------------------------------------------------------------------------------
+
+{
+  "seed": 101,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "signal_variants": [
+    "raw",
+    "moving_average",
+    "median",
+    "ema"
+  ],
+  "methods": [
+    "wifi_only",
+    "vlp_only",
+    "static_fusion"
+  ],
+  "wifi_weight_for_static_fusion": 0.5,
+  "estimate_method": "argmax",
+  "outputs": {
+    "dsp_localization_predictions": "results/processed/dsp_localization_predictions_seed101.csv",
+    "dsp_localization_metrics_table": "results/tables/table_dsp_localization_metrics_seed101.csv"
+  }
+}
+
+------------------------------------------------------------------------------------------
+DSP localization metrics
+------------------------------------------------------------------------------------------
+
+Full DSP localization metrics:
+        scenario signal_variant        method  mean_error_m  median_error_m  p90_error_m  zone_accuracy  failure_rate  trajectory_smoothness_m_per_step  wifi_event_recovery_steps  vlp_event_recovery_steps
+        s1_clean            raw     wifi_only      1.131141        1.000457     2.193678           0.50          0.12                          1.574651                       0.00                  0.000000
+        s1_clean            raw      vlp_only      0.469043        0.420212     0.788909           0.93          0.00                          0.435779                       0.00                  0.000000
+        s1_clean            raw static_fusion      0.469043        0.420212     0.788909           0.93          0.00                          0.435779                       0.00                  0.000000
+        s1_clean moving_average     wifi_only      0.780139        0.726645     1.241938           0.76          0.02                          0.498770                       0.00                  0.000000
+        s1_clean moving_average      vlp_only      0.623054        0.609249     0.975919           0.90          0.00                          0.360888                       0.00                  0.000000
+        s1_clean moving_average static_fusion      0.623054        0.609249     0.975919           0.90          0.00                          0.360888                       0.00                  0.000000
+        s1_clean         median     wifi_only      0.832060        0.793224     1.400085           0.70          0.01                          0.600431                       0.00                  0.000000
+        s1_clean         median      vlp_only      0.652669        0.630359     1.074651           0.88          0.00                          0.369256                       0.00                  0.000000
+        s1_clean         median static_fusion      0.652669        0.630359     1.074651           0.88          0.00                          0.369256                       0.00                  0.000000
+        s1_clean            ema     wifi_only      0.745487        0.674801     1.241938           0.80          0.02                          0.557643                       0.00                  0.000000
+        s1_clean            ema      vlp_only      0.626847        0.582815     1.032175           0.88          0.00                          0.395375                       0.00                  0.000000
+        s1_clean            ema static_fusion      0.626847        0.582815     1.032175           0.88          0.00                          0.395375                       0.00                  0.000000
+s2_wifi_degraded            raw     wifi_only      1.929290        1.548560     4.276704           0.36          0.38                          2.808356                       0.25                  0.000000
+s2_wifi_degraded            raw      vlp_only      0.472453        0.431291     0.724294           0.94          0.01                          0.522410                       0.00                  0.000000
+s2_wifi_degraded            raw static_fusion      0.474797        0.431291     0.732491           0.93          0.01                          0.536695                       0.00                  0.000000
+s2_wifi_degraded moving_average     wifi_only      1.271991        1.116737     2.120129           0.43          0.15                          0.949711                       0.00                  0.000000
+s2_wifi_degraded moving_average      vlp_only      0.655392        0.630359     1.076502           0.87          0.00                          0.360888                       0.00                  0.000000
+s2_wifi_degraded moving_average static_fusion      0.655392        0.630359     1.076502           0.87          0.00                          0.360888                       0.00                  0.000000
+s2_wifi_degraded         median     wifi_only      1.317411        1.096798     2.169512           0.44          0.14                          0.956010                       0.00                  0.000000
+s2_wifi_degraded         median      vlp_only      0.672645        0.653581     1.113959           0.87          0.00                          0.387659                       0.00                  0.000000
+s2_wifi_degraded         median static_fusion      0.672645        0.653581     1.113959           0.87          0.00                          0.387659                       0.00                  0.000000
+s2_wifi_degraded            ema     wifi_only      1.340684        1.079642     2.490804           0.46          0.16                          1.234258                       0.00                  0.000000
+s2_wifi_degraded            ema      vlp_only      0.612062        0.576198     0.963309           0.91          0.00                          0.395375                       0.00                  0.000000
+s2_wifi_degraded            ema static_fusion      0.608763        0.569660     0.963309           0.91          0.00                          0.395375                       0.00                  0.000000
+  s3_vlp_blocked            raw     wifi_only      1.191189        0.998095     2.386654           0.50          0.14                          1.654649                       0.00                  0.666667
+  s3_vlp_blocked            raw      vlp_only      1.151758        0.585332     2.876175           0.65          0.22                          1.434474                       0.00                  2.666667
+  s3_vlp_blocked            raw static_fusion      1.151758        0.585332     2.876175           0.65          0.22                          1.434474                       0.00                  2.666667
+  s3_vlp_blocked moving_average     wifi_only      0.765408        0.743636     1.310088           0.77          0.01                          0.524889                       0.00                  0.000000
+  s3_vlp_blocked moving_average      vlp_only      1.098055        0.764979     2.384308           0.63          0.22                          0.604885                       0.00                  0.000000
+  s3_vlp_blocked moving_average static_fusion      1.098055        0.764979     2.384308           0.63          0.22                          0.604885                       0.00                  0.000000
+  s3_vlp_blocked         median     wifi_only      0.882775        0.835123     1.498727           0.68          0.03                          0.619485                       0.00                  0.000000
+  s3_vlp_blocked         median      vlp_only      0.912931        0.725670     1.744262           0.73          0.10                          0.631837                       0.00                  0.000000
+  s3_vlp_blocked         median static_fusion      0.912931        0.725670     1.744262           0.73          0.10                          0.631837                       0.00                  0.000000
+  s3_vlp_blocked            ema     wifi_only      0.880219        0.858686     1.506429           0.66          0.04                          0.725894                       0.00                  0.000000
+  s3_vlp_blocked            ema      vlp_only      1.103346        0.823392     2.413069           0.61          0.21                          0.652912                       0.00                  0.000000
+  s3_vlp_blocked            ema static_fusion      1.103346        0.823392     2.413069           0.61          0.21                          0.652912                       0.00                  0.000000
+s4_mixed_dynamic            raw     wifi_only      1.885396        1.578655     3.505148           0.27          0.35                          2.613728                       2.00                  0.500000
+s4_mixed_dynamic            raw      vlp_only      0.668751        0.462136     1.147505           0.85          0.06                          0.735544                       0.00                  0.000000
+s4_mixed_dynamic            raw static_fusion      0.668751        0.462136     1.147505           0.85          0.06                          0.735544                       0.00                  0.000000
+s4_mixed_dynamic moving_average     wifi_only      1.288703        1.037993     2.188320           0.47          0.12                          1.000509                       0.00                  0.000000
+s4_mixed_dynamic moving_average      vlp_only      0.726545        0.678324     1.222614           0.81          0.01                          0.427411                       0.00                  0.000000
+s4_mixed_dynamic moving_average static_fusion      0.726545        0.678324     1.222614           0.81          0.01                          0.427411                       0.00                  0.000000
+s4_mixed_dynamic         median     wifi_only      1.420845        1.233588     2.363476           0.40          0.20                          0.854237                       0.00                  0.000000
+s4_mixed_dynamic         median      vlp_only      0.739793        0.674801     1.202860           0.82          0.02                          0.484485                       0.00                  0.000000
+s4_mixed_dynamic         median static_fusion      0.739793        0.674801     1.202860           0.82          0.02                          0.484485                       0.00                  0.000000
+s4_mixed_dynamic            ema     wifi_only      1.234397        0.980098     2.164844           0.52          0.11                          1.046386                       0.00                  0.000000
+s4_mixed_dynamic            ema      vlp_only      0.686101        0.638113     1.113959           0.84          0.01                          0.447613                       0.00                  0.000000
+s4_mixed_dynamic            ema static_fusion      0.682802        0.630359     1.113959           0.84          0.01                          0.447613                       0.00                  0.000000
+
+Mean error pivot: wifi_only
+signal_variant       ema  median  moving_average     raw
+scenario                                                
+s1_clean          0.7455  0.8321          0.7801  1.1311
+s2_wifi_degraded  1.3407  1.3174          1.2720  1.9293
+s3_vlp_blocked    0.8802  0.8828          0.7654  1.1912
+s4_mixed_dynamic  1.2344  1.4208          1.2887  1.8854
+
+Mean error pivot: vlp_only
+signal_variant       ema  median  moving_average     raw
+scenario                                                
+s1_clean          0.6268  0.6527          0.6231  0.4690
+s2_wifi_degraded  0.6121  0.6726          0.6554  0.4725
+s3_vlp_blocked    1.1033  0.9129          1.0981  1.1518
+s4_mixed_dynamic  0.6861  0.7398          0.7265  0.6688
+
+Mean error pivot: static_fusion
+signal_variant       ema  median  moving_average     raw
+scenario                                                
+s1_clean          0.6268  0.6527          0.6231  0.4690
+s2_wifi_degraded  0.6088  0.6726          0.6554  0.4748
+s3_vlp_blocked    1.1033  0.9129          1.0981  1.1518
+s4_mixed_dynamic  0.6828  0.7398          0.7265  0.6688
+
+Static fusion P90 error pivot:
+signal_variant       ema  median  moving_average     raw
+scenario                                                
+s1_clean          1.0322  1.0747          0.9759  0.7889
+s2_wifi_degraded  0.9633  1.1140          1.0765  0.7325
+s3_vlp_blocked    2.4131  1.7443          2.3843  2.8762
+s4_mixed_dynamic  1.1140  1.2029          1.2226  1.1475
+
+Static fusion failure rate pivot:
+signal_variant     ema  median  moving_average   raw
+scenario                                            
+s1_clean          0.00    0.00            0.00  0.00
+s2_wifi_degraded  0.00    0.00            0.00  0.01
+s3_vlp_blocked    0.21    0.10            0.22  0.22
+s4_mixed_dynamic  0.01    0.02            0.01  0.06
+
+Static fusion smoothness pivot:
+signal_variant       ema  median  moving_average     raw
+scenario                                                
+s1_clean          0.3954  0.3693          0.3609  0.4358
+s2_wifi_degraded  0.3954  0.3877          0.3609  0.5367
+s3_vlp_blocked    0.6529  0.6318          0.6049  1.4345
+s4_mixed_dynamic  0.4476  0.4845          0.4274  0.7355
+
+Best variant per scenario/method by mean error:
+        scenario        method signal_variant  mean_error_m  p90_error_m  failure_rate  trajectory_smoothness_m_per_step
+        s1_clean static_fusion            raw        0.4690       0.7889          0.00                            0.4358
+        s1_clean      vlp_only            raw        0.4690       0.7889          0.00                            0.4358
+        s1_clean     wifi_only            ema        0.7455       1.2419          0.02                            0.5576
+s2_wifi_degraded static_fusion            raw        0.4748       0.7325          0.01                            0.5367
+s2_wifi_degraded      vlp_only            raw        0.4725       0.7243          0.01                            0.5224
+s2_wifi_degraded     wifi_only moving_average        1.2720       2.1201          0.15                            0.9497
+  s3_vlp_blocked static_fusion         median        0.9129       1.7443          0.10                            0.6318
+  s3_vlp_blocked      vlp_only         median        0.9129       1.7443          0.10                            0.6318
+  s3_vlp_blocked     wifi_only moving_average        0.7654       1.3101          0.01                            0.5249
+s4_mixed_dynamic static_fusion            raw        0.6688       1.1475          0.06                            0.7355
+s4_mixed_dynamic      vlp_only            raw        0.6688       1.1475          0.06                            0.7355
+s4_mixed_dynamic     wifi_only            ema        1.2344       2.1648          0.11                            1.0464
+
+Raw vs best DSP improvement by mean error:
+        scenario        method  raw_mean_error_m   best_variant  best_mean_error_m  mean_error_improvement_percent
+        s1_clean static_fusion            0.4690            raw             0.4690                          0.0000
+        s1_clean      vlp_only            0.4690            raw             0.4690                          0.0000
+        s1_clean     wifi_only            1.1311            ema             0.7455                         34.0942
+s2_wifi_degraded static_fusion            0.4748            raw             0.4748                          0.0000
+s2_wifi_degraded      vlp_only            0.4725            raw             0.4725                          0.0000
+s2_wifi_degraded     wifi_only            1.9293 moving_average             1.2720                         34.0695
+  s3_vlp_blocked static_fusion            1.1518         median             0.9129                         20.7359
+  s3_vlp_blocked      vlp_only            1.1518         median             0.9129                         20.7359
+  s3_vlp_blocked     wifi_only            1.1912 moving_average             0.7654                         35.7442
+s4_mixed_dynamic static_fusion            0.6688            raw             0.6688                          0.0000
+s4_mixed_dynamic      vlp_only            0.6688            raw             0.6688                          0.0000
+s4_mixed_dynamic     wifi_only            1.8854            ema             1.2344                         34.5285
+
+==========================================================================================
+10. CURRENT PAPER-READY INTERPRETATION
+==========================================================================================
+
+Environment result:
+- The 10 m x 10 m, 10 x 10 grid environment with 100 candidate cells, 3 WiFi APs, 4 LED anchors, 4-neighbor graph, and sample trajectory has been generated and saved.
+
+Signal model result:
+- WiFi-degraded scenarios produce higher RSSI variation; VLP-blocked scenarios produce visible intensity dips. This supports the controlled failure setup.
+
+Baseline result:
+- WiFi-only degrades strongly under WiFi noise/multipath.
+- VLP-only is accurate in clean/WiFi-degraded cases but degrades under optical blockage.
+- Static fusion often follows VLP because VLP likelihood is sharper; this motivates adaptive fusion rather than fixed fusion.
+
+DSP signal-level result:
+- Moving average, median, and EMA reduce signal variance, especially for noisy WiFi scenarios.
+
+DSP localization result:
+- DSP filtering consistently improves WiFi-only localization for the current seed.
+- DSP filtering is scenario-dependent for VLP/static fusion: it helps in VLP-blocked cases, but can hurt clean/high-confidence VLP because smoothing introduces lag.
+
+Important limitation:
+- These results are currently seed101 only. Final paper claims require repeated seeds.
+
+
+==========================================================================================
+11. CURRENT COMPLETION CHECKLIST ACCORDING TO PLAN
+==========================================================================================
+
+[x] Scope and safe claim locked
+[x] Project folders and Conda environment ready
+[x] configs/default.yaml
+[x] src/utils.py
+[x] src/environment.py
+[x] Fig. 1 layout/trajectory
+[x] src/signal_models.py
+[x] signal sanity figure
+[x] src/probability_maps.py
+[x] stable probability floor
+[x] src/metrics.py
+[x] src/baselines.py
+[x] baseline metrics/runtime tables
+[x] src/dsp_filters.py
+[x] DSP signal variance table
+[x] Fig. 3 noisy vs filtered signal
+[x] src/dsp_evaluation.py
+[x] DSP localization metrics table
+[ ] src/gsp_smoothing.py
+[ ] Fig. 4 raw vs graph-smoothed probability heatmap
+[ ] src/rl_fusion.py or adaptive reliability fusion
+[ ] repeated seed final experiment
+[ ] table_scenario_params.csv
+[ ] table_baseline_comparison.csv final multi-seed
+[ ] table_ablation.csv final multi-seed
+[ ] table_runtime.csv final multi-seed
+[ ] Fig. 5 scenario-wise localization error plot
+[ ] paper/main.tex
+[ ] paper/references.bib
+
+
+==========================================================================================
+12. NEXT STEPS
+==========================================================================================
+
+Immediate next technical step:
+1. Commit dsp_evaluation.py and its outputs if not already committed.
+2. Implement src/gsp_smoothing.py.
+3. Generate raw vs graph-smoothed probability heatmap for Fig. 4.
+4. Evaluate DSP+GSP localization metrics.
+5. Then implement adaptive fusion / contextual-bandit or reliability heuristic.
+
+From now on:
+- After every new output, update this full_result.txt file before moving to the next major step.
+- Every result claimed in the paper must exist under results/figures, results/tables, or results/logs.
