@@ -1,0 +1,35 @@
+{
+  "seed": 101,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "num_time_steps": 100,
+  "wifi_signal_columns": [
+    "wifi_ap1_dbm",
+    "wifi_ap1_clean_dbm",
+    "wifi_ap2_dbm",
+    "wifi_ap2_clean_dbm",
+    "wifi_ap3_dbm",
+    "wifi_ap3_clean_dbm"
+  ],
+  "vlp_signal_columns": [
+    "vlp_led1_intensity",
+    "vlp_led1_clean_intensity",
+    "vlp_led2_intensity",
+    "vlp_led2_clean_intensity",
+    "vlp_led3_intensity",
+    "vlp_led3_clean_intensity",
+    "vlp_led4_intensity",
+    "vlp_led4_clean_intensity"
+  ],
+  "outputs": {
+    "signals_s1_clean": "results/raw/signals_seed101_s1_clean.csv",
+    "signals_s2_wifi_degraded": "results/raw/signals_seed101_s2_wifi_degraded.csv",
+    "signals_s3_vlp_blocked": "results/raw/signals_seed101_s3_vlp_blocked.csv",
+    "signals_s4_mixed_dynamic": "results/raw/signals_seed101_s4_mixed_dynamic.csv",
+    "signal_model_sanity_figure": "results/figures/fig_signal_model_sanity.png"
+  }
+}
