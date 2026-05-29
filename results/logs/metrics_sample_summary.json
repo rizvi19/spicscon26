@@ -1,0 +1,30 @@
+{
+  "source": "results/logs/probability_map_summary.json",
+  "note": "Single-time-step sanity check only. Final metrics require full trajectories.",
+  "metrics": {
+    "wifi": {
+      "mean_error_m": 0.5588639850851388,
+      "median_error_m": 0.5588639850851388,
+      "p90_error_m": 0.5588639850851388,
+      "zone_accuracy": 1.0,
+      "failure_rate": 0.0,
+      "trajectory_smoothness_m_per_step": 0.0
+    },
+    "vlp": {
+      "mean_error_m": 0.5588639850851388,
+      "median_error_m": 0.5588639850851388,
+      "p90_error_m": 0.5588639850851388,
+      "zone_accuracy": 1.0,
+      "failure_rate": 0.0,
+      "trajectory_smoothness_m_per_step": 0.0
+    },
+    "static_fusion": {
+      "mean_error_m": 0.5588639850851388,
+      "median_error_m": 0.5588639850851388,
+      "p90_error_m": 0.5588639850851388,
+      "zone_accuracy": 1.0,
+      "failure_rate": 0.0,
+      "trajectory_smoothness_m_per_step": 0.0
+    }
+  }
+}
