@@ -902,8 +902,8 @@ Important limitation:
 [x] Fig. 3 noisy vs filtered signal
 [x] src/dsp_evaluation.py
 [x] DSP localization metrics table
-[ ] src/gsp_smoothing.py
-[ ] Fig. 4 raw vs graph-smoothed probability heatmap
+[x] src/gsp_smoothing.py
+[x] Fig. 4 raw vs graph-smoothed probability heatmap
 [ ] src/rl_fusion.py or adaptive reliability fusion
 [ ] repeated seed final experiment
 [ ] table_scenario_params.csv
@@ -920,12 +920,48 @@ Important limitation:
 ==========================================================================================
 
 Immediate next technical step:
-1. Commit dsp_evaluation.py and its outputs if not already committed.
-2. Implement src/gsp_smoothing.py.
-3. Generate raw vs graph-smoothed probability heatmap for Fig. 4.
-4. Evaluate DSP+GSP localization metrics.
-5. Then implement adaptive fusion / contextual-bandit or reliability heuristic.
+1. Commit GSP sample outputs.
+2. Implement full-trajectory GSP localization evaluation.
+3. Generate DSP+GSP localization metrics table.
+4. Then implement adaptive fusion / contextual-bandit or reliability heuristic.
+5. Run repeated-seed final experiments.
 
 From now on:
 - After every new output, update this full_result.txt file before moving to the next major step.
 - Every result claimed in the paper must exist under results/figures, results/tables, or results/logs.
+
+
+==========================================================================================
+13. GSP SMOOTHING SAMPLE RESULTS
+==========================================================================================
+Updated: 2026-05-30 02:06:21
+
+Generated files:
+- src/gsp_smoothing.py
+- results/processed/gsp_probability_sample_seed101_s3_vlp_blocked_t15.csv
+- results/figures/fig4_raw_vs_graph_smoothed_heatmap.png
+- results/logs/gsp_smoothing_summary_seed101.json
+
+Scenario and sample:
+- seed: 101
+- scenario: s3_vlp_blocked
+- time_step: 15
+- true_position: (6.164360, 3.220123)
+
+Probability normalization / peak checks:
+- p_static_raw: sum=1.000000000000, min=9.999999999420e-13, max=0.511068, zero_count=0, argmax_cell=36, argmax_xy=(6.500, 3.500)
+- p_graph_diffusion_1: sum=1.000000000000, min=1.001571798197e-12, max=0.386604, zero_count=0, argmax_cell=36, argmax_xy=(6.500, 3.500)
+- p_graph_diffusion_3: sum=1.000000000000, min=2.906490527177e-11, max=0.240591, zero_count=0, argmax_cell=36, argmax_xy=(6.500, 3.500)
+- p_laplacian: sum=1.000000000000, min=3.697010329910e-08, max=0.375873, zero_count=0, argmax_cell=36, argmax_xy=(6.500, 3.500)
+
+Estimate comparison:
+- static_raw: cell=36, xy=(6.500, 3.500), error_m=0.4370, entropy=1.9586, peak_probability=0.511068
+- graph_diffusion_1: cell=36, xy=(6.500, 3.500), error_m=0.4370, entropy=2.4327, peak_probability=0.386604
+- graph_diffusion_3: cell=36, xy=(6.500, 3.500), error_m=0.4370, entropy=2.9069, peak_probability=0.240591
+- laplacian: cell=36, xy=(6.500, 3.500), error_m=0.4370, entropy=2.5379, peak_probability=0.375873
+
+Paper interpretation:
+- Graph smoothing spreads the location probability mass to neighboring grid cells while preserving the correct peak cell for this sample.
+- Peak probability decreases and entropy increases, showing reduced overconfidence.
+- This sample is suitable as a draft Fig. 4 visual sanity check.
+- Full RQ2 claims still require full-trajectory GSP localization evaluation.

@@ -1,0 +1,61 @@
+{
+  "seed": 101,
+  "scenario": "s3_vlp_blocked",
+  "time_step": 15,
+  "wifi_weight": 0.5,
+  "gsp_config": {
+    "neighbor_type": 4,
+    "smoothing_alpha": 0.25,
+    "diffusion_iterations": [
+      1,
+      3
+    ],
+    "lambda_value": 0.1
+  },
+  "true_position": {
+    "x": 6.164360277507891,
+    "y": 3.220123101722137
+  },
+  "estimates": {
+    "static_raw": {
+      "cell_id": 36,
+      "x": 6.5,
+      "y": 3.5,
+      "max_prob": 0.5110683032851727,
+      "error_m": 0.43701842238539257,
+      "entropy": 1.9585535335003819,
+      "peak_probability": 0.5110683032851727
+    },
+    "graph_diffusion_1": {
+      "cell_id": 36,
+      "x": 6.5,
+      "y": 3.5,
+      "max_prob": 0.38660421242723214,
+      "error_m": 0.43701842238539257,
+      "entropy": 2.4327471473462734,
+      "peak_probability": 0.38660421242723214
+    },
+    "graph_diffusion_3": {
+      "cell_id": 36,
+      "x": 6.5,
+      "y": 3.5,
+      "max_prob": 0.24059131226253644,
+      "error_m": 0.43701842238539257,
+      "entropy": 2.906852133527392,
+      "peak_probability": 0.24059131226253644
+    },
+    "laplacian": {
+      "cell_id": 36,
+      "x": 6.5,
+      "y": 3.5,
+      "max_prob": 0.37587346942590605,
+      "error_m": 0.43701842238539257,
+      "entropy": 2.5379061387328483,
+      "peak_probability": 0.37587346942590605
+    }
+  },
+  "outputs": {
+    "gsp_probability_sample_csv": "results/processed/gsp_probability_sample_seed101_s3_vlp_blocked_t15.csv",
+    "gsp_sanity_figure": "results/figures/fig4_raw_vs_graph_smoothed_heatmap.png"
+  }
+}
