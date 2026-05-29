@@ -965,3 +965,106 @@ Paper interpretation:
 - Peak probability decreases and entropy increases, showing reduced overconfidence.
 - This sample is suitable as a draft Fig. 4 visual sanity check.
 - Full RQ2 claims still require full-trajectory GSP localization evaluation.
+
+==========================================================================================
+14. FULL-TRAJECTORY GSP LOCALIZATION EVALUATION
+==========================================================================================
+Updated: 2026-05-30 02:26:54
+
+Generated files:
+- src/gsp_evaluation.py
+- results/processed/gsp_predictions_seed101.csv
+- results/tables/table_gsp_metrics_seed101.csv
+- results/tables/table_gsp_runtime_seed101.csv
+- results/logs/gsp_evaluation_summary_seed101.json
+
+Important method note:
+- Argmax-based GSP did not change final cell decisions because smoothing preserved the same peak cell.
+- Expected-position estimation was therefore used for full-trajectory GSP evaluation.
+
+GSP summary JSON:
+{
+  "seed": 101,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "gsp_methods": [
+    "static_raw",
+    "graph_diffusion_1",
+    "graph_diffusion_3",
+    "laplacian"
+  ],
+  "wifi_weight": 0.5,
+  "estimate_method": "expected",
+  "gsp_config": {
+    "neighbor_type": 4,
+    "smoothing_alpha": 0.25,
+    "lambda_values": [
+      0.05,
+      0.1,
+      0.2,
+      0.5
+    ]
+  },
+  "outputs": {
+    "gsp_predictions": "results/processed/gsp_predictions_seed101.csv",
+    "gsp_metrics_table": "results/tables/table_gsp_metrics_seed101.csv",
+    "gsp_runtime_table": "results/tables/table_gsp_runtime_seed101.csv"
+  }
+}
+
+Mean error pivot:
+gsp_method        graph_diffusion_1  graph_diffusion_3  laplacian  static_raw
+scenario                                                                     
+s1_clean                     0.5551             0.5572     0.5549      0.5549
+s2_wifi_degraded             0.9415             0.9269     0.9436      0.9509
+s3_vlp_blocked               0.7937             0.7870     0.7943      0.7989
+s4_mixed_dynamic             0.9876             0.9733     0.9865      0.9964
+
+P90 error pivot:
+gsp_method        graph_diffusion_1  graph_diffusion_3  laplacian  static_raw
+scenario                                                                     
+s1_clean                     0.8967             0.9071     0.8919      0.9062
+s2_wifi_degraded             1.8247             1.7617     1.8403      1.8587
+s3_vlp_blocked               1.5620             1.5242     1.5583      1.6027
+s4_mixed_dynamic             1.9065             1.8717     1.9055      1.9291
+
+Failure rate pivot:
+gsp_method        graph_diffusion_1  graph_diffusion_3  laplacian  static_raw
+scenario                                                                     
+s1_clean                       0.00               0.00       0.00        0.00
+s2_wifi_degraded               0.09               0.09       0.09        0.09
+s3_vlp_blocked                 0.05               0.05       0.05        0.07
+s4_mixed_dynamic               0.09               0.07       0.09        0.09
+
+Trajectory smoothness pivot:
+gsp_method        graph_diffusion_1  graph_diffusion_3  laplacian  static_raw
+scenario                                                                     
+s1_clean                     0.6987             0.6843     0.6973      0.7072
+s2_wifi_degraded             1.3138             1.2719     1.3152      1.3385
+s3_vlp_blocked               1.0516             1.0175     1.0528      1.0722
+s4_mixed_dynamic             1.2930             1.2575     1.2926      1.3135
+
+Best GSP method per scenario by mean error:
+        scenario        gsp_method  mean_error_m  p90_error_m  failure_rate  trajectory_smoothness_m_per_step
+        s1_clean        static_raw        0.5549       0.9062          0.00                            0.7072
+s2_wifi_degraded graph_diffusion_3        0.9269       1.7617          0.09                            1.2719
+  s3_vlp_blocked graph_diffusion_3        0.7870       1.5242          0.05                            1.0175
+s4_mixed_dynamic graph_diffusion_3        0.9733       1.8717          0.07                            1.2575
+
+Static raw vs best GSP improvement:
+        scenario  raw_mean_error_m       best_method  best_mean_error_m  improvement_percent
+        s1_clean            0.5549        static_raw             0.5549               0.0000
+s2_wifi_degraded            0.9509 graph_diffusion_3             0.9269               2.5257
+  s3_vlp_blocked            0.7989 graph_diffusion_3             0.7870               1.4916
+s4_mixed_dynamic            0.9964 graph_diffusion_3             0.9733               2.3193
+
+Paper interpretation:
+- GSP gives modest mean-error improvement under degraded scenarios when using expected-position estimation.
+- graph_diffusion_3 is the best GSP method for S2, S3, and S4 by mean error.
+- GSP also improves trajectory smoothness in degraded cases.
+- RQ2 should be written carefully: GSP mainly improves probability stability and smoothness, not a large accuracy jump.
+- Current results are still seed101 only; final claims require repeated seeds.

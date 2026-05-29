@@ -1,0 +1,99 @@
+SPICSCON 2026 PROJECT CONTEXT SO FAR
+Updated: 2026-05-30 02:26:54
+
+ACTIVE PROJECT ROOT
+/media/shahriar-rizvi/Data/CSE/SPICSCON_2026
+
+CONDA ENVIRONMENT
+spicscon26 is installed on the larger ext4 drive:
+/media/shahriar-rizvi/15ff04dd-7d57-4f19-9c76-148a0b65e70d1/conda_storage/envs/spicscon26
+
+SAFE PAPER CLAIM
+Simulation-based, physically motivated, reproducible stress-test for hybrid WiFi RSSI + visible-light indoor positioning.
+Do not claim real deployment, SOTA, new hardware, new propagation model, or new RL algorithm.
+
+CURRENT PAPER DIRECTION
+Topology-Aware Adaptive Fusion of WiFi RSSI and Visible-Light Signals for Robust Simulated Indoor Positioning.
+
+COMPLETED MODULES
+[x] configs/default.yaml
+[x] src/utils.py
+[x] src/environment.py
+[x] src/signal_models.py
+[x] src/probability_maps.py
+[x] src/metrics.py
+[x] src/baselines.py
+[x] src/dsp_filters.py
+[x] src/dsp_evaluation.py
+[x] src/gsp_smoothing.py
+[x] src/gsp_evaluation.py
+
+KEY GENERATED FIGURES
+[x] results/figures/fig1_layout_trajectory.png
+[x] results/figures/fig_signal_model_sanity.png
+[x] results/figures/fig_probability_map_sanity.png
+[x] results/figures/fig3_noisy_vs_filtered_signals.png
+[x] results/figures/fig4_raw_vs_graph_smoothed_heatmap.png
+
+KEY TABLES / LOGS
+[x] results/tables/table_baseline_metrics_seed101.csv
+[x] results/tables/table_baseline_runtime_seed101.csv
+[x] results/tables/table_filter_signal_variance_seed101.csv
+[x] results/tables/table_dsp_localization_metrics_seed101.csv
+[x] results/tables/table_gsp_metrics_seed101.csv
+[x] results/tables/table_gsp_runtime_seed101.csv
+[x] full_result.txt
+
+BASELINE RESULT SUMMARY
+WiFi-only degrades strongly under WiFi noise/multipath.
+VLP-only is good in clean/WiFi-degraded cases but degrades under optical blockage.
+Static fusion often follows VLP because VLP likelihood is sharper.
+
+DSP RESULT SUMMARY
+DSP filters reduce signal variance, especially for noisy WiFi.
+DSP localization strongly improves WiFi-only error across scenarios.
+DSP for VLP/static fusion is scenario-dependent:
+- can help VLP-blocked cases
+- can hurt clean/high-confidence VLP because smoothing introduces lag
+
+GSP RESULT SUMMARY
+GSP sample heatmap is good for Fig. 4:
+- smoothing spreads probability mass
+- peak probability decreases
+- entropy increases
+- peak remains near true position
+
+Full-trajectory GSP with argmax produced no metric change because peak cells stayed unchanged.
+Full-trajectory GSP with expected-position estimation gives modest useful improvement:
+        scenario  raw_mean_error_m       best_method  best_mean_error_m  improvement_percent
+        s1_clean            0.5549        static_raw             0.5549               0.0000
+s2_wifi_degraded            0.9509 graph_diffusion_3             0.9269               2.5257
+  s3_vlp_blocked            0.7989 graph_diffusion_3             0.7870               1.4916
+s4_mixed_dynamic            0.9964 graph_diffusion_3             0.9733               2.3193
+
+Best GSP pattern:
+- S1 clean: static_raw remains best
+- S2 WiFi degraded: graph_diffusion_3 best
+- S3 VLP blocked: graph_diffusion_3 best
+- S4 mixed dynamic: graph_diffusion_3 best
+
+CURRENT LIMITATION
+All current quantitative results are seed101 only. Final paper claims require repeated seeds.
+
+NEXT STEPS
+1. Commit GSP evaluation outputs and context files.
+2. Implement adaptive fusion / reliability-based fusion.
+3. Run repeated seeds: train/test seeds from configs/default.yaml.
+4. Generate final multi-seed tables:
+   - table_scenario_params.csv
+   - table_baseline_comparison.csv
+   - table_ablation.csv
+   - table_runtime.csv
+5. Generate Fig. 5 scenario-wise localization error plot.
+6. Start paper/main.tex and paper/references.bib.
+
+WORKFLOW RULE
+After every new major output:
+1. update full_result.txt
+2. update context_so_far.txt
+3. commit code + outputs + logs
