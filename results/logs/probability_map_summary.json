@@ -1,0 +1,31 @@
+{
+  "seed": 101,
+  "scenario": "s2_wifi_degraded",
+  "time_step": 10,
+  "true_position": {
+    "x": 8.047852018915972,
+    "y": 3.3896047138916883
+  },
+  "wifi_estimate": {
+    "cell_id": 37,
+    "x": 7.5,
+    "y": 3.5,
+    "max_prob": 0.1782529109711462
+  },
+  "vlp_estimate": {
+    "cell_id": 37,
+    "x": 7.5,
+    "y": 3.5,
+    "max_prob": 0.5360591878660302
+  },
+  "static_fusion_estimate": {
+    "cell_id": 37,
+    "x": 7.5,
+    "y": 3.5,
+    "max_prob": 0.3571560494185882
+  },
+  "outputs": {
+    "probability_sample_csv": "results/processed/probability_sample_seed101_s2_wifi_degraded_t10.csv",
+    "probability_sanity_figure": "results/figures/fig_probability_map_sanity.png"
+  }
+}
