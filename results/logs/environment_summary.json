@@ -1,0 +1,51 @@
+{
+  "seed": 101,
+  "room_width_m": 10.0,
+  "room_height_m": 10.0,
+  "grid_size": 10,
+  "num_cells": 100,
+  "num_graph_nodes": 100,
+  "num_graph_edges": 180,
+  "wifi_ap": [
+    [
+      1.0,
+      1.0
+    ],
+    [
+      9.0,
+      1.0
+    ],
+    [
+      5.0,
+      9.0
+    ]
+  ],
+  "leds": [
+    [
+      2.0,
+      2.0
+    ],
+    [
+      8.0,
+      2.0
+    ],
+    [
+      2.0,
+      8.0
+    ],
+    [
+      8.0,
+      8.0
+    ]
+  ],
+  "trajectory_steps": 100,
+  "outputs": {
+    "grid_cells": "results/raw/grid_cells.csv",
+    "trajectory": "results/raw/trajectory_seed101.csv",
+    "scenario_s1_clean": "results/raw/scenario_masks_seed101_s1_clean.csv",
+    "scenario_s2_wifi_degraded": "results/raw/scenario_masks_seed101_s2_wifi_degraded.csv",
+    "scenario_s3_vlp_blocked": "results/raw/scenario_masks_seed101_s3_vlp_blocked.csv",
+    "scenario_s4_mixed_dynamic": "results/raw/scenario_masks_seed101_s4_mixed_dynamic.csv",
+    "figure_layout": "results/figures/fig1_layout_trajectory.png"
+  }
+}
