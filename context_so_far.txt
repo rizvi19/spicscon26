@@ -97,3 +97,31 @@ After every new major output:
 1. update full_result.txt
 2. update context_so_far.txt
 3. commit code + outputs + logs
+
+
+ADAPTIVE FUSION RESULT SUMMARY
+Updated: 2026-05-30 02:34:21
+
+Generated:
+[x] src/adaptive_fusion.py
+[x] results/processed/adaptive_fusion_predictions_seed101.csv
+[x] results/tables/table_adaptive_fusion_metrics_seed101.csv
+[x] results/tables/table_adaptive_action_counts_seed101.csv
+[x] results/tables/table_adaptive_runtime_seed101.csv
+[x] results/figures/fig6_adaptive_actions_seed101.png
+[x] results/logs/adaptive_fusion_summary_seed101.json
+
+Adaptive vs static fusion:
+        scenario  baseline_static_mean_error_m  mean_error_m  mean_improvement_vs_static_percent  baseline_static_p90_error_m  p90_error_m  p90_improvement_vs_static_percent  baseline_static_failure_rate  failure_rate  failure_reduction_vs_static
+        s1_clean                        0.4690        0.4690                              0.0000                       0.7889       0.7889                             0.0000                          0.00          0.00                         0.00
+s2_wifi_degraded                        0.4748        0.4749                             -0.0227                       0.7325       0.7243                             1.1190                          0.01          0.01                         0.00
+  s3_vlp_blocked                        1.1518        0.7921                             31.2280                       2.8762       1.6779                            41.6615                          0.22          0.09                         0.13
+s4_mixed_dynamic                        0.6688        0.5730                             14.3122                       1.1475       1.0055                            12.3745                          0.06          0.03                         0.03
+
+Main interpretation:
+- Clean case preserved.
+- S3 VLP-blocked improved strongly.
+- S4 mixed dynamic improved clearly.
+- S2 WiFi degraded mean is similar, but P90/smoothness slightly improve.
+- Policy currently uses mostly vlp_heavy and graph_prior_heavy, so frame as transparent reliability-based switching.
+- Next major step: repeated-seed final experiment and ablation tables.
