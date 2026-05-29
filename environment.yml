@@ -1,0 +1,23 @@
+name: spicscon26
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - scikit-learn
+  - networkx
+  - pyyaml
+  - tqdm
+  - joblib
+  - openpyxl
+  - pyarrow
+  - jupyterlab
+  - notebook
+  - ipykernel
+  - pytest
+  - pip
+  - pip:
+      - rich

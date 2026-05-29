@@ -1,0 +1,46 @@
+# Archive / old generated folders
+DONE/
+spicscon2026-graph-dsp-rl-indoor/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Conda / virtual env folders
+.venv/
+env/
+.env/
+
+# Jupyter checkpoints
+*/.ipynb_checkpoints/
+
+# Large raw/generated arrays
+results/raw/*.npy
+results/raw/*.npz
+results/processed/*.npy
+results/processed/*.npz
+
+# Temporary logs
+*.tmp
+*.bak
+
+# LaTeX temporary/build files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.toc
+*.lof
+*.lot
+
+# OS files
+.DS_Store
+Thumbs.db
