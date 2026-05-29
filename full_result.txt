@@ -1164,3 +1164,99 @@ Paper interpretation:
 - Against static fusion, S4 mean error improves by about 14.31%, P90 by about 12.37%, and smoothness by about 32.76%.
 - Action usage is currently limited mostly to vlp_heavy and graph_prior_heavy for seed101; this is acceptable but must be framed as reliability-based switching, not rich RL.
 - These results are seed101 only; repeated-seed validation is required before final claims.
+
+==========================================================================================
+15. ADAPTIVE RELIABILITY-BASED FUSION RESULTS
+==========================================================================================
+Updated: 2026-05-30 02:35:11
+
+Generated files:
+- src/adaptive_fusion.py
+- results/processed/adaptive_fusion_predictions_seed101.csv
+- results/tables/table_adaptive_fusion_metrics_seed101.csv
+- results/tables/table_adaptive_action_counts_seed101.csv
+- results/tables/table_adaptive_runtime_seed101.csv
+- results/figures/fig6_adaptive_actions_seed101.png
+- results/logs/adaptive_fusion_summary_seed101.json
+
+Adaptive fusion summary JSON:
+{
+  "seed": 101,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "method": "adaptive_fusion",
+  "estimate_method": "argmax",
+  "actions": [
+    "wifi_heavy",
+    "vlp_heavy",
+    "balanced",
+    "graph_prior_heavy",
+    "recovery"
+  ],
+  "policy_type": "transparent_reliability_heuristic",
+  "uses_dsp_filtered_signals": true,
+  "uses_graph_prior": true,
+  "outputs": {
+    "adaptive_predictions": "results/processed/adaptive_fusion_predictions_seed101.csv",
+    "adaptive_metrics_table": "results/tables/table_adaptive_fusion_metrics_seed101.csv",
+    "adaptive_action_counts_table": "results/tables/table_adaptive_action_counts_seed101.csv",
+    "adaptive_runtime_table": "results/tables/table_adaptive_runtime_seed101.csv",
+    "adaptive_action_figure": "results/figures/fig6_adaptive_actions_seed101.png"
+  }
+}
+
+Adaptive fusion metrics:
+ seed         scenario          method  mean_error_m  median_error_m  p90_error_m  zone_accuracy  failure_rate  trajectory_smoothness_m_per_step  wifi_event_recovery_steps  vlp_event_recovery_steps
+  101         s1_clean adaptive_fusion        0.4690          0.4202       0.7889           0.93          0.00                            0.4358                        0.0                       0.0
+  101 s2_wifi_degraded adaptive_fusion        0.4749          0.4364       0.7243           0.94          0.01                            0.5224                        0.0                       0.0
+  101   s3_vlp_blocked adaptive_fusion        0.7921          0.5205       1.6779           0.76          0.09                            0.7346                        0.0                       0.0
+  101 s4_mixed_dynamic adaptive_fusion        0.5730          0.4503       1.0055           0.89          0.03                            0.4946                        0.0                       0.0
+
+Adaptive action counts:
+        scenario            action  count
+        s1_clean         vlp_heavy    100
+s2_wifi_degraded         vlp_heavy    100
+  s3_vlp_blocked graph_prior_heavy     42
+  s3_vlp_blocked         vlp_heavy     58
+s4_mixed_dynamic graph_prior_heavy     20
+s4_mixed_dynamic         vlp_heavy     80
+
+Adaptive runtime:
+ seed         scenario          method  mean_runtime_s_per_step  mean_runtime_ms_per_step
+  101         s1_clean adaptive_fusion                 0.002755                  2.754993
+  101 s2_wifi_degraded adaptive_fusion                 0.002963                  2.962619
+  101   s3_vlp_blocked adaptive_fusion                 0.002830                  2.829571
+  101 s4_mixed_dynamic adaptive_fusion                 0.002746                  2.745782
+
+Comparison against baseline static fusion:
+        scenario  baseline_static_mean_error_m  mean_error_m  mean_improvement_vs_static_percent  baseline_static_p90_error_m  p90_error_m  p90_improvement_vs_static_percent  baseline_static_failure_rate  failure_rate  failure_reduction_vs_static  baseline_static_smoothness  trajectory_smoothness_m_per_step  smoothness_improvement_vs_static_percent
+        s1_clean                        0.4690        0.4690                              0.0000                       0.7889       0.7889                             0.0000                          0.00          0.00                         0.00                      0.4358                            0.4358                                    0.0000
+s2_wifi_degraded                        0.4748        0.4749                             -0.0227                       0.7325       0.7243                             1.1190                          0.01          0.01                         0.00                      0.5367                            0.5224                                    2.6617
+  s3_vlp_blocked                        1.1518        0.7921                             31.2280                       2.8762       1.6779                            41.6615                          0.22          0.09                         0.13                      1.4345                            0.7346                                   48.7863
+s4_mixed_dynamic                        0.6688        0.5730                             14.3122                       1.1475       1.0055                            12.3745                          0.06          0.03                         0.03                      0.7355                            0.4946                                   32.7592
+
+Comparison against best DSP static-fusion variant:
+        scenario best_dsp_variant  best_dsp_mean_error_m  mean_error_m  mean_improvement_vs_best_dsp_percent  best_dsp_p90_error_m  p90_error_m  best_dsp_failure_rate  failure_rate  best_dsp_smoothness  trajectory_smoothness_m_per_step
+        s1_clean              raw                 0.4690        0.4690                                0.0000                0.7889       0.7889                   0.00          0.00               0.4358                            0.4358
+s2_wifi_degraded              raw                 0.4748        0.4749                               -0.0227                0.7325       0.7243                   0.01          0.01               0.5367                            0.5224
+  s3_vlp_blocked           median                 0.9129        0.7921                               13.2369                1.7443       1.6779                   0.10          0.09               0.6318                            0.7346
+s4_mixed_dynamic              raw                 0.6688        0.5730                               14.3122                1.1475       1.0055                   0.06          0.03               0.7355                            0.4946
+
+Comparison against best GSP expected-position variant:
+        scenario   best_gsp_method  best_gsp_mean_error_m  mean_error_m  mean_improvement_vs_best_gsp_percent  best_gsp_p90_error_m  p90_error_m  best_gsp_failure_rate  failure_rate  best_gsp_smoothness  trajectory_smoothness_m_per_step
+        s1_clean        static_raw                 0.5549        0.4690                               15.4659                0.9062       0.7889                   0.00          0.00               0.7072                            0.4358
+s2_wifi_degraded graph_diffusion_3                 0.9269        0.4749                               48.7644                1.7617       0.7243                   0.09          0.01               1.2719                            0.5224
+  s3_vlp_blocked graph_diffusion_3                 0.7870        0.7921                               -0.6442                1.5242       1.6779                   0.05          0.09               1.0175                            0.7346
+s4_mixed_dynamic graph_diffusion_3                 0.9733        0.5730                               41.1218                1.8717       1.0055                   0.07          0.03               1.2575                            0.4946
+
+Paper interpretation:
+- Adaptive fusion preserves clean-case performance.
+- Adaptive fusion gives strong gains under VLP blockage and mixed dynamic degradation.
+- Against static fusion, S3 mean error improves by about 31.23%, P90 by about 41.66%, and smoothness by about 48.79%.
+- Against static fusion, S4 mean error improves by about 14.31%, P90 by about 12.37%, and smoothness by about 32.76%.
+- Action usage is currently limited mostly to vlp_heavy and graph_prior_heavy for seed101; this is acceptable but must be framed as reliability-based switching, not rich RL.
+- These results are seed101 only; repeated-seed validation is required before final claims.
