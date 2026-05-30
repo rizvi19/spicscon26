@@ -1,0 +1,6 @@
+| Scenario      | Best method     | Mean error (m)   | P90 error (m)   | Failure rate   |
+|:--------------|:----------------|:-----------------|:----------------|:---------------|
+| Clean         | Static fusion   | 0.450 ± 0.012    | 0.754 ± 0.032   | 0.004 ± 0.009  |
+| WiFi degraded | VLP-only        | 0.451 ± 0.018    | 0.757 ± 0.088   | 0.004 ± 0.005  |
+| VLP blocked   | Adaptive fusion | 0.751 ± 0.031    | 1.578 ± 0.201   | 0.074 ± 0.011  |
+| Mixed dynamic | Adaptive fusion | 0.611 ± 0.078    | 1.198 ± 0.335   | 0.040 ± 0.023  |

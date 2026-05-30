@@ -197,3 +197,41 @@ NEXT STEP:
 1. Commit final repeated-seed experiment outputs.
 2. Improve final figures/tables if needed.
 3. Start paper/main.tex and references.bib.
+
+
+PAPER-READY ASSETS SUMMARY
+Updated: 2026-05-31 02:56:51
+
+Generated:
+[x] src/paper_assets.py
+[x] results/tables/table_main_results_paper.csv/.md/.tex
+[x] results/tables/table_best_method_summary_paper.csv/.md/.tex
+[x] results/tables/table_ablation_paper.csv/.md/.tex
+[x] results/figures/fig5_scenario_wise_error_paper.png
+[x] results/figures/fig7_failure_smoothness_paper.png
+[x] results/logs/paper_assets_summary.json
+
+Environment update:
+[x] Added tabulate to environment.yml
+[x] Updated environment.lock.yml
+[x] Updated results/logs/conda_list.txt
+
+Best method per scenario:
+     Scenario     Best method Mean error (m) P90 error (m)  Failure rate
+        Clean   Static fusion  0.450 ± 0.012 0.754 ± 0.032 0.004 ± 0.009
+WiFi degraded        VLP-only  0.451 ± 0.018 0.757 ± 0.088 0.004 ± 0.005
+  VLP blocked Adaptive fusion  0.751 ± 0.031 1.578 ± 0.201 0.074 ± 0.011
+Mixed dynamic Adaptive fusion  0.611 ± 0.078 1.198 ± 0.335 0.040 ± 0.023
+
+Current paper-writing assets:
+- Fig. 1: results/figures/fig1_layout_trajectory.png
+- Fig. 3: results/figures/fig3_noisy_vs_filtered_signals.png
+- Fig. 4: results/figures/fig4_raw_vs_graph_smoothed_heatmap.png
+- Fig. 5: results/figures/fig5_scenario_wise_error_paper.png
+- Fig. 7: results/figures/fig7_failure_smoothness_paper.png
+- Main table: results/tables/table_main_results_paper.tex
+- Ablation table: results/tables/table_ablation_paper.tex
+- Best-method table: results/tables/table_best_method_summary_paper.tex
+
+NEXT STEP:
+Start paper/main.tex and paper/references.bib.

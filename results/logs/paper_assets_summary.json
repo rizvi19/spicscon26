@@ -1,0 +1,45 @@
+{
+  "generated_at": "2026-05-31 02:54:47",
+  "source": "results/tables/table_final_method_comparison_long.csv",
+  "selected_methods": [
+    "wifi_only",
+    "vlp_only",
+    "static_fusion",
+    "static_fusion_median",
+    "graph_diffusion_3",
+    "adaptive_fusion"
+  ],
+  "scenario_labels": {
+    "s1_clean": "Clean",
+    "s2_wifi_degraded": "WiFi degraded",
+    "s3_vlp_blocked": "VLP blocked",
+    "s4_mixed_dynamic": "Mixed dynamic"
+  },
+  "method_labels": {
+    "wifi_only": "WiFi-only",
+    "vlp_only": "VLP-only",
+    "static_fusion": "Static fusion",
+    "static_fusion_median": "Median-DSP fusion",
+    "graph_diffusion_3": "Graph-smoothed fusion",
+    "adaptive_fusion": "Adaptive fusion"
+  },
+  "outputs": {
+    "main_results_table": {
+      "csv": "results/tables/table_main_results_paper.csv",
+      "markdown": "results/tables/table_main_results_paper.md",
+      "latex": "results/tables/table_main_results_paper.tex"
+    },
+    "best_method_table": {
+      "csv": "results/tables/table_best_method_summary_paper.csv",
+      "markdown": "results/tables/table_best_method_summary_paper.md",
+      "latex": "results/tables/table_best_method_summary_paper.tex"
+    },
+    "ablation_table": {
+      "csv": "results/tables/table_ablation_paper.csv",
+      "markdown": "results/tables/table_ablation_paper.md",
+      "latex": "results/tables/table_ablation_paper.tex"
+    },
+    "fig5_paper": "results/figures/fig5_scenario_wise_error_paper.png",
+    "fig7_failure_smoothness": "results/figures/fig7_failure_smoothness_paper.png"
+  }
+}
