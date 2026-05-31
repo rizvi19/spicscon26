@@ -1526,3 +1526,22 @@ Paper interpretation:
 - Fig. 7 shows failure-rate and smoothness improvements for key fusion methods.
 - These figures and tables should be used for paper writing instead of the raw/debug-style figures.
 - Current next step is to start paper/main.tex and paper/references.bib.
+==========================================================================================
+18. PHYSICAL SANITY CHECK STARTED
+==========================================================================================
+Updated: 2026-05-31
+
+Generated files:
+- docs/physical/physical_experiment_protocol.md
+- results/physical/wifi_rssi_measurements.csv
+- results/physical/light_intensity_measurements.csv
+- results/logs/physical_sanity_summary.json
+
+Purpose:
+Small physical sanity check only. The goal is to support the simulation assumptions that WiFi RSSI and light intensity vary with distance and blockage.
+
+Claim boundary:
+This does not claim real deployment, hardware validation of the full localization system, state-of-the-art performance, or a new WiFi/VLP hardware system.
+
+Next step:
+Collect WiFi RSSI measurements at marked distances under normal and blocked conditions.

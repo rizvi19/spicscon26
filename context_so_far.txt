@@ -235,3 +235,21 @@ Current paper-writing assets:
 
 NEXT STEP:
 Start paper/main.tex and paper/references.bib.
+
+PHYSICAL SANITY CHECK STARTED
+Updated: 2026-05-31
+
+Goal:
+Small physical sanity check only. This will support the simulation assumptions that WiFi RSSI and light intensity vary with distance/blockage.
+
+Generated:
+[x] docs/physical/physical_experiment_protocol.md
+[x] results/physical/wifi_rssi_measurements.csv
+[x] results/physical/light_intensity_measurements.csv
+[x] results/logs/physical_sanity_summary.json
+
+Claim boundary:
+This is not a real deployment, not hardware validation of the full localization system, and not the main quantitative evaluation.
+
+Next:
+Collect WiFi RSSI measurements at marked distances under normal and blocked conditions.

@@ -1,0 +1,14 @@
+{
+  "status": "protocol_created",
+  "purpose": "small physical sanity check only",
+  "claim_boundary": "supports simulation assumptions; not real deployment validation",
+  "expected_outputs": [
+    "docs/physical/physical_experiment_protocol.md",
+    "results/physical/wifi_rssi_measurements.csv",
+    "results/physical/light_intensity_measurements.csv",
+    "results/tables/table_physical_sanity_summary.csv",
+    "results/figures/fig8_physical_sanity_wifi_light.png",
+    "results/logs/physical_sanity_summary.json",
+    "src/physical_sanity_analysis.py"
+  ]
+}
