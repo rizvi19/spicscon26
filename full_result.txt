@@ -1546,6 +1546,7 @@ This does not claim real deployment, hardware validation of the full localizatio
 Next step:
 Collect WiFi RSSI measurements at marked distances under normal and blocked conditions.
 
+
 ==========================================================================================
 19. WIFI PHYSICAL SANITY CHECK RESULTS
 ==========================================================================================
@@ -1567,8 +1568,9 @@ Collected data:
 - 10 samples per distance per condition
 
 Observed pattern:
-- Normal RSSI generally becomes weaker with distance.
+- Normal RSSI generally becomes weaker with distance, although not perfectly monotonically.
 - Blocked RSSI is weaker than normal RSSI across all measured distances.
+- Mean blocked-minus-normal RSSI difference: approximately -14.95 dB.
 - Some non-monotonicity is expected because indoor WiFi RSSI is affected by multipath, body position, phone scanning, and reflections.
 
 Paper interpretation:
