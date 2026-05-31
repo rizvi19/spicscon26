@@ -1,0 +1,15 @@
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+Scenario & Method & Mean & P90 & Fail. & Smooth. \\
+\midrule
+VLP blocked & Static fusion & 1.013 & 2.667 & .168 & 1.283 \\
+ & + median DSP & .924 & 1.799 & .090 & .600 \\
+ & + graph diffusion & .923 & 1.854 & .084 & 1.118 \\
+ & Adaptive DSP+GSP & \textbf{.751} & \textbf{1.578} & \textbf{.074} & .672 \\
+\midrule
+Mixed dynamic & Static fusion & .759 & 1.749 & .100 & .917 \\
+ & + median DSP & .794 & 1.362 & .044 & \textbf{.463} \\
+ & + graph diffusion & 1.084 & 2.169 & .116 & 1.329 \\
+ & Adaptive DSP+GSP & \textbf{.611} & \textbf{1.198} & \textbf{.040} & .535 \\
+\bottomrule
+\end{tabular}

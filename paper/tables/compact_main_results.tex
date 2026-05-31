@@ -1,0 +1,25 @@
+\begin{tabular}{@{}llccc@{}}
+\toprule
+Scenario & Method & Mean (m) & P90 (m) & Fail. \\
+\midrule
+Clean & WiFi-only & 1.365 & 2.635 & .188 \\
+ & VLP-only & .452 & .756 & .004 \\
+ & Static fusion & \textbf{.450} & \textbf{.754} & \textbf{.004} \\
+ & Adaptive fusion & .452 & .755 & .004 \\
+\midrule
+WiFi degraded & WiFi-only & 2.232 & 5.080 & .392 \\
+ & VLP-only & \textbf{.451} & \textbf{.757} & .004 \\
+ & Static fusion & .467 & .759 & .006 \\
+ & Adaptive fusion & .451 & .757 & \textbf{.004} \\
+\midrule
+VLP blocked & WiFi-only & 1.369 & 2.792 & .192 \\
+ & VLP-only & 1.015 & 2.689 & .170 \\
+ & Static fusion & 1.013 & 2.667 & .168 \\
+ & Adaptive fusion & \textbf{.751} & \textbf{1.578} & \textbf{.074} \\
+\midrule
+Mixed dynamic & WiFi-only & 1.918 & 3.986 & .336 \\
+ & VLP-only & .759 & 1.749 & .100 \\
+ & Static fusion & .759 & 1.749 & .100 \\
+ & Adaptive fusion & \textbf{.611} & \textbf{1.198} & \textbf{.040} \\
+\bottomrule
+\end{tabular}
