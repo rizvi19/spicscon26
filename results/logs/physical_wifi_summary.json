@@ -1,0 +1,37 @@
+{
+  "status": "wifi_physical_sanity_analyzed",
+  "input": "results/physical/wifi_rssi_measurements.csv",
+  "num_rows": 200,
+  "distances_m": [
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    7.0,
+    8.0,
+    9.0,
+    10.0
+  ],
+  "conditions": [
+    "blocked",
+    "normal"
+  ],
+  "normal_first_distance_mean_rssi_dbm": -29.1,
+  "normal_last_distance_mean_rssi_dbm": -49.1,
+  "blocked_first_distance_mean_rssi_dbm": -50.8,
+  "blocked_last_distance_mean_rssi_dbm": -66.2,
+  "mean_blocked_minus_normal_db": -14.949999999999998,
+  "interpretation": [
+    "Normal RSSI generally weakens with larger distance, although WiFi RSSI is not strictly monotonic indoors.",
+    "Blocked RSSI is weaker than normal RSSI across the measured distances.",
+    "The result supports the simulation motivation for distance-dependent and blockage-sensitive WiFi RSSI.",
+    "This is a small physical sanity check only, not full real-world localization validation."
+  ],
+  "outputs": {
+    "summary_csv": "results/tables/table_physical_wifi_summary.csv",
+    "summary_markdown": "results/tables/table_physical_wifi_summary.md",
+    "figure": "results/figures/fig8a_physical_wifi_rssi.png"
+  }
+}

@@ -1545,3 +1545,31 @@ This does not claim real deployment, hardware validation of the full localizatio
 
 Next step:
 Collect WiFi RSSI measurements at marked distances under normal and blocked conditions.
+
+==========================================================================================
+19. WIFI PHYSICAL SANITY CHECK RESULTS
+==========================================================================================
+Updated: 2026-05-31
+
+Generated files:
+- results/physical/wifi_rssi_measurements.csv
+- src/collect_wifi_rssi.py
+- src/physical_sanity_analysis.py
+- results/tables/table_physical_wifi_summary.csv
+- results/tables/table_physical_wifi_summary.md
+- results/figures/fig8a_physical_wifi_rssi.png
+- results/logs/physical_wifi_summary.json
+
+Collected data:
+- 200 WiFi RSSI rows
+- 10 distances from 1 m to 10 m
+- 2 conditions: normal and blocked
+- 10 samples per distance per condition
+
+Observed pattern:
+- Normal RSSI generally becomes weaker with distance.
+- Blocked RSSI is weaker than normal RSSI across all measured distances.
+- Some non-monotonicity is expected because indoor WiFi RSSI is affected by multipath, body position, phone scanning, and reflections.
+
+Paper interpretation:
+This physical sanity check supports the simulation assumption that WiFi RSSI varies with distance and blockage. It should be used only as motivation for the simulated WiFi degradation scenarios, not as real deployment validation.
