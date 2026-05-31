@@ -279,3 +279,33 @@ Main observation:
 
 Claim boundary:
 This is not full real-world localization validation and should only be used as a physical sanity check.
+
+LIGHT PHYSICAL SANITY CHECK COMPLETED
+Updated: 2026-05-31
+
+Generated:
+[x] results/physical/light_intensity_measurements.csv
+[x] src/collect_light_intensity.py
+[x] updated src/physical_sanity_analysis.py
+[x] results/tables/table_physical_light_summary.csv
+[x] results/tables/table_physical_light_summary.md
+[x] results/figures/fig8b_physical_light_intensity.png
+[x] results/figures/fig8_physical_sanity_wifi_light.png
+[x] results/logs/physical_light_summary.json
+[x] updated results/logs/physical_sanity_summary.json
+
+Collected data:
+- 200 light-intensity rows
+- 10 distances: 1 m to 10 m
+- 2 conditions: unblocked and blocked
+- 10 samples per distance per condition
+- Unit: lux_app_estimate from iPhone Light Meter LM-3000
+
+Main observation:
+- Unblocked app-estimated light intensity generally decreases with distance.
+- Blocked app-estimated light intensity is much lower than unblocked intensity at every measured distance.
+- The 5 m unblocked data contains a high outlier, so median values should be considered together with mean values.
+- This supports the simulation motivation for VLP blockage assumptions only.
+
+Claim boundary:
+This is not calibrated photodiode measurement, not full VLP hardware validation, and not real-world deployment validation.

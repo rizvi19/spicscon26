@@ -26,7 +26,7 @@
   "interpretation": [
     "Normal RSSI generally weakens with larger distance, although WiFi RSSI is not strictly monotonic indoors.",
     "Blocked RSSI is weaker than normal RSSI across the measured distances.",
-    "The result supports the simulation motivation for distance-dependent and blockage-sensitive WiFi RSSI.",
+    "This supports the simulation motivation for distance-dependent and blockage-sensitive WiFi RSSI.",
     "This is a small physical sanity check only, not full real-world localization validation."
   ],
   "outputs": {

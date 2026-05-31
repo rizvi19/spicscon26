@@ -1575,3 +1575,34 @@ Observed pattern:
 
 Paper interpretation:
 This physical sanity check supports the simulation assumption that WiFi RSSI varies with distance and blockage. It should be used only as motivation for the simulated WiFi degradation scenarios, not as real deployment validation.
+
+==========================================================================================
+20. LIGHT PHYSICAL SANITY CHECK RESULTS
+==========================================================================================
+Updated: 2026-05-31
+
+Generated files:
+- results/physical/light_intensity_measurements.csv
+- src/collect_light_intensity.py
+- updated src/physical_sanity_analysis.py
+- results/tables/table_physical_light_summary.csv
+- results/tables/table_physical_light_summary.md
+- results/figures/fig8b_physical_light_intensity.png
+- results/figures/fig8_physical_sanity_wifi_light.png
+- results/logs/physical_light_summary.json
+- updated results/logs/physical_sanity_summary.json
+
+Collected data:
+- 200 light-intensity rows
+- 10 distances from 1 m to 10 m
+- 2 conditions: unblocked and blocked
+- 10 samples per distance per condition
+- Unit: lux_app_estimate from iPhone Light Meter LM-3000
+
+Observed pattern:
+- Unblocked app-estimated light intensity generally decreases with distance.
+- Blocked app-estimated light intensity is much lower than unblocked intensity across all measured distances.
+- A high outlier exists in the 5 m unblocked readings, so median values should be considered together with mean values.
+
+Paper interpretation:
+This physical sanity check supports the simulation assumption that visible-light intensity varies with distance and blockage. It should be used only as motivation for the simulated VLP blockage scenarios, not as calibrated VLP hardware validation or real deployment evidence.
