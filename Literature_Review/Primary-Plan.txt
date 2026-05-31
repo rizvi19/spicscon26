@@ -1,0 +1,198 @@
+I want to start a focused conference paper project for SPICSCON 2026. The paper should be related to Signal Processing, Information, Communication, and Systems. My target topic is:
+
+“Graph-DSP-RL: Topology-Aware Fusion of WiFi and Visible Light Signals for Robust Indoor Positioning”
+
+Main idea:
+I want to build a hybrid indoor positioning system using WiFi signal measurements and visible-light positioning signals. The work should combine:
+
+1. Digital Signal Processing/DSP for denoising noisy WiFi and visible-light signals.
+2. Graph Signal Processing/GSP for topology-aware spatial smoothing over an indoor grid/room graph.
+3. Reinforcement Learning/RL for adaptive fusion, so the system can decide when to trust WiFi more, visible light more, or graph-smoothed estimates more.
+4. Self-healing localization under noisy conditions, WiFi multipath, visible-light blockage, and mixed dynamic indoor conditions.
+
+Important constraint:
+I have only around 5 days to prepare and submit the paper, so the work must be focused, feasible, and not over-expanded. I do not want to target a Q1-level paper now. The immediate goal is a strong, honest, submission-ready conference paper.
+
+Available resources:
+I want to use only free and open-source tools. I do not have costly lab machines or expensive positioning hardware. I can use:
+
+* normal laptop
+* smartphone
+* home/hostel WiFi router
+* phone camera if needed
+* normal LED lights if needed
+* Python/open-source simulation tools
+
+The first version should be simulation-based, with physically motivated signal models. If possible, we may add a very small optional practical demonstration using phone/laptop/router, but the conference paper must not depend on expensive hardware.
+
+Preferred tools:
+
+* Python
+* NumPy
+* SciPy
+* NetworkX
+* Matplotlib
+* scikit-learn
+* PyTorch only if necessary
+* Gymnasium or a simple custom RL environment
+* Stable-Baselines3 only if time permits
+* PyGSP or custom graph Laplacian implementation
+* LaTeX IEEE template
+* GitHub/local reproducible project structure
+
+Paper direction:
+The paper should focus only on indoor positioning, not quantum routing or QFlow. Quantum/QFlow can be mentioned only as a future extension or broader research motivation if needed, but not as the main paper contribution.
+
+Proposed title options:
+
+1. “Graph-DSP-RL: Topology-Aware Fusion of WiFi and Visible Light Signals for Robust Indoor Positioning”
+2. “Self-Healing Hybrid Indoor Localization Using Graph Signal Processing and Reinforcement Learning”
+3. “Hybrid WiFi–Visible Light Indoor Positioning Using Graph Signal Processing and Reinforcement Learning”
+
+Core problem:
+GPS does not work well indoors. WiFi-based positioning is widely available but noisy due to RSSI fluctuation, multipath, interference, and body shadowing. Visible-light positioning can be accurate but suffers from blockage, line-of-sight loss, and illumination variation. Static fusion is weak because the reliability of WiFi and light changes over time. Therefore, I want to design an adaptive hybrid localization framework.
+
+Proposed system pipeline:
+Indoor environment
+→ WiFi RSSI-like signals + visible light intensity signals
+→ DSP denoising using EMA/median/moving average filters
+→ location probability generation
+→ graph signal processing over indoor grid/room topology
+→ RL-based adaptive fusion weights
+→ final position estimate
+→ self-healing behavior under blockage/noise
+
+Simulation plan:
+Create a 10m × 10m indoor room.
+Use a 10 × 10 grid, so there are 100 possible location cells.
+Place 2 or 3 WiFi access points.
+Place 4 LED/light anchors.
+Generate walking trajectories for one person.
+Generate WiFi RSSI-like signals using a path-loss model:
+RSSI = P0 - 10n log10(distance) + noise + multipath/body-shadowing disturbance
+Generate visible-light intensity signals using an inverse-square-like model:
+light_intensity = LED_power / distance² + angle/noise effect - blockage loss
+Create multiple scenarios:
+S1: clean condition
+S2: WiFi multipath/noisy condition
+S3: visible-light blockage condition
+S4: mixed dynamic condition with both noise and blockage
+
+Methods/baselines to compare:
+
+1. WiFi-only localization
+2. Visible-light-only localization
+3. Static fusion of WiFi and visible light
+4. DSP-based fusion
+5. GSP-based smoothing/fusion
+6. RL-based adaptive fusion
+7. Full proposed Graph-DSP-RL method
+
+RL design:
+Keep the RL simple and feasible. Use a lightweight Q-learning/contextual-bandit-style adaptive fusion policy unless DQN is easy to implement quickly.
+The RL agent should not directly solve the full localization problem from scratch. Instead, it should choose fusion weights or fusion modes.
+Example actions:
+A0: WiFi-heavy fusion
+A1: visible-light-heavy fusion
+A2: balanced fusion
+A3: graph-prior-heavy fusion
+A4: self-healing/recovery mode
+Reward:
+negative localization error, or +1 if error is below a threshold and -1 otherwise.
+
+GSP design:
+Represent the indoor grid as a graph:
+
+* each grid cell is a graph node
+* edges connect neighboring cells
+* location probability is the graph signal
+  Use graph Laplacian smoothing to reduce impossible jumps and make the position estimate spatially consistent.
+
+Metrics:
+Report:
+
+* mean localization error
+* median localization error
+* 90th percentile error
+* zone/cell accuracy
+* failure rate under blockage
+* recovery time after blockage
+* trajectory smoothness
+* computation time
+* ablation performance
+
+Required figures:
+
+1. Indoor layout with WiFi APs, LED anchors, and sample trajectory
+2. Proposed Graph-DSP-RL architecture
+3. Example noisy vs DSP-filtered WiFi/VLP signal
+4. Raw vs graph-smoothed location probability heatmap
+5. Localization error comparison across methods
+6. Scenario-wise robustness comparison
+7. RL reward/convergence curve if RL training is used
+
+Required tables:
+
+1. Scenario definitions
+2. Baseline comparison table
+3. Ablation study table
+4. Computation/runtime cost table
+
+Paper structure:
+
+1. Abstract
+2. Introduction
+3. Related Work
+
+   * WiFi indoor positioning
+   * visible-light positioning
+   * hybrid RF-optical localization
+   * DSP/GSP/RL for localization/sensing
+4. System Model
+
+   * indoor layout
+   * WiFi signal model
+   * visible-light signal model
+   * noise/blockage models
+5. Proposed Graph-DSP-RL Framework
+
+   * DSP denoising
+   * graph signal processing
+   * RL adaptive fusion
+   * self-healing localization
+6. Experimental Setup
+7. Results and Discussion
+8. Limitations
+9. Conclusion
+
+Very important:
+Do not overclaim. The paper should clearly state that it is a simulation-based study with physically motivated models. Real-world WiFi CSI/camera/photodiode validation can be future work. The claims should be careful:
+“The proposed framework improves robustness in simulated hybrid WiFi–visible-light indoor localization under noisy and blocked signal conditions.”
+Do not claim that it solves indoor positioning completely.
+
+Project structure:
+Please help me build the project in a clean reproducible way:
+spicscon2026-graph-dsp-rl-indoor/
+src/
+environment.py
+signal_models.py
+dsp_filters.py
+gsp_smoothing.py
+rl_fusion.py
+baselines.py
+metrics.py
+run_experiments.py
+plot_results.py
+results/
+figures/
+tables/
+logs/
+configs/
+paper/
+main.tex
+references.bib
+figures/
+README.md
+
+My immediate goal:
+Guide me step by step to implement the simulation, generate results, create figures/tables, and write a complete IEEE-style conference paper within 5 days. Prioritize practical implementation, reproducibility, and submission readiness.
