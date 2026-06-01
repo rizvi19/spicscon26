@@ -1,192 +1,480 @@
 \documentclass[conference]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{cite}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{enumitem}
 \usepackage{url}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning}
 \usepackage{balance}
-\newcommand{\todo}[1]{\textbf{TODO: #1}}
+\usepackage{float}
+\usepackage{cuted}
+\usepackage{dblfloatfix}
+\usepackage{caption}
+
+\graphicspath{{figures/}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% Compact IEEE layout controls. Avoid negative caption skips because they can
+% cause float/table collisions in two-column layouts.
+\setlength{\textfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\floatsep}{5pt plus 1pt minus 1pt}
+\setlength{\intextsep}{5pt plus 1pt minus 1pt}
+\setlength{\dbltextfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\dblfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{2pt}
+\setlist[itemize]{leftmargin=*, itemsep=0pt, topsep=1pt, parsep=0pt}
+
 \begin{document}
-\title{Topology-Aware Adaptive Fusion of WiFi RSSI and Visible-Light Signals for Robust Simulated Indoor Positioning}
-\author{\IEEEauthorblockN{Shahriar Rizvi, Tasfia Jannat Tasfi, and Dr. Md. Nazrul Islam Mondal}
-\IEEEauthorblockA{Shahriar Rizvi and Tasfia Jannat Tasfi: Department of Computer Science and Engineering,\\
-Rajshahi University of Engineering \& Technology, Rajshahi, Bangladesh\\
-Dr. Md. Nazrul Islam Mondal: \todo{confirm full affiliation}\\
-Emails: \todo{add verified author emails}}}
+
+\title{Topology-Aware Adaptive WiFi--Visible-Light Fusion for Robust Simulated Indoor Positioning}
+
+\author{
+\IEEEauthorblockN{Shahriar Rizvi, Tasfia Jannat Tasfi, and Md. Nazrul Islam Mondal}
+\IEEEauthorblockA{\textit{Department of Computer Science and Engineering}\\
+\textit{Rajshahi University of Engineering \& Technology (RUET)}\\
+Rajshahi, Bangladesh\\
+shahriar10rizvi@gmail.com, tj2003115@gmail.com,\\
+mondal@cse.ruet.ac.bd}
+}
+
 \maketitle
 
 \begin{abstract}
-This paper presents a simulation-based robustness study of hybrid indoor positioning from WiFi received-signal-strength-indicator (RSSI)-like measurements and visible-light-positioning (VLP) intensity-like measurements. The evaluated framework applies moving-average, median, and exponential-moving-average digital signal processing (DSP) filters; represents location evidence as probability maps; smooths spatial priors on a room graph; and selects among predefined fusion modes with a lightweight reliability-aware adaptive policy. Experiments use a $10\,\mathrm{m}\times10\,\mathrm{m}$ room, a $10\times10$ candidate-cell grid, three WiFi access points, four LED anchors, synthetic walking trajectories, and five repeated seeds under clean, WiFi-degraded, VLP-blocked, and mixed-dynamic scenarios. Adaptive fusion is not universally best: static fusion gives the lowest clean-case mean error, and VLP-only estimation is best when only WiFi is degraded. Under optical blockage and mixed degradation, however, adaptive fusion reduces mean error by approximately 25.51\% and 18.90\%, respectively, relative to static fusion. A small smartphone-based physical sanity check shows distance- and blockage-sensitive trends in RSSI and app-estimated light intensity. This check motivates the simulated degradations; it is not a full real-world localization validation.
+Indoor positioning remains difficult when low-cost sensing modalities fail in different ways. WiFi received-signal-strength-indicator (RSSI) measurements are widely available but fluctuate under multipath, interference, and body shadowing, while visible-light-positioning (VLP) cues can be spatially sharp but are sensitive to blockage and illumination changes. This paper presents a simulation-based robustness study of hybrid indoor positioning using WiFi RSSI-like and visible-light intensity-like measurements. The evaluated framework examines lightweight DSP filtering, converts modality evidence into probability maps over a $10\times10$ room grid, smooths spatial priors using graph diffusion, and selects among predefined fusion modes using a non-oracle reliability-aware adaptive policy. Experiments use a $10\,\mathrm{m}\times10\,\mathrm{m}$ room, 100 candidate cells, three WiFi access points, four LED anchors, synthetic walking trajectories, and five repeated test seeds under clean, WiFi-degraded, VLP-blocked, and mixed-dynamic scenarios. Adaptive fusion is not universally best: static fusion gives the lowest clean-case mean error, and VLP-only estimation is best when only WiFi is degraded. Under optical blockage and mixed degradation, however, adaptive fusion reduces mean error by approximately 25.86\% and 19.50\%, respectively, relative to static fusion. A small smartphone-based physical sanity check is used only to motivate distance- and blockage-sensitive simulated degradation trends. The study provides a reproducible stress test for reliability-aware hybrid fusion rather than a deployment claim.
 \end{abstract}
+
 \begin{IEEEkeywords}
-indoor positioning, WiFi RSSI, visible-light positioning, sensor fusion, graph signal processing, DSP filtering
+indoor positioning, WiFi RSSI, visible-light positioning, sensor fusion, graph signal processing, DSP filtering, adaptive fusion
 \end{IEEEkeywords}
 
 \section{Introduction}
-Reliable indoor positioning remains difficult when satellite signals are unavailable and inexpensive sensing modalities are individually fragile. WiFi RSSI is widely accessible, but multipath and environmental change disturb the observed signal. Visible-light positioning (VLP) provides a complementary optical cue, yet line-of-sight blockage and intensity variation can weaken its evidence. Classic WiFi systems established RF fingerprinting and probabilistic location estimation \cite{bahl2000radar,youssef2005horus}; later work continued to study robust wireless localization and practical WiFi positioning principles \cite{ayyalasomayajula2020dloc,dai2023wifi}. VLP surveys likewise identify optical blockage and implementation constraints as central practical issues \cite{do2016vlc,luo2017vlpstate,afzalan2019vlp}.
+Indoor positioning supports smart buildings, robotics, assistive navigation, asset tracking, context-aware services, and emergency response. Reliable indoor localization remains difficult because satellite-based positioning is weak indoors, while low-cost signals are often unstable. WiFi RSSI is attractive because infrastructure is already deployed, but RSSI varies with multipath, device orientation, interference, human blockage, and environmental changes. Visible-light positioning (VLP) provides a complementary optical cue because LEDs can act as spatial anchors, but optical evidence is vulnerable to line-of-sight blockage, receiver orientation, dimming, and illumination variation.
 
-A fixed fusion rule is attractive because it is simple, but it can retain a damaged modality exactly when the other modality should dominate. This paper studies a physically motivated, reproducible alternative: a lightweight reliability-aware adaptive fusion policy using DSP-filtered signal streams and graph-smoothed probability priors. The policy is transparent and uses predefined modes; it is not end-to-end learning and is not presented as a new reinforcement-learning (RL) algorithm. Early planning considered RL-style adaptive fusion, motivated in part by prior RL-based fusion work \cite{salimibeni2022rlfusion}, but the final implementation deliberately favors traceability.
+This creates a practical fusion problem. A fixed fusion rule can work when both modalities are stable, but the same fixed rule can be harmful when one modality becomes unreliable. If WiFi is noisy while visible-light evidence remains clean, an optical-dominant estimate may be preferable. If VLP is blocked, the estimator should reduce optical trust and rely more on radio and spatial continuity. Therefore, the key challenge studied here is how a low-cost hybrid estimator should behave when the reliability of the two modalities changes over time.
 
-The contributions are threefold: (1) a reproducible stress test for complementary RSSI-like and VLP intensity-like evidence under controlled degradation; (2) a compact DSP--graph-signal-processing (GSP) pipeline with a reliability-aware mode-selection policy; and (3) a repeated-seed analysis showing where static, single-modality, and adaptive fusion each work best. The central claim is intentionally narrow: reliability-aware adaptive fusion improves robustness under simulated optical blockage and mixed degradation.
+Classic WiFi systems established RF fingerprinting and probabilistic location estimation \cite{bahl2000radar,youssef2005horus}; later work continued to examine robust wireless localization and WiFi-assisted positioning principles \cite{ayyalasomayajula2020dloc,dai2023wifi}. VLP surveys identify optical blockage, receiver assumptions, and implementation constraints as central practical issues \cite{do2016vlc,luo2017vlpstate,afzalan2019vlp}. Hybrid RF--optical systems show that complementary modalities can improve localization, but many strong systems depend on specific hardware, datasets, or static fusion assumptions. This leaves a narrower but useful gap: a reproducible, low-resource stress test that isolates how simple DSP filtering, topology-aware graph smoothing, and reliability-aware fusion behave under controlled WiFi noise and visible-light blockage.
+
+This paper addresses that gap using simulation-based evidence rather than a real deployment. The work uses physically motivated RSSI-like and intensity-like signal models, repeated seeds, controlled degradation scenarios, and ablation comparisons. The final adaptive policy is intentionally transparent. It selects among predefined WiFi-heavy, VLP-heavy, balanced, graph-prior-heavy, and graph-recovery modes using only observable reliability cues, such as probability-map confidence, entropy, recent signal variance, and intensity-drop indicators. It does not use the true position, test-time scenario label, or ground-truth degradation flag for fusion. Early planning was motivated by adaptive and reinforcement-learning-style fusion ideas \cite{salimibeni2022rlfusion}, but the implemented method favors traceability and reproducibility rather than claiming a new RL algorithm.
+
+The contributions are:
+\begin{itemize}
+    \item a reproducible simulation framework for hybrid WiFi RSSI-like and visible-light intensity-like indoor positioning under clean, WiFi-degraded, VLP-blocked, and mixed-dynamic scenarios;
+    \item a compact DSP--graph-signal-processing pipeline that converts signal streams into grid-cell probability maps and smooths spatial priors over a room graph;
+    \item a lightweight, non-oracle reliability-aware adaptive fusion policy evaluated against WiFi-only, VLP-only, static fusion, DSP fusion, and graph-smoothed fusion baselines across repeated test seeds.
+\end{itemize}
+The main result is deliberately conditional. Adaptive fusion is not always best. Static fusion is strongest in the clean scenario, and VLP-only estimation is strongest when only WiFi is degraded. Adaptive fusion is most helpful under simulated optical blockage and mixed degradation, where signal reliability changes over time.
 
 \section{Related Work}
-WiFi positioning ranges from RSSI fingerprinting to learned wireless localization \cite{bahl2000radar,youssef2005horus,ayyalasomayajula2020dloc,dai2023wifi}. Our low-resource study does not use channel state information or a calibrated building fingerprint database. It instead tests how RSSI-like evidence behaves when noise bursts and shadowing are controlled in simulation.
+\subsection{WiFi and RSSI-Based Indoor Positioning}
+WiFi positioning has been studied for more than two decades, from RSSI fingerprinting to probabilistic and learning-based localization. RADAR showed the feasibility of RF-based indoor user tracking using existing wireless infrastructure \cite{bahl2000radar}. Horus introduced probabilistic WLAN location determination and demonstrated the value of statistical modeling for indoor RSSI uncertainty \cite{youssef2005horus}. More recent work has used deep learning and wireless signal modeling for indoor navigation \cite{ayyalasomayajula2020dloc}. Surveys also show that WiFi-assisted positioning remains active because the infrastructure is common and inexpensive \cite{dai2023wifi}. However, WiFi RSSI remains sensitive to multipath, attenuation, and environmental variability. Our work does not use channel state information or measured fingerprint databases. Instead, it uses controlled RSSI-like degradation to test fusion behavior.
 
-VLP uses illumination infrastructure as location anchors. Surveys describe received-signal-strength, angle, imaging, and hybrid variants, along with line-of-sight and hardware constraints \cite{do2016vlc,luo2017vlpstate,afzalan2019vlp}. Recent tracking work illustrates practical optical estimation using extended Kalman filtering \cite{saengudomlert2025aeu_ekf_vlp}. Hybrid RF--optical and LiFi--WiFi studies further motivate complementary sensing \cite{lu2025rfvlp,mustafa2025lifiwifi}. We do not claim direct comparison to those systems because our evaluation is simulated.
+\subsection{Visible-Light Positioning}
+VLP uses illumination infrastructure as a positioning source. Surveys describe RSS-based, angle-based, image-sensor-based, and hybrid VLP approaches, along with the effects of receiver geometry, line-of-sight availability, and hardware assumptions \cite{do2016vlc,luo2017vlpstate,afzalan2019vlp}. Recent optical tracking work using extended Kalman filtering illustrates how VLP can be used for position and orientation estimation when the optical channel is available \cite{saengudomlert2025aeu_ekf_vlp}. However, practical VLP performance can degrade under blockage, dimming, receiver orientation change, and ambient light variation. In this paper, VLP is represented by a simplified intensity-like model for controlled simulation, not by a calibrated photodiode or camera receiver.
 
-GSP provides tools for processing signals defined on irregular domains \cite{shuman2013gsp,ortega2018gsp}. Indoor grids are natural graphs: adjacent cells encode local spatial continuity. Related graph-based fingerprint work uses graph structure for augmentation \cite{chen2023graphfingerprint}. Our narrower use is graph smoothing of cell-probability priors before reliability-aware fusion.
+\subsection{Hybrid Fusion, Graph Processing, and Adaptive Policies}
+Hybrid RF--optical localization is attractive because radio and optical channels fail differently. Recent RF--VLP and LiFi--WiFi works motivate the use of complementary modalities for indoor localization \cite{lu2025rfvlp,mustafa2025lifiwifi}. The present study does not claim direct performance comparison to those hardware or learning-supported systems. Instead, it focuses on reproducible stress testing of fusion choices under controlled failures. This distinction is important: external VLP, RF--VLP, EKF, and deep-learning systems use different sensors, calibration assumptions, room layouts, or datasets, whereas the fair comparison here is among methods receiving the same synthetic observations.
+
+Graph signal processing (GSP) provides tools for analyzing signals defined on irregular domains \cite{shuman2013gsp,ortega2018gsp}. An indoor grid can be represented as a graph where adjacent cells encode local spatial continuity. Related graph-based localization work uses graph structure for radio-fingerprint augmentation \cite{chen2023graphfingerprint}. In this paper, the graph component is narrower: a topology-aware smoothing layer over grid-cell probability maps.
+
+Adaptive information fusion and RL-inspired localization have also been explored \cite{salimibeni2022rlfusion}. The contribution here is not a new learning algorithm. The paper instead evaluates a transparent reliability-aware fusion policy and asks a specific question: when WiFi and visible-light reliability change, does mode selection outperform fixed fusion in a controlled simulated environment?
 
 \section{System Model and Problem Setup}
-\subsection{Room, anchors, and signal models}
-The simulated room is divided into 100 candidate cells. Three WiFi access points and four LED anchors are placed as shown in Fig.~\ref{fig:layout}. A 100-step synthetic walking path is generated for each seed. For a candidate position $\mathbf{x}$ and access point $i$, the expected RSSI-like value is
-\begin{equation}
- r_i(\mathbf{x})=P_0-10n\log_{10}\!\left(\max(d_i(\mathbf{x}),d_{\min})\right),
- \label{eq:wifi}
-\end{equation}
-where $P_0=-40$ dBm and $n=2.2$. Gaussian noise, shadowing, and multipath-like bursts are applied according to the scenario. For LED $j$, the expected intensity-like value is
-\begin{equation}
- \ell_j(\mathbf{x})=\frac{P_{\mathrm{LED}} h^2}{\left(d_{j,h}^2(\mathbf{x})+h^2\right)^2},
- \label{eq:vlp}
-\end{equation}
-where $P_{\mathrm{LED}}=1$ and the vertical separation is $h=2$ m. Equation~\eqref{eq:vlp} is a simplified distance-sensitive optical model, not a new VLP propagation model.
+\subsection{Room, Anchors, and Trajectory}
+The simulated room is $10\,\mathrm{m}\times10\,\mathrm{m}$ and is divided into a $10\times10$ grid, producing 100 candidate cells. Three WiFi access points and four LED anchors are placed at known coordinates. A 100-step synthetic walking trajectory is generated for each random seed. Fig.~\ref{fig:layout} shows the simulated room, anchors, grid, and a sample trajectory.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig1_layout_trajectory.png}
+\includegraphics[width=0.98\columnwidth]{fig1_layout_trajectory.png}
 \caption{Simulated room layout with three WiFi access points, four LED anchors, the $10\times10$ grid, and a sample walking trajectory.}
 \label{fig:layout}
 \end{figure}
 
-\subsection{Scenarios and metrics}
-Table~\ref{tab:setup} summarizes the tested configuration. Clean data use low base noise. WiFi-degraded periods add multipath-like noise bursts and shadowing. VLP-blocked periods attenuate optical observations. Mixed-dynamic periods alternate both degradation types. Results are aggregated over seeds 101--105. We report Euclidean mean error, 90th-percentile (P90) error, failure rate for errors above 2 m, and trajectory smoothness in meters per step.
+\subsection{WiFi RSSI-Like Signal Model}
+For a candidate position $\mathbf{x}$ and access point $i$, the expected RSSI-like value is modeled as
+\begin{equation}
+ r_i(\mathbf{x}) = P_0 - 10n\log_{10}\!\left(\max(d_i(\mathbf{x}),d_{\min})\right),
+ \label{eq:wifi}
+\end{equation}
+where $d_i(\mathbf{x})$ is the horizontal distance from $\mathbf{x}$ to access point $i$, $P_0=-40$ dBm is the reference RSSI level, $n=2.2$ is the path-loss exponent, and $d_{\min}$ avoids a singularity near an anchor. Gaussian noise, shadowing, and multipath-like bursts are added according to the scenario. This model is used only to generate controlled RSSI-like evidence; it is not proposed as a new WiFi propagation model.
+
+\subsection{Visible-Light Intensity-Like Signal Model}
+For LED $j$, the expected visible-light intensity-like value is
+\begin{equation}
+ \ell_j(\mathbf{x})=\frac{P_{\mathrm{LED}}h^2}{\left(d_{j,h}^{2}(\mathbf{x})+h^2\right)^2},
+ \label{eq:vlp}
+\end{equation}
+where $d_{j,h}(\mathbf{x})$ is horizontal distance from the receiver to LED $j$, $P_{\mathrm{LED}}=1$ is a power scale, and $h=2$ m is the vertical separation between the assumed receiver plane at 1 m and the LED plane at 3 m. Optical noise and blockage attenuation are added according to the scenario. This is a simplified distance-sensitive optical model for simulation and does not model a full Lambertian channel, photodiode response, camera exposure, reflection, or ambient light dynamics.
+
+\subsection{Physical Trend Check and Scenario Parameters}
+A small smartphone-based trend check was used to support the direction of the simulated degradation assumptions, not to validate the full localization pipeline. The WiFi set contains 200 RSSI rows from 1--10 m under normal and blocked conditions. Mean normal RSSI changes from approximately $-29.1$ dBm at 1 m to $-49.1$ dBm at 10 m, and the average blocked-minus-normal difference is $-14.95$ dB. The light set contains 200 app-estimated rows from 1--10 m under unblocked and blocked conditions; mean unblocked intensity changes from approximately 627.7 at 1 m to 39.1 at 10 m, and the average blocked/unblocked ratio is 0.0289. These measurements motivate distance- and blockage-sensitive simulation settings, but the phone light-meter values are app estimates, not calibrated photodiode measurements.
+
+
+
+\begin{strip}
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+node distance=4mm,
+>=Latex,
+every node/.style={font=\scriptsize},
+box/.style={draw, rounded corners, align=center, minimum height=7mm, text width=18mm, fill=gray!7}
+]
+\node[box] (signals) {WiFi/VLP\\signals};
+\node[box, right=of signals] (dsp) {DSP\\filtering};
+\node[box, right=of dsp] (maps) {Cell\\maps};
+\node[box, right=of maps] (gsp) {Graph\\prior};
+\node[box, right=of gsp] (adapt) {Adaptive\\fusion};
+\node[box, right=of adapt] (est) {Position\\estimate};
+\draw[->] (signals) -- (dsp);
+\draw[->] (dsp) -- (maps);
+\draw[->] (maps) -- (gsp);
+\draw[->] (gsp) -- (adapt);
+\draw[->] (maps) to[bend right=20] (adapt);
+\draw[->] (adapt) -- (est);
+\end{tikzpicture}
+}
+% 4. Replace \caption with \captionof{figure}
+\captionof{figure}{Processing pipeline. DSP filters reduce short-term fluctuations, graph smoothing supplies a spatial prior, and the reliability-aware policy combines modality maps according to observable reliability.}
+\label{fig:pipeline}
+\end{strip}
+
+
+
+Table~\ref{tab:setup} summarizes the final simulation configuration. Results are averaged over seeds 101--105. The metrics are mean Euclidean error, 90th-percentile (P90) error, failure rate for error above 2 m, and trajectory smoothness in meters per step.
 
 \begin{table}[t]
 \caption{Simulation and Scenario Parameters}
 \label{tab:setup}
 \centering
 \scriptsize
-\begin{tabular}{@{}ll@{}}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.94}
+\begin{tabularx}{\columnwidth}{@{}p{0.33\columnwidth}Y@{}}
 \toprule
-Parameter & Value \\
+\textbf{Parameter} & \textbf{Value} \\
 \midrule
-Room; candidate grid & $10\,\mathrm{m}\times10\,\mathrm{m}$; $10\times10$ cells \\
+Room; grid & $10\,\mathrm{m}\times10\,\mathrm{m}$; $10\times10$ cells \\
+Candidate cells & 100 cell centers \\
 Anchors & 3 WiFi APs; 4 LEDs \\
-Trajectory; repeated seeds & 100 steps; 101, 102, 103, 104, 105 \\
-WiFi model & $P_0=-40$ dBm; $n=2.2$ \\
-VLP model & $P_{\mathrm{LED}}=1$; heights 1 m and 3 m \\
-DSP & MA(5), median(5), EMA($\alpha=0.35$) \\
-Room graph & 4-neighbor grid; smoothing $\alpha=0.25$ \\
-Scenarios & clean; WiFi degraded; VLP blocked; mixed \\
+AP coordinates & $(1,1)$, $(9,1)$, $(5,9)$ m \\
+LED coordinates & $(2,2)$, $(8,2)$, $(2,8)$, $(8,8)$ m \\
+Trajectory; seeds & 100 steps; 101--105 \\
+WiFi model & $P_0=-40$ dBm; $n=2.2$; $d_{\min}=0.5$ m \\
+WiFi degradation & clean $\sigma=2$ dB; degraded $\sigma=6$ dB; burst prob. 0.12; shadowing 3--9 dB \\
+VLP model & $P_{\mathrm{LED}}=1$; receiver 1 m; LEDs 3 m; $h=2$ m \\
+VLP degradation & clean noise scale 0.02; blockage loss 75\%; blockage prob. 0.20 \\
+DSP and graph & MA(5), median(5), EMA($\alpha=0.35$); graph diffusion $\alpha=0.25$ \\
+Scenarios & clean; WiFi degraded; VLP blocked; mixed dynamic \\
 Failure threshold & error $>2$ m \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
+
+
+
+
+
 \section{Proposed Reliability-Aware Graph-DSP Fusion Framework}
-Fig.~\ref{fig:pipeline} summarizes the pipeline. First, the RSSI-like and intensity-like streams are passed through moving-average (MA), median, and exponential-moving-average (EMA) filters. Second, Gaussian likelihoods compare measurements against expected anchor values at every candidate cell and are normalized into modality-specific probability maps $\mathbf{p}_{w}$ and $\mathbf{p}_{v}$. Third, graph diffusion forms a topology-aware prior
+Fig.~\ref{fig:pipeline} summarizes the pipeline. The framework has four main stages: DSP filtering, probability-map generation, graph smoothing, and reliability-aware adaptive fusion.
+
+% \begin{figure*}[h]
+% \centering
+% \resizebox{\textwidth}{!}{%
+% \begin{tikzpicture}[
+% node distance=4mm,
+% >=Latex,
+% every node/.style={font=\scriptsize},
+% box/.style={draw, rounded corners, align=center, minimum height=7mm, text width=18mm, fill=gray!7}
+% ]
+% \node[box] (signals) {WiFi/VLP\\signals};
+% \node[box, right=of signals] (dsp) {DSP\\filtering};
+% \node[box, right=of dsp] (maps) {Cell\\maps};
+% \node[box, right=of maps] (gsp) {Graph\\prior};
+% \node[box, right=of gsp] (adapt) {Adaptive\\fusion};
+% \node[box, right=of adapt] (est) {Position\\estimate};
+% \draw[->] (signals) -- (dsp);
+% \draw[->] (dsp) -- (maps);
+% \draw[->] (maps) -- (gsp);
+% \draw[->] (gsp) -- (adapt);
+% \draw[->] (maps) to[bend right=20] (adapt);
+% \draw[->] (adapt) -- (est);
+% \end{tikzpicture}
+% }
+% \caption{Processing pipeline. DSP filters reduce short-term fluctuations, graph smoothing supplies a spatial prior, and the reliability-aware policy combines modality maps according to observable reliability.}
+% \label{fig:pipeline}
+% \end{figure*}
+
+
+
+
+
+
+% \begin{strip}
+% \centering
+% \resizebox{\textwidth}{!}{%
+% \begin{tikzpicture}[
+% node distance=4mm,
+% >=Latex,
+% every node/.style={font=\scriptsize},
+% box/.style={draw, rounded corners, align=center, minimum height=7mm, text width=18mm, fill=gray!7}
+% ]
+% \node[box] (signals) {WiFi/VLP\\signals};
+% \node[box, right=of signals] (dsp) {DSP\\filtering};
+% \node[box, right=of dsp] (maps) {Cell\\maps};
+% \node[box, right=of maps] (gsp) {Graph\\prior};
+% \node[box, right=of gsp] (adapt) {Adaptive\\fusion};
+% \node[box, right=of adapt] (est) {Position\\estimate};
+% \draw[->] (signals) -- (dsp);
+% \draw[->] (dsp) -- (maps);
+% \draw[->] (maps) -- (gsp);
+% \draw[->] (gsp) -- (adapt);
+% \draw[->] (maps) to[bend right=20] (adapt);
+% \draw[->] (adapt) -- (est);
+% \end{tikzpicture}
+% }
+% % 4. Replace \caption with \captionof{figure}
+% \captionof{figure}{Processing pipeline. DSP filters reduce short-term fluctuations, graph smoothing supplies a spatial prior, and the reliability-aware policy combines modality maps according to observable reliability.}
+% \label{fig:pipeline}
+% \end{strip}
+
+
+
+
+% \begin{figure*}[t] % The [t] specifically tells it to go to the top
+% \centering
+% \resizebox{\textwidth}{!}{%
+% \begin{tikzpicture}[
+% node distance=4mm,
+% >=Latex,
+% every node/.style={font=\scriptsize},
+% box/.style={draw, rounded corners, align=center, minimum height=7mm, text width=18mm, fill=gray!7}
+% ]
+% \node[box] (signals) {WiFi/VLP\\signals};
+% \node[box, right=of signals] (dsp) {DSP\\filtering};
+% \node[box, right=of dsp] (maps) {Cell\\maps};
+% \node[box, right=of maps] (gsp) {Graph\\prior};
+% \node[box, right=of gsp] (adapt) {Adaptive\\fusion};
+% \node[box, right=of adapt] (est) {Position\\estimate};
+% \draw[->] (signals) -- (dsp);
+% \draw[->] (dsp) -- (maps);
+% \draw[->] (maps) -- (gsp);
+% \draw[->] (gsp) -- (adapt);
+% \draw[->] (maps) to[bend right=20] (adapt);
+% \draw[->] (adapt) -- (est);
+% \end{tikzpicture}
+% }
+% \caption{Processing pipeline spanning both columns at the top of the page.}
+% \label{fig:pipeline}
+% \end{figure*}
+
+
+
+\subsection{DSP Filtering and Probability Maps}
+The RSSI-like and intensity-like streams are filtered using moving average, median, and exponential moving average filters. The filters are standard and lightweight. Their role is not to create a new DSP algorithm, but to provide reproducible denoising baselines. In the final ablation, median filtering is used as the representative DSP baseline because it suppresses burst-like outliers without requiring a learned model.
+
+For each time step, Gaussian likelihoods compare the measured anchor vector with the expected anchor vector at every candidate grid cell. The likelihoods are normalized into WiFi and VLP probability maps, denoted by $\mathbf{p}_{w}$ and $\mathbf{p}_{v}$. A position estimate is obtained from the cell with the maximum probability or from the fused probability distribution, depending on the evaluated method. Because probability maps from different sensing modalities can have different sharpness, equal-weight static fusion is treated as a simple naive baseline rather than a calibrated optimum.
+
+\subsection{Graph Smoothing}
+The room grid is represented as a graph $G=(\mathcal{V},\mathcal{E})$, where each candidate cell is a node and 4-neighbor adjacency defines edges. Given a static fused map $\mathbf{p}_{s}$, graph diffusion forms a topology-aware prior:
 \begin{equation}
  \mathbf{p}_{g}=\mathcal{N}\!\left((1-\alpha)\mathbf{p}_{s}+\alpha\mathbf{A}_{n}\mathbf{p}_{s}\right),
  \label{eq:gsp}
 \end{equation}
-where $\mathbf{p}_{s}$ is a static fused map, $\mathbf{A}_{n}$ is the row-normalized grid adjacency matrix, $\alpha=0.25$, and $\mathcal{N}(\cdot)$ normalizes the vector.
+where $\mathbf{A}_{n}$ is the row-normalized adjacency matrix, $\alpha=0.25$, and $\mathcal{N}(\cdot)$ normalizes the probability vector. The graph step encourages local spatial consistency, reducing isolated probability spikes and unrealistic jumps. It is used as a smoothing layer over probability maps, not as a new graph-localization theory.
 
-\begin{figure*}[t]
-\centering
-\begin{tikzpicture}[node distance=3.4mm and 4.5mm, >=Latex, every node/.style={font=\scriptsize}, box/.style={draw, rounded corners, align=center, minimum height=7mm, text width=22mm, fill=gray!7}]
-\node[box] (wifi) {WiFi RSSI-like\\signals};
-\node[box, below=of wifi] (vlp) {VLP intensity-like\\signals};
-\node[box, right=of wifi, yshift=-5.2mm] (dsp) {DSP filtering\\MA, median, EMA};
-\node[box, right=of dsp] (maps) {Cell probability\\maps};
-\node[box, right=of maps] (gsp) {Graph smoothing\\spatial prior};
-\node[box, right=of gsp, text width=26mm] (adapt) {Reliability-aware\\adaptive fusion};
-\node[box, right=of adapt] (est) {Final position\\estimate};
-\draw[->] (wifi) -- (dsp); \draw[->] (vlp) -- (dsp); \draw[->] (dsp) -- (maps); \draw[->] (maps) -- (gsp); \draw[->] (gsp) -- (adapt); \draw[->] (maps) to[bend right=18] (adapt); \draw[->] (adapt) -- (est);
-\end{tikzpicture}
-\caption{Processing pipeline. Graph smoothing supplies a spatial prior; the final policy combines it with modality maps according to reliability.}
-\label{fig:pipeline}
-\end{figure*}
-
-For modality $m$, reliability is computed from peak probability and normalized entropy:
+\subsection{Non-Oracle Reliability-Aware Adaptive Fusion}
+For modality $m$, reliability is computed from peak probability, normalized entropy, and an observable signal-quality penalty:
 \begin{equation}
  q_m=\max(\mathbf{p}_{m})\left(1-\frac{H(\mathbf{p}_{m})}{\log 100}\right)\gamma_m,
  \label{eq:reliability}
 \end{equation}
-where $\gamma_m$ penalizes a known active degradation flag. The policy chooses among WiFi-heavy, VLP-heavy, balanced, graph-prior-heavy, and recovery modes. The final map is
+where $H(\cdot)$ is entropy. The term $\gamma_m\in[0.25,1]$ is estimated only from measurements available at test time. For WiFi, it is reduced when recent RSSI variance and burst-like changes increase. For VLP, it is reduced when the current total light intensity drops sharply relative to a rolling local history. The true position, scenario name, and ground-truth blockage/noise labels are not used by the fusion policy.
+
+The final fused probability map is
 \begin{equation}
  \mathbf{p}_{f}=\mathcal{N}\!\left(w_w\mathbf{p}_{w}+w_v\mathbf{p}_{v}+w_g\mathbf{p}_{g}\right).
  \label{eq:fusion}
 \end{equation}
-The weights are fixed per mode. Thus, the adaptive element is interpretable switching based on current reliability, not learned end-to-end localization.
+The weights $(w_w,w_v,w_g)$ are fixed inside each mode, and the adaptive element is interpretable switching among modes. The five mode weights are WiFi-heavy $(0.70,0.20,0.10)$, VLP-heavy $(0.20,0.70,0.10)$, balanced $(0.45,0.45,0.10)$, graph-prior-heavy $(0.30,0.30,0.40)$, and graph-recovery $(0.15,0.15,0.70)$. These weights are deliberately coarse design points rather than per-scenario optimized values: the first two emphasize one dominant modality, the balanced mode keeps equal radio--optical trust, and the two graph modes preserve a stronger spatial prior when both probability maps are uncertain. The same weights are frozen for every final test scenario.
 
 \section{Experimental Setup}
-We compare WiFi-only, VLP-only, equal-weight static fusion, static fusion after median DSP filtering, static fusion with graph diffusion, and the complete adaptive DSP+GSP fusion policy. Figures~\ref{fig:dsp} and \ref{fig:gsp} illustrate the two preprocessing components. The filters suppress short fluctuations but can lag or flatten useful clean measurements. Graph smoothing redistributes isolated peaks toward neighboring cells, which can stabilize a prior but can also blur a strong modality map. These tradeoffs motivate selective rather than unconditional use.
+The evaluated methods are WiFi-only, VLP-only, equal-weight static fusion, static fusion after median DSP filtering, graph-smoothed fusion, and the complete adaptive DSP+GSP fusion policy. The same room, anchors, trajectory-generation procedure, and scenario definitions are used across all methods. Final results use five repeated test seeds, 101--105. All parameters listed in Table~\ref{tab:setup} are kept fixed during the final test run.
+
+Figures~\ref{fig:dsp} and \ref{fig:gsp} illustrate the two preprocessing components. DSP filters suppress short fluctuations but may lag or flatten useful clean measurements. Graph smoothing redistributes isolated probability peaks toward neighboring cells, which can stabilize a noisy spatial prior but may blur a confident clean map. These tradeoffs are why the proposed system does not apply all components blindly; the adaptive policy changes emphasis according to reliability.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig3_noisy_vs_filtered_signals.png}
+\includegraphics[width=\columnwidth]{fig3_noisy_vs_filtered_signals.png}
 \caption{Representative noisy and DSP-filtered signal traces. Filtering reduces fluctuations but is not assumed to improve every localization case.}
 \label{fig:dsp}
 \end{figure}
+
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig4_raw_vs_graph_smoothed_heatmap.png}
+\includegraphics[width=\columnwidth]{fig4_raw_vs_graph_smoothed_heatmap.png}
 \caption{Example raw and graph-smoothed probability maps. The room graph spreads evidence locally across adjacent cells.}
 \label{fig:gsp}
 \end{figure}
 
 \section{Results and Discussion}
-\subsection{Scenario-wise results}
-Table~\ref{tab:main} and Fig.~\ref{fig:error} show the main repeated-seed results. Static fusion is best in the clean scenario, with mean error $0.450\pm0.012$ m and P90 error $0.754\pm0.032$ m. VLP-only is best under WiFi degradation, with mean error $0.451\pm0.018$ m. In this controlled case, the optical modality remains clean, so a more elaborate fusion rule is unnecessary.
+\subsection{Scenario-Wise Localization Accuracy}
+Table~\ref{tab:main} and Fig.~\ref{fig:error} show the main repeated-seed results. The first observation is that adaptive fusion is not universally best. In the clean scenario, static fusion gives the lowest mean error, $0.450\pm0.012$ m, with P90 error $0.754\pm0.032$ m. This is expected because both modalities are reliable, so a fixed rule does not need to avoid a damaged signal.
 
-Adaptive fusion is most useful when the optical evidence is blocked or both modalities vary. Under VLP blockage, its mean error is $0.751\pm0.031$ m, compared with $1.013\pm0.092$ m for static fusion. Under mixed degradation, its mean error is $0.611\pm0.078$ m, compared with $0.759\pm0.101$ m for static fusion. Relative to static fusion, adaptive fusion improves mean error by 25.51\% and P90 error by 40.35\% in the VLP-blocked scenario. In the mixed-dynamic scenario, the corresponding improvements are 18.90\% and 26.20\%.
+In the WiFi-degraded scenario, VLP-only estimation gives the best mean error, $0.451\pm0.018$ m. The reason is also intuitive: the optical modality remains clean, while WiFi is noisy. Adding a degraded radio modality is not beneficial when the clean optical evidence is already strong.
+
+The benefit of adaptive fusion appears when the better modality changes. Under VLP blockage, adaptive fusion reaches mean error $0.751\pm0.031$ m, compared with $1.013\pm0.092$ m for static fusion. Under mixed degradation, adaptive fusion reaches $0.611\pm0.078$ m, compared with $0.759\pm0.101$ m for static fusion. Relative to the rounded Table~\ref{tab:main} values, adaptive fusion improves mean error by 25.86\% and P90 error by 40.83\% in the VLP-blocked scenario. In the mixed-dynamic scenario, the corresponding improvements are 19.50\% and 31.50\%.
 
 \begin{table*}[t]
-\caption{Main Repeated-Seed Results (mean across five seeds; lower is better)}
+\caption{Main Repeated-Seed Results Across Five Test Seeds}
 \label{tab:main}
 \centering
 \scriptsize
-\input{tables/compact_main_results.tex}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{0.92}
+\begin{tabular}{@{}llccc@{}}
+\toprule
+\textbf{Scenario} & \textbf{Method} & \textbf{Mean error (m)} & \textbf{P90 error (m)} & \textbf{Failure rate} \\
+\midrule
+\multirow{4}{*}{Clean} & WiFi-only & 1.365 & 2.635 & 0.188 \\
+& VLP-only & 0.452 & 0.756 & 0.004 \\
+& Static fusion & \textbf{0.450} & \textbf{0.754} & \textbf{0.004} \\
+& Adaptive fusion & 0.452 & 0.755 & 0.004 \\
+\midrule
+\multirow{4}{*}{WiFi degraded} & WiFi-only & 2.232 & 5.080 & 0.392 \\
+& VLP-only & \textbf{0.451} & \textbf{0.757} & \textbf{0.004} \\
+& Static fusion & 0.467 & 0.759 & 0.006 \\
+& Adaptive fusion & 0.451 & 0.757 & 0.004 \\
+\midrule
+\multirow{4}{*}{VLP blocked} & WiFi-only & 1.369 & 2.792 & 0.192 \\
+& VLP-only & 1.015 & 2.689 & 0.170 \\
+& Static fusion & 1.013 & 2.667 & 0.168 \\
+& Adaptive fusion & \textbf{0.751} & \textbf{1.578} & \textbf{0.074} \\
+\midrule
+\multirow{4}{*}{Mixed dynamic} & WiFi-only & 1.918 & 3.986 & 0.336 \\
+& VLP-only & 0.759 & 1.749 & 0.100 \\
+& Static fusion & 0.759 & 1.749 & 0.100 \\
+& Adaptive fusion & \textbf{0.611} & \textbf{1.198} & \textbf{0.040} \\
+\bottomrule
+\end{tabular}
 \end{table*}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig5_scenario_wise_error_paper.png}
+\includegraphics[width=\columnwidth]{fig5_scenario_wise_error_paper.png}
 \caption{Scenario-wise mean and P90 localization error across five seeds. Adaptive fusion is helpful under VLP blockage and mixed degradation, but it is not universally best.}
 \label{fig:error}
 \end{figure}
 
-\subsection{DSP, GSP, failure rate, and smoothness}
-Table~\ref{tab:ablation} isolates preprocessing effects in the two difficult scenarios. Median DSP reduces P90 error and failure rate under VLP blockage, and it gives the smoothest mixed-dynamic trajectories. Graph diffusion also reduces failure rate under VLP blockage. However, neither component alone dominates every metric: unconditional graph diffusion increases mixed-dynamic mean error. The complete adaptive policy benefits from choosing when to emphasize modality evidence and when to increase the graph-prior weight.
+\subsection{Ablation, Failure Rate, and Smoothness}
+Table~\ref{tab:ablation} isolates preprocessing effects in the two difficult scenarios. Median DSP reduces P90 error and failure rate under VLP blockage, and it gives the smoothest mixed-dynamic trajectories. Graph diffusion also reduces failure rate under VLP blockage. However, neither component alone dominates every metric. For example, unconditional graph diffusion increases mixed-dynamic mean error. This confirms that topology-aware smoothing is useful, but it must be applied carefully.
 
-Fig.~\ref{fig:robust} shows the robustness summary. Against static fusion, adaptive fusion lowers failure rate by 0.094 under VLP blockage and by 0.060 under mixed degradation. Smoothness improves by 47.48\% and 40.50\%, respectively. These results support a conditional conclusion: adaptive weighting is useful when reliability changes, whereas clean or single-degradation settings may favor simpler estimators.
+Fig.~\ref{fig:robust} shows the robustness summary. Against static fusion, adaptive fusion lowers failure rate by 0.094 under VLP blockage and by 0.060 under mixed degradation. From the rounded Table~\ref{tab:ablation} values, smoothness improves by 47.62\% and 41.66\%, respectively. These results support a conditional conclusion: adaptive weighting is useful when reliability changes, whereas clean or single-degradation settings may favor simpler estimators.
 
 \begin{table}[t]
-\caption{Ablation on Difficult Scenarios (lower is better)}
+\caption{Ablation on Difficult Scenarios}
 \label{tab:ablation}
 \centering
-\tiny
-\input{tables/compact_ablation.tex}
+\scriptsize
+\setlength{\tabcolsep}{2.4pt}
+\renewcommand{\arraystretch}{0.92}
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+\textbf{Scenario} & \textbf{Method} & \textbf{Mean} & \textbf{P90} & \textbf{Fail.} & \textbf{Smooth.} \\
+\midrule
+\multirow{4}{*}{VLP blocked} & Static & 1.013 & 2.667 & 0.168 & 1.283 \\
+& Median-DSP & 0.924 & 1.799 & 0.090 & \textbf{0.600} \\
+& Graph & 0.923 & 1.854 & 0.084 & 1.118 \\
+& Adaptive & \textbf{0.751} & \textbf{1.578} & \textbf{0.074} & 0.672 \\
+\midrule
+\multirow{4}{*}{Mixed} & Static & 0.759 & 1.749 & 0.100 & 0.917 \\
+& Median-DSP & 0.794 & 1.362 & 0.044 & \textbf{0.463} \\
+& Graph & 1.084 & 2.169 & 0.116 & 1.329 \\
+& Adaptive & \textbf{0.611} & \textbf{1.198} & \textbf{0.040} & 0.535 \\
+\bottomrule
+\end{tabular}
 \end{table}
+
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig7_failure_smoothness_paper.png}
+\includegraphics[width=\columnwidth]{fig7_failure_smoothness_paper.png}
 \caption{Failure rate and trajectory smoothness. The adaptive policy is most useful in the blocked and mixed-dynamic scenarios.}
 \label{fig:robust}
 \end{figure}
 
-\section{Smartphone-Based Physical Sanity Check}
-A small smartphone-based check was performed only to examine whether the simulation assumptions have the expected direction. The WiFi set contains 200 RSSI rows collected from 1--10 m under normal and blocked conditions. Mean normal RSSI changes from approximately $-29.1$ dBm at 1 m to $-49.1$ dBm at 10 m; the average blocked-minus-normal difference is $-14.95$ dB. The light set contains 200 app-estimated rows from 1--10 m under unblocked and blocked conditions. Mean unblocked intensity changes from approximately 627.7 to 39.1, and the average blocked/unblocked ratio is 0.0289. These trends motivate distance- and blockage-sensitive simulated degradation. The phone light-meter values are app estimates, not calibrated photodiode measurements, and this check is not a real localization implementation.
+\subsection{Interpretation and Reproducibility Notes}
+The experiments answer three practical research questions. First, simple DSP filtering is useful mainly as a stabilizing component: it reduces short-term fluctuations, but it should not be treated as universally beneficial because smoothing can also delay or flatten informative clean signals. Second, graph smoothing is useful as a spatial regularizer because indoor positions are locally connected; however, the ablation shows that applying a graph prior unconditionally can increase error when the underlying probability map is already reliable. Third, reliability-aware fusion is most valuable when the dominant modality changes over time. This explains why adaptive fusion does not improve the clean case, matches VLP-dominant behavior under WiFi degradation, and performs best under VLP blockage and mixed degradation.
 
-\section{Limitations}
-This study is simulation-only. The RSSI-like model is simplified, the VLP intensity-like model is simplified, and neither is claimed as a new propagation model. The evaluation does not use WiFi channel state information, a camera receiver, a photodiode, or a deployed hybrid system. The adaptive policy is reliability-based rather than a new RL algorithm. Finally, the physical check is small and motivational; it is not full hardware or real-world localization validation. These boundaries limit generalization beyond the tested scenarios.
+The static-fusion and VLP-only rows are close in several cases because the VLP likelihood maps are sharper than the RSSI likelihood maps after independent probability normalization. This is reported intentionally: it shows that naive equal-weight probability fusion can be dominated by one modality and should not be interpreted as a calibrated optimal fusion rule. The adaptive policy partly addresses this by using confidence and entropy rather than fixed equal weights, but the result should still be read as a controlled robustness study rather than a universal localization benchmark.
+
+The computational structure is lightweight. For $N=100$ cells and $E$ graph edges, each time step requires likelihood evaluation over the candidate cells and one sparse graph-diffusion operation of order $O(N+E)$. No neural network inference, camera processing, CSI extraction, particle filtering, or camera/photodiode reconstruction is used. Therefore, the framework is suitable as a low-resource simulation testbed, although this paper does not claim deployment-level runtime validation.
+
+\section{Scope, Limitations, and Future Work}
+This study is intentionally designed as a controlled, simulation-based robustness analysis rather than a full deployment study. The RSSI-like and VLP intensity-like models are simplified so that the effects of WiFi degradation, optical blockage, graph smoothing, and adaptive fusion can be isolated under repeatable conditions. This controlled setup supports reproducible comparison across baselines, but it does not replace evaluation with synchronized real WiFi and calibrated optical measurements.
+
+The work also focuses on low-cost sensing assumptions. It does not use WiFi channel state information, camera-based VLP, photodiode calibration, or a measured fingerprint database. The small smartphone-based physical trend check partially supports the assumed distance- and blockage-sensitive trends, but it is not deployment-level validation of the complete localization pipeline. Because no common real dataset, hardware setup, or sensing stack is shared with the cited RF--VLP, LiFi--WiFi, or EKF-based VLP systems, this paper does not claim state-of-the-art superiority over external localization systems. Future work should evaluate the same design with real indoor measurements, richer optical channel models, device-orientation changes, multiple layouts, larger seed sets, calibrated modality-likelihood scaling, and external tracking baselines such as EKF or particle-filter fusion when comparable measurements are available.
 
 \section{Conclusion}
-In the tested simulated setting, static fusion works best when both modalities are clean, VLP-only estimation works best when only WiFi is degraded, and reliability-aware adaptive fusion is most useful under optical blockage and mixed degradation. The adaptive policy reduces mean error relative to static fusion by approximately 25.51\% for VLP blockage and 18.90\% for mixed degradation while also reducing failures and improving smoothness. Future work should validate the approach with synchronized real WiFi and calibrated optical measurements, then study how the transparent policy behaves in deployed indoor environments.
+This paper presented a reproducible simulation-based robustness study of hybrid WiFi RSSI-like and visible-light intensity-like indoor positioning. The results show that no single method is best in all conditions. Static fusion is strongest when both modalities are clean, VLP-only estimation is strongest when only WiFi is degraded, and reliability-aware adaptive fusion is most useful under optical blockage and mixed degradation. Relative to static fusion, the adaptive policy reduces mean error by approximately 25.86\% for VLP blockage and 19.50\% for mixed degradation while also reducing failures and improving trajectory smoothness.
+
+The broader value of the work is methodological. It provides a low-cost and reproducible way to stress-test hybrid indoor localization before expensive hardware collection. Future work should validate the framework using synchronized real WiFi measurements and calibrated optical sensing, then examine whether the transparent reliability policy remains effective in deployed indoor environments.
 
 \balance
-\bibliographystyle{IEEEtran}
-\bibliography{references}
+
+\begin{thebibliography}{14}
+
+\bibitem{bahl2000radar}
+P. Bahl and V. N. Padmanabhan, ``RADAR: An in-building RF-based user location and tracking system,'' in \emph{Proc. IEEE INFOCOM}, 2000.
+
+\bibitem{youssef2005horus}
+M. Youssef and A. Agrawala, ``The Horus WLAN location determination system,'' in \emph{Proc. 3rd Int. Conf. Mobile Systems, Applications, and Services}, 2005.
+
+\bibitem{ayyalasomayajula2020dloc}
+R. Ayyalasomayajula, A. Arun, C. Wu, S. Sharma, A. R. Sethi, D. Vasisht, and D. Bharadia, ``Deep learning based wireless localization for indoor navigation,'' in \emph{Proc. 26th Annu. Int. Conf. Mobile Computing and Networking}, 2020.
+
+\bibitem{dai2023wifi}
+J. Dai, M. Wang, B. Wu, J. Shen, and X. Wang, ``A survey of latest Wi-Fi assisted indoor positioning on different principles,'' \emph{Sensors}, vol. 23, no. 18, p. 7961, 2023.
+
+\bibitem{do2016vlc}
+T.-H. Do and M. Yoo, ``An in-depth survey of visible light communication based positioning systems,'' \emph{Sensors}, vol. 16, no. 5, p. 678, 2016.
+
+\bibitem{luo2017vlpstate}
+J. Luo, L. Fan, and H. Li, ``Indoor positioning systems based on visible light communication: State of the art,'' \emph{IEEE Communications Surveys \& Tutorials}, vol. 19, no. 4, pp. 2871--2893, 2017.
+
+\bibitem{afzalan2019vlp}
+M. Afzalan and F. Jazizadeh, ``Indoor positioning based on visible light communication: A performance-based survey of real-world prototypes,'' \emph{ACM Computing Surveys}, 2019.
+
+\bibitem{salimibeni2022rlfusion}
+M. Salimibeni and A. Mohammadi, ``Hybrid indoor localization via reinforcement learning-based information fusion,'' \emph{arXiv preprint arXiv:2210.15132}, 2022.
+
+\bibitem{saengudomlert2025aeu_ekf_vlp}
+P. Saengudomlert, P. Ubolkosold, and K. L. Sterckx, ``Development of a position and orientation estimation system using extended Kalman filtering for indoor visible light positioning,'' \emph{AEU--International Journal of Electronics and Communications}, vol. 192, p. 155684, 2025.
+
+\bibitem{lu2025rfvlp}
+B. Lu, Y. Li, Y. Sun, and Y. Yang, ``Leveraging hybrid RF-VLP for high-accuracy indoor localization with sparse anchors,'' \emph{Sensors}, vol. 25, no. 10, p. 3074, 2025.
+
+\bibitem{mustafa2025lifiwifi}
+Z. Mustafa and E. K. Hamza, ``Enhancing indoor positioning accuracy using a hybrid Li-Fi/Wi-Fi system with deep learning support,'' \emph{Engineering, Technology \& Applied Science Research}, vol. 15, no. 2, pp. 21575--21585, 2025.
+
+\bibitem{shuman2013gsp}
+D. I. Shuman, S. K. Narang, P. Frossard, A. Ortega, and P. Vandergheynst, ``The emerging field of signal processing on graphs: Extending high-dimensional data analysis to networks and other irregular domains,'' \emph{IEEE Signal Processing Magazine}, vol. 30, no. 3, pp. 83--98, 2013.
+
+\bibitem{ortega2018gsp}
+A. Ortega, P. Frossard, J. Kova\v{c}evi\'{c}, J. M. F. Moura, and P. Vandergheynst, ``Graph signal processing: Overview, challenges, and applications,'' \emph{Proceedings of the IEEE}, vol. 106, no. 5, pp. 808--828, 2018.
+
+\bibitem{chen2023graphfingerprint}
+Y. Chen, G. Li, Y. Tan, and G. Zhang, ``Graph-based radio fingerprint augmentation for deep learning-based indoor localization,'' \emph{IEEE Sensors Journal}, 2023.
+
+\end{thebibliography}
+
 \end{document}
