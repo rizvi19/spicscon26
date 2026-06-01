@@ -1,0 +1,26 @@
+% Compact paper-ready view derived from the successful expanded 10-seed run.
+\begin{tabular}{@{}llccc@{}}
+\toprule
+Scenario & Method & Mean (m) & P90 (m) & Fail. \\
+\midrule
+Clean & WiFi-only & 1.403 & 2.631 & .184 \\
+ & VLP-only & .468 & .800 & .003 \\
+ & Static fusion & \textbf{.467} & \textbf{.799} & \textbf{.003} \\
+ & Adaptive fusion & .468 & .800 & .003 \\
+\midrule
+WiFi degraded & WiFi-only & 2.185 & 4.787 & .395 \\
+ & VLP-only & \textbf{.471} & \textbf{.827} & \textbf{.004} \\
+ & Static fusion & .480 & .828 & .006 \\
+ & Adaptive fusion & .471 & .827 & .004 \\
+\midrule
+VLP blocked & WiFi-only & 1.357 & 2.686 & .187 \\
+ & VLP-only & 1.079 & 2.920 & .185 \\
+ & Static fusion & 1.078 & 2.909 & .184 \\
+ & Adaptive fusion & \textbf{.806} & \textbf{1.705} & \textbf{.083} \\
+\midrule
+Mixed dynamic & WiFi-only & 2.034 & 4.419 & .352 \\
+ & VLP-only & .811 & 1.957 & .103 \\
+ & Static fusion & .811 & 1.957 & .103 \\
+ & Adaptive fusion & \textbf{.644} & \textbf{1.254} & \textbf{.040} \\
+\bottomrule
+\end{tabular}

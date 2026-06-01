@@ -1,0 +1,16 @@
+% Compact paper-ready view derived from the successful expanded 10-seed run.
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+Scenario & Method & Mean & P90 & Fail. & Smooth. \\
+\midrule
+VLP blocked & Static fusion & 1.078 & 2.909 & .184 & 1.329 \\
+ & + median DSP & .972 & 1.842 & .093 & \textbf{.619} \\
+ & + graph diffusion & .927 & 1.865 & .084 & 1.103 \\
+ & Adaptive DSP+GSP & \textbf{.806} & \textbf{1.705} & \textbf{.083} & .679 \\
+\midrule
+Mixed dynamic & Static fusion & .811 & 1.957 & .103 & .980 \\
+ & + median DSP & .829 & 1.365 & .043 & \textbf{.502} \\
+ & + graph diffusion & 1.113 & 2.234 & .132 & 1.361 \\
+ & Adaptive DSP+GSP & \textbf{.644} & \textbf{1.254} & \textbf{.040} & .571 \\
+\bottomrule
+\end{tabular}
