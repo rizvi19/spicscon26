@@ -8,3 +8,4 @@ pyyaml
 tqdm
 joblib
 tabulate
+jinja2
