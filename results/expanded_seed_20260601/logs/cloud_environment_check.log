@@ -1,0 +1,13 @@
+COMMAND: which python && python --version
+/root/.pyenv/shims/python
+Python 3.12.13
+
+COMMAND: command -v conda || true; command -v micromamba || true
+
+COMMAND: import dependency probe
+numpy MISSING ModuleNotFoundError("No module named 'numpy'")
+pandas MISSING ModuleNotFoundError("No module named 'pandas'")
+yaml MISSING ModuleNotFoundError("No module named 'yaml'")
+scipy MISSING ModuleNotFoundError("No module named 'scipy'")
+matplotlib MISSING ModuleNotFoundError("No module named 'matplotlib'")
+tabulate MISSING ModuleNotFoundError("No module named 'tabulate'")
