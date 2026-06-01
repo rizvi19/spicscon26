@@ -1,0 +1,196 @@
+name: Expanded seed evidence
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  expanded-seed-evidence:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out selected branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Require research evidence branch
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF_NAME}" != "codex/research-evidence-upgrades" ]]; then
+            echo "Run this workflow from codex/research-evidence-upgrades, not ${GITHUB_REF_NAME}." >&2
+            exit 1
+          fi
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Prepare isolated expanded-result folders
+        shell: bash
+        run: |
+          mkdir -p \
+            results/expanded_seed_20260601/raw \
+            results/expanded_seed_20260601/tables \
+            results/expanded_seed_20260601/figures \
+            results/expanded_seed_20260601/logs \
+            results/expanded_seed_20260601/reports \
+            paper/tables/expanded_seed_20260601
+          rm -rf .expanded_seed_work
+          rm -f \
+            results/expanded_seed_20260601/raw/errors_by_seed_scenario_method_expanded.csv \
+            results/expanded_seed_20260601/tables/table_main_expanded_seed_results.csv \
+            results/expanded_seed_20260601/tables/table_ablation_expanded_seed_results.csv \
+            results/expanded_seed_20260601/tables/table_seed_stability_comparison.csv \
+            results/expanded_seed_20260601/tables/table_best_method_by_scenario.csv \
+            results/expanded_seed_20260601/figures/fig_expanded_seed_scenario_wise_error.png \
+            results/expanded_seed_20260601/logs/expanded_seed_summary.json \
+            results/expanded_seed_20260601/logs/github_actions_dependency_install.log \
+            results/expanded_seed_20260601/logs/github_actions_pip_upgrade.log \
+            results/expanded_seed_20260601/logs/github_actions_smoke_command.log \
+            results/expanded_seed_20260601/logs/github_actions_final_command.log \
+            results/expanded_seed_20260601/logs/smoke_run.log \
+            results/expanded_seed_20260601/logs/final_run.log \
+            results/expanded_seed_20260601/reports/01_smoke_test_report.md \
+            results/expanded_seed_20260601/reports/expanded_seed_numeric_summary.txt \
+            results/expanded_seed_20260601/reports/expanded_seed_summary.md \
+            results/expanded_seed_20260601/reports/02_sanity_check_report.md \
+            results/expanded_seed_20260601/reports/github_actions_failure_report.md \
+            results/expanded_seed_20260601/reports/github_actions_run_status.md \
+            paper/tables/expanded_seed_20260601/compact_main_results_expanded.tex \
+            paper/tables/expanded_seed_20260601/compact_ablation_expanded.tex \
+            paper/tables/expanded_seed_20260601/compact_seed_stability.tex
+          {
+            echo "DEPS_STATUS=not-run"
+            echo "SMOKE_STATUS=not-run"
+            echo "FINAL_STATUS=not-run"
+          } >> "${GITHUB_ENV}"
+
+      - name: Install scientific Python dependencies
+        shell: bash
+        run: |
+          set +e
+          python -m pip install --upgrade pip 2>&1 | tee results/expanded_seed_20260601/logs/github_actions_pip_upgrade.log
+          upgrade_status=${PIPESTATUS[0]}
+          python -m pip install -r requirements.txt 2>&1 | tee results/expanded_seed_20260601/logs/github_actions_dependency_install.log
+          install_status=${PIPESTATUS[0]}
+          if [[ ${upgrade_status} -ne 0 || ${install_status} -ne 0 ]]; then
+            status=1
+          else
+            status=0
+          fi
+          echo "DEPS_STATUS=${status}" >> "${GITHUB_ENV}"
+          exit 0
+
+      - name: Run two-seed smoke experiment
+        if: env.DEPS_STATUS == '0'
+        shell: bash
+        run: |
+          set +e
+          python -m src.expanded_seed_experiments \
+            --config configs/expanded_seeds.yaml \
+            --mode smoke \
+            2>&1 | tee results/expanded_seed_20260601/logs/github_actions_smoke_command.log
+          status=${PIPESTATUS[0]}
+          echo "SMOKE_STATUS=${status}" >> "${GITHUB_ENV}"
+          exit 0
+
+      - name: Run final ten-seed experiment
+        if: env.DEPS_STATUS == '0' && env.SMOKE_STATUS == '0'
+        shell: bash
+        run: |
+          set +e
+          python -m src.expanded_seed_experiments \
+            --config configs/expanded_seeds.yaml \
+            --mode final \
+            2>&1 | tee results/expanded_seed_20260601/logs/github_actions_final_command.log
+          status=${PIPESTATUS[0]}
+          echo "FINAL_STATUS=${status}" >> "${GITHUB_ENV}"
+          exit 0
+
+      - name: Record GitHub Actions run status
+        if: always()
+        shell: bash
+        run: |
+          generated_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          {
+            echo "# GitHub Actions Expanded-Seed Run Status"
+            echo
+            echo "- Generated at UTC: \`${generated_at}\`"
+            echo "- Branch: \`${GITHUB_REF_NAME}\`"
+            echo "- Workflow run: \`${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\`"
+            echo "- Dependency installation status: \`${DEPS_STATUS}\`"
+            echo "- Smoke-run status: \`${SMOKE_STATUS}\`"
+            echo "- Final ten-seed run status: \`${FINAL_STATUS}\`"
+          } > results/expanded_seed_20260601/reports/github_actions_run_status.md
+
+          if [[ "${DEPS_STATUS}" != "0" || "${SMOKE_STATUS}" != "0" || "${FINAL_STATUS}" != "0" ]]; then
+            {
+              echo "# GitHub Actions Expanded-Seed Failure Report"
+              echo
+              echo "The GitHub-hosted execution path did not complete the final ten-seed experiment."
+              echo "This is an execution report, not a scientific result. No missing numeric table should be fabricated."
+              echo
+              echo "## Status"
+              echo
+              echo "- Dependency installation: \`${DEPS_STATUS}\`"
+              echo "- Smoke experiment: \`${SMOKE_STATUS}\`"
+              echo "- Final experiment: \`${FINAL_STATUS}\`"
+              echo
+              echo "## Logs to inspect"
+              echo
+              echo "- \`results/expanded_seed_20260601/logs/github_actions_dependency_install.log\`"
+              echo "- \`results/expanded_seed_20260601/logs/github_actions_smoke_command.log\` if smoke started"
+              echo "- \`results/expanded_seed_20260601/logs/smoke_run.log\` if smoke entered the runner"
+              echo "- \`results/expanded_seed_20260601/logs/github_actions_final_command.log\` if final started"
+              echo "- \`results/expanded_seed_20260601/logs/final_run.log\` if final entered the runner"
+            } > results/expanded_seed_20260601/reports/github_actions_failure_report.md
+
+            if [[ ! -f results/expanded_seed_20260601/reports/02_sanity_check_report.md ]]; then
+              {
+                echo "# Expanded-Seed Sanity Check Report"
+                echo
+                echo "**NOT RUN — the GitHub Actions expanded experiment did not complete.**"
+                echo
+                echo "No final ten-seed numeric sanity claims are made. Inspect \`github_actions_failure_report.md\` and the saved logs."
+              } > results/expanded_seed_20260601/reports/02_sanity_check_report.md
+            fi
+          fi
+
+      - name: Upload expanded evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: expanded-seed-evidence-${{ github.run_id }}
+          if-no-files-found: error
+          path: |
+            results/expanded_seed_20260601/
+            paper/tables/expanded_seed_20260601/
+
+      - name: Commit generated outputs to selected branch
+        if: always()
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -f results/expanded_seed_20260601 paper/tables/expanded_seed_20260601
+          if git diff --cached --quiet; then
+            echo "No generated-output changes to commit."
+          else
+            git commit -m "Record expanded seed evidence workflow outputs"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - name: Fail workflow if evidence generation did not complete
+        if: always()
+        shell: bash
+        run: |
+          if [[ "${DEPS_STATUS}" != "0" || "${SMOKE_STATUS}" != "0" || "${FINAL_STATUS}" != "0" ]]; then
+            echo "Expanded-seed evidence generation did not complete. Inspect the uploaded artifact and committed logs." >&2
+            exit 1
+          fi
