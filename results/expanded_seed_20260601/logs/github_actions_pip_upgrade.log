@@ -2,7 +2,7 @@ Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.15/x64/li
 Collecting pip
   Downloading pip-26.1.2-py3-none-any.whl.metadata (4.6 kB)
 Downloading pip-26.1.2-py3-none-any.whl (1.8 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 108.3 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 138.0 MB/s  0:00:00
 Installing collected packages: pip
   Attempting uninstall: pip
     Found existing installation: pip 26.1.1
