@@ -1,5 +1,5 @@
 Expanded-seed smoke pipeline
-timestamp_utc=2026-06-01T16:33:55.511730+00:00
+timestamp_utc=2026-06-01T16:51:30.301740+00:00
 config=/home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml
 seeds=[101, 102]
 workspace=/home/runner/work/spicscon26/spicscon26/.expanded_seed_work/smoke
@@ -159,4 +159,4 @@ adaptive_summary: results/logs/adaptive_fusion_summary_seed102.json
 RETURN_CODE: 0
 
 PIPELINE_STATUS: PASS
-elapsed_seconds=25.561
+elapsed_seconds=23.450

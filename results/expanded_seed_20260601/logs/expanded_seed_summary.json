@@ -1,0 +1,115 @@
+{
+  "generated_at_utc": "2026-06-01T16:53:51.191342+00:00",
+  "command": "python -m src.expanded_seed_experiments --config configs/expanded_seeds.yaml --mode final",
+  "config": "configs/expanded_seeds.yaml",
+  "seeds": [
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
+  ],
+  "n_seeds": 10,
+  "scenarios": [
+    "s1_clean",
+    "s2_wifi_degraded",
+    "s3_vlp_blocked",
+    "s4_mixed_dynamic"
+  ],
+  "methods": [
+    "adaptive_fusion",
+    "graph_diffusion_1",
+    "graph_diffusion_3",
+    "laplacian",
+    "static_fusion",
+    "static_fusion_ema",
+    "static_fusion_median",
+    "static_fusion_moving_average",
+    "static_fusion_raw",
+    "static_raw",
+    "vlp_only",
+    "wifi_only"
+  ],
+  "best_method_by_scenario": [
+    {
+      "scenario": "s1_clean",
+      "method_family": "baseline",
+      "method_label": "static_fusion",
+      "mean_error_m_mean": 0.46713249945875795,
+      "p90_error_m_mean": 0.7992246760724198,
+      "failure_rate_mean": 0.003
+    },
+    {
+      "scenario": "s2_wifi_degraded",
+      "method_family": "baseline",
+      "method_label": "vlp_only",
+      "mean_error_m_mean": 0.4705370360889624,
+      "p90_error_m_mean": 0.8274763953544124,
+      "failure_rate_mean": 0.004
+    },
+    {
+      "scenario": "s3_vlp_blocked",
+      "method_family": "adaptive",
+      "method_label": "adaptive_fusion",
+      "mean_error_m_mean": 0.8057881411934629,
+      "p90_error_m_mean": 1.7047508866368932,
+      "failure_rate_mean": 0.08300000000000002
+    },
+    {
+      "scenario": "s4_mixed_dynamic",
+      "method_family": "adaptive",
+      "method_label": "adaptive_fusion",
+      "mean_error_m_mean": 0.6443970627885327,
+      "p90_error_m_mean": 1.2536057357571282,
+      "failure_rate_mean": 0.039999999999999994
+    }
+  ],
+  "difficult_scenario_comparison": {
+    "s3_vlp_blocked": {
+      "static_fusion": {
+        "mean_error_m": 1.0778618606040102,
+        "p90_error_m": 2.9088377165306243,
+        "failure_rate": 0.184,
+        "trajectory_smoothness_m_per_step": 1.3290309379473784
+      },
+      "adaptive_fusion": {
+        "mean_error_m": 0.8057881411934629,
+        "p90_error_m": 1.7047508866368932,
+        "failure_rate": 0.08300000000000002,
+        "trajectory_smoothness_m_per_step": 0.6790433601686631
+      },
+      "mean_error_improvement_percent": 25.241984094147575,
+      "p90_error_improvement_percent": 41.3940875096273,
+      "failure_rate_change": -0.10099999999999998,
+      "smoothness_change_m_per_step": -0.6499875777787153
+    },
+    "s4_mixed_dynamic": {
+      "static_fusion": {
+        "mean_error_m": 0.8105189108275315,
+        "p90_error_m": 1.9569602597313438,
+        "failure_rate": 0.10300000000000001,
+        "trajectory_smoothness_m_per_step": 0.9799996799759771
+      },
+      "adaptive_fusion": {
+        "mean_error_m": 0.6443970627885327,
+        "p90_error_m": 1.2536057357571282,
+        "failure_rate": 0.039999999999999994,
+        "trajectory_smoothness_m_per_step": 0.570834920940434
+      },
+      "mean_error_improvement_percent": 20.495739929052373,
+      "p90_error_improvement_percent": 35.94117563075981,
+      "failure_rate_change": -0.06300000000000001,
+      "smoothness_change_m_per_step": -0.40916475903554317
+    }
+  },
+  "old_5_seed_conclusion_remained_stable": true,
+  "paper_claim_recommendation": "preserved",
+  "final_pipeline_elapsed_seconds": 115.67179952599999,
+  "fresh_data_source": ".expanded_seed_work/final",
+  "legacy_comparison_source": "results/tables/table_final_method_comparison_long.csv"
+}
