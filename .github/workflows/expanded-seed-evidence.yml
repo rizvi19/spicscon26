@@ -17,14 +17,6 @@ jobs:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
 
-      - name: Require research evidence branch
-        shell: bash
-        run: |
-          if [[ "${GITHUB_REF_NAME}" != "codex/research-evidence-upgrades" ]]; then
-            echo "Run this workflow from codex/research-evidence-upgrades, not ${GITHUB_REF_NAME}." >&2
-            exit 1
-          fi
-
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
