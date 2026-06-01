@@ -44,3 +44,6 @@ results/processed/*.npz
 # OS files
 .DS_Store
 Thumbs.db
+
+# Isolated expanded-seed stage workspace
+.expanded_seed_work/

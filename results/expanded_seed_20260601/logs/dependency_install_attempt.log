@@ -1,0 +1,84 @@
+ERROR: Could not find a version that satisfies the requirement numpy (from versions: none)
+ERROR: No matching distribution found for numpy
+pip_install_return_code=1
+
+--- verbose proxy diagnostic ---
+1 location(s) to search for versions of pip:
+* https://pypi.org/simple/pip/
+Fetching project page and analyzing links: https://pypi.org/simple/pip/
+Getting page https://pypi.org/simple/pip/
+Found index url https://pypi.org/simple/
+Looking up "https://pypi.org/simple/pip/" in the cache
+Request header has "max_age" as 0, cache bypassed
+No cache entry available
+Starting new HTTPS connection (1): pypi.org:443
+Could not fetch URL https://pypi.org/simple/pip/: connection error: HTTPSConnectionPool(host='pypi.org', port=443): Max retries exceeded with url: /simple/pip/ (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden'))) - skipping
+Skipping link: not a file: https://pypi.org/simple/pip/
+Given no hashes to check 0 links for project 'pip': discarding no candidates
+No remote pip version found
+Using pip 26.1 from /root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip (python 3.12)
+Non-user install because site-packages writeable
+Created temporary directory: /tmp/pip-build-tracker-g0erw02w
+Initialized build tracking at /tmp/pip-build-tracker-g0erw02w
+Created build tracker: /tmp/pip-build-tracker-g0erw02w
+Entered build tracker: /tmp/pip-build-tracker-g0erw02w
+Created temporary directory: /tmp/pip-install-23b3optw
+Created temporary directory: /tmp/pip-ephem-wheel-cache-7ruz06zx
+1 location(s) to search for versions of numpy:
+* https://pypi.org/simple/numpy/
+Fetching project page and analyzing links: https://pypi.org/simple/numpy/
+Getting page https://pypi.org/simple/numpy/
+Found index url https://pypi.org/simple/
+Looking up "https://pypi.org/simple/numpy/" in the cache
+Request header has "max_age" as 0, cache bypassed
+No cache entry available
+Starting new HTTPS connection (1): pypi.org:443
+Incremented Retry for (url='/simple/numpy/'): Retry(total=0, connect=None, read=None, redirect=None, status=None)
+WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'OSError('Tunnel connection failed: 403 Forbidden')': /simple/numpy/
+Starting new HTTPS connection (2): pypi.org:443
+Could not fetch URL https://pypi.org/simple/numpy/: connection error: HTTPSConnectionPool(host='pypi.org', port=443): Max retries exceeded with url: /simple/numpy/ (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden'))) - skipping
+Skipping link: not a file: https://pypi.org/simple/numpy/
+Given no hashes to check 0 links for project 'numpy': discarding no candidates
+ERROR: Could not find a version that satisfies the requirement numpy (from versions: none)
+ERROR: No matching distribution found for numpy
+Exception information:
+Traceback (most recent call last):
+  File "/root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip/_vendor/resolvelib/resolvers/resolution.py", line 434, in resolve
+    self._add_to_criteria(self.state.criteria, r, parent=None)
+  File "/root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip/_vendor/resolvelib/resolvers/resolution.py", line 151, in _add_to_criteria
+    raise RequirementsConflicted(criterion)
+pip._vendor.resolvelib.resolvers.exceptions.RequirementsConflicted: Requirements conflict: SpecifierRequirement('numpy')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py", line 99, in resolve
+    result = self._result = resolver.resolve(
+                            ^^^^^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip/_vendor/resolvelib/resolvers/resolution.py", line 601, in resolve
+    state = resolution.resolve(requirements, max_rounds=max_rounds)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip/_vendor/resolvelib/resolvers/resolution.py", line 436, in resolve
+    raise ResolutionImpossible(e.criterion.information) from e
+pip._vendor.resolvelib.resolvers.exceptions.ResolutionImpossible: [RequirementInformation(requirement=SpecifierRequirement('numpy'), parent=None)]
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip/_internal/cli/base_command.py", line 109, in _run_wrapper
+    status = _inner_run()
+             ^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip/_internal/cli/base_command.py", line 102, in _inner_run
+    return self.run(options, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip/_internal/cli/req_command.py", line 101, in wrapper
+    return func(self, options, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip/_internal/commands/install.py", line 479, in run
+    requirement_set = resolver.resolve(
+                      ^^^^^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.12.13/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py", line 108, in resolve
+    raise error from e
+pip._internal.exceptions.DistributionNotFound: No matching distribution found for numpy
+Removed build tracker: '/tmp/pip-build-tracker-g0erw02w'
+verbose_pip_return_code=1
