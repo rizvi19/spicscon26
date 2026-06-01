@@ -1,0 +1,778 @@
+Expanded-seed final pipeline
+timestamp_utc=2026-06-01T15:37:37.937589+00:00
+config=/home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml
+seeds=[101, 102, 103, 104, 105, 106, 107, 108, 109, 110]
+workspace=/home/runner/work/spicscon26/spicscon26/.expanded_seed_work/final
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.environment --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 101
+ENVIRONMENT TEST OK
+grid_cells: results/raw/grid_cells.csv
+trajectory: results/raw/trajectory_seed101.csv
+scenario_s1_clean: results/raw/scenario_masks_seed101_s1_clean.csv
+scenario_s2_wifi_degraded: results/raw/scenario_masks_seed101_s2_wifi_degraded.csv
+scenario_s3_vlp_blocked: results/raw/scenario_masks_seed101_s3_vlp_blocked.csv
+scenario_s4_mixed_dynamic: results/raw/scenario_masks_seed101_s4_mixed_dynamic.csv
+figure_layout: results/figures/fig1_layout_trajectory.png
+environment_summary: results/logs/environment_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.signal_models --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 101
+SIGNAL MODEL TEST OK
+signals_s1_clean: results/raw/signals_seed101_s1_clean.csv
+signals_s2_wifi_degraded: results/raw/signals_seed101_s2_wifi_degraded.csv
+signals_s3_vlp_blocked: results/raw/signals_seed101_s3_vlp_blocked.csv
+signals_s4_mixed_dynamic: results/raw/signals_seed101_s4_mixed_dynamic.csv
+signal_model_sanity_figure: results/figures/fig_signal_model_sanity.png
+signal_model_summary: results/logs/signal_model_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.baselines --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 101
+BASELINE TEST OK
+predictions_s1_clean: results/processed/baseline_predictions_seed101_s1_clean.csv
+predictions_s2_wifi_degraded: results/processed/baseline_predictions_seed101_s2_wifi_degraded.csv
+predictions_s3_vlp_blocked: results/processed/baseline_predictions_seed101_s3_vlp_blocked.csv
+predictions_s4_mixed_dynamic: results/processed/baseline_predictions_seed101_s4_mixed_dynamic.csv
+baseline_metrics_table: results/tables/table_baseline_metrics_seed101.csv
+baseline_runtime_table: results/tables/table_baseline_runtime_seed101.csv
+baseline_summary: results/logs/baseline_summary_seed101.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_filters --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 101
+DSP FILTER TEST OK
+filtered_s1_clean_moving_average: results/processed/filtered_signals_seed101_s1_clean_moving_average.csv
+filtered_s1_clean_median: results/processed/filtered_signals_seed101_s1_clean_median.csv
+filtered_s1_clean_ema: results/processed/filtered_signals_seed101_s1_clean_ema.csv
+filtered_s2_wifi_degraded_moving_average: results/processed/filtered_signals_seed101_s2_wifi_degraded_moving_average.csv
+filtered_s2_wifi_degraded_median: results/processed/filtered_signals_seed101_s2_wifi_degraded_median.csv
+filtered_s2_wifi_degraded_ema: results/processed/filtered_signals_seed101_s2_wifi_degraded_ema.csv
+filtered_s3_vlp_blocked_moving_average: results/processed/filtered_signals_seed101_s3_vlp_blocked_moving_average.csv
+filtered_s3_vlp_blocked_median: results/processed/filtered_signals_seed101_s3_vlp_blocked_median.csv
+filtered_s3_vlp_blocked_ema: results/processed/filtered_signals_seed101_s3_vlp_blocked_ema.csv
+filtered_s4_mixed_dynamic_moving_average: results/processed/filtered_signals_seed101_s4_mixed_dynamic_moving_average.csv
+filtered_s4_mixed_dynamic_median: results/processed/filtered_signals_seed101_s4_mixed_dynamic_median.csv
+filtered_s4_mixed_dynamic_ema: results/processed/filtered_signals_seed101_s4_mixed_dynamic_ema.csv
+filter_signal_variance_table: results/tables/table_filter_signal_variance_seed101.csv
+filter_sanity_figure: results/figures/fig3_noisy_vs_filtered_signals.png
+dsp_filter_summary: results/logs/dsp_filter_summary_seed101.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 101
+DSP LOCALIZATION TEST OK
+dsp_localization_predictions: results/processed/dsp_localization_predictions_seed101.csv
+dsp_localization_metrics_table: results/tables/table_dsp_localization_metrics_seed101.csv
+dsp_localization_summary: results/logs/dsp_localization_summary_seed101.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.gsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 101 --estimate-method expected
+GSP EVALUATION TEST OK
+gsp_predictions: results/processed/gsp_predictions_seed101.csv
+gsp_metrics_table: results/tables/table_gsp_metrics_seed101.csv
+gsp_runtime_table: results/tables/table_gsp_runtime_seed101.csv
+gsp_evaluation_summary: results/logs/gsp_evaluation_summary_seed101.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.adaptive_fusion --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 101 --estimate-method argmax
+ADAPTIVE FUSION TEST OK
+adaptive_predictions: results/processed/adaptive_fusion_predictions_seed101.csv
+adaptive_metrics_table: results/tables/table_adaptive_fusion_metrics_seed101.csv
+adaptive_action_counts_table: results/tables/table_adaptive_action_counts_seed101.csv
+adaptive_runtime_table: results/tables/table_adaptive_runtime_seed101.csv
+adaptive_action_figure: results/figures/fig6_adaptive_actions_seed101.png
+adaptive_summary: results/logs/adaptive_fusion_summary_seed101.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.environment --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 102
+ENVIRONMENT TEST OK
+grid_cells: results/raw/grid_cells.csv
+trajectory: results/raw/trajectory_seed102.csv
+scenario_s1_clean: results/raw/scenario_masks_seed102_s1_clean.csv
+scenario_s2_wifi_degraded: results/raw/scenario_masks_seed102_s2_wifi_degraded.csv
+scenario_s3_vlp_blocked: results/raw/scenario_masks_seed102_s3_vlp_blocked.csv
+scenario_s4_mixed_dynamic: results/raw/scenario_masks_seed102_s4_mixed_dynamic.csv
+figure_layout: results/figures/fig1_layout_trajectory.png
+environment_summary: results/logs/environment_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.signal_models --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 102
+SIGNAL MODEL TEST OK
+signals_s1_clean: results/raw/signals_seed102_s1_clean.csv
+signals_s2_wifi_degraded: results/raw/signals_seed102_s2_wifi_degraded.csv
+signals_s3_vlp_blocked: results/raw/signals_seed102_s3_vlp_blocked.csv
+signals_s4_mixed_dynamic: results/raw/signals_seed102_s4_mixed_dynamic.csv
+signal_model_sanity_figure: results/figures/fig_signal_model_sanity.png
+signal_model_summary: results/logs/signal_model_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.baselines --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 102
+BASELINE TEST OK
+predictions_s1_clean: results/processed/baseline_predictions_seed102_s1_clean.csv
+predictions_s2_wifi_degraded: results/processed/baseline_predictions_seed102_s2_wifi_degraded.csv
+predictions_s3_vlp_blocked: results/processed/baseline_predictions_seed102_s3_vlp_blocked.csv
+predictions_s4_mixed_dynamic: results/processed/baseline_predictions_seed102_s4_mixed_dynamic.csv
+baseline_metrics_table: results/tables/table_baseline_metrics_seed102.csv
+baseline_runtime_table: results/tables/table_baseline_runtime_seed102.csv
+baseline_summary: results/logs/baseline_summary_seed102.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_filters --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 102
+DSP FILTER TEST OK
+filtered_s1_clean_moving_average: results/processed/filtered_signals_seed102_s1_clean_moving_average.csv
+filtered_s1_clean_median: results/processed/filtered_signals_seed102_s1_clean_median.csv
+filtered_s1_clean_ema: results/processed/filtered_signals_seed102_s1_clean_ema.csv
+filtered_s2_wifi_degraded_moving_average: results/processed/filtered_signals_seed102_s2_wifi_degraded_moving_average.csv
+filtered_s2_wifi_degraded_median: results/processed/filtered_signals_seed102_s2_wifi_degraded_median.csv
+filtered_s2_wifi_degraded_ema: results/processed/filtered_signals_seed102_s2_wifi_degraded_ema.csv
+filtered_s3_vlp_blocked_moving_average: results/processed/filtered_signals_seed102_s3_vlp_blocked_moving_average.csv
+filtered_s3_vlp_blocked_median: results/processed/filtered_signals_seed102_s3_vlp_blocked_median.csv
+filtered_s3_vlp_blocked_ema: results/processed/filtered_signals_seed102_s3_vlp_blocked_ema.csv
+filtered_s4_mixed_dynamic_moving_average: results/processed/filtered_signals_seed102_s4_mixed_dynamic_moving_average.csv
+filtered_s4_mixed_dynamic_median: results/processed/filtered_signals_seed102_s4_mixed_dynamic_median.csv
+filtered_s4_mixed_dynamic_ema: results/processed/filtered_signals_seed102_s4_mixed_dynamic_ema.csv
+filter_signal_variance_table: results/tables/table_filter_signal_variance_seed102.csv
+filter_sanity_figure: results/figures/fig3_noisy_vs_filtered_signals.png
+dsp_filter_summary: results/logs/dsp_filter_summary_seed102.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 102
+DSP LOCALIZATION TEST OK
+dsp_localization_predictions: results/processed/dsp_localization_predictions_seed102.csv
+dsp_localization_metrics_table: results/tables/table_dsp_localization_metrics_seed102.csv
+dsp_localization_summary: results/logs/dsp_localization_summary_seed102.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.gsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 102 --estimate-method expected
+GSP EVALUATION TEST OK
+gsp_predictions: results/processed/gsp_predictions_seed102.csv
+gsp_metrics_table: results/tables/table_gsp_metrics_seed102.csv
+gsp_runtime_table: results/tables/table_gsp_runtime_seed102.csv
+gsp_evaluation_summary: results/logs/gsp_evaluation_summary_seed102.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.adaptive_fusion --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 102 --estimate-method argmax
+ADAPTIVE FUSION TEST OK
+adaptive_predictions: results/processed/adaptive_fusion_predictions_seed102.csv
+adaptive_metrics_table: results/tables/table_adaptive_fusion_metrics_seed102.csv
+adaptive_action_counts_table: results/tables/table_adaptive_action_counts_seed102.csv
+adaptive_runtime_table: results/tables/table_adaptive_runtime_seed102.csv
+adaptive_action_figure: results/figures/fig6_adaptive_actions_seed102.png
+adaptive_summary: results/logs/adaptive_fusion_summary_seed102.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.environment --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 103
+ENVIRONMENT TEST OK
+grid_cells: results/raw/grid_cells.csv
+trajectory: results/raw/trajectory_seed103.csv
+scenario_s1_clean: results/raw/scenario_masks_seed103_s1_clean.csv
+scenario_s2_wifi_degraded: results/raw/scenario_masks_seed103_s2_wifi_degraded.csv
+scenario_s3_vlp_blocked: results/raw/scenario_masks_seed103_s3_vlp_blocked.csv
+scenario_s4_mixed_dynamic: results/raw/scenario_masks_seed103_s4_mixed_dynamic.csv
+figure_layout: results/figures/fig1_layout_trajectory.png
+environment_summary: results/logs/environment_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.signal_models --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 103
+SIGNAL MODEL TEST OK
+signals_s1_clean: results/raw/signals_seed103_s1_clean.csv
+signals_s2_wifi_degraded: results/raw/signals_seed103_s2_wifi_degraded.csv
+signals_s3_vlp_blocked: results/raw/signals_seed103_s3_vlp_blocked.csv
+signals_s4_mixed_dynamic: results/raw/signals_seed103_s4_mixed_dynamic.csv
+signal_model_sanity_figure: results/figures/fig_signal_model_sanity.png
+signal_model_summary: results/logs/signal_model_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.baselines --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 103
+BASELINE TEST OK
+predictions_s1_clean: results/processed/baseline_predictions_seed103_s1_clean.csv
+predictions_s2_wifi_degraded: results/processed/baseline_predictions_seed103_s2_wifi_degraded.csv
+predictions_s3_vlp_blocked: results/processed/baseline_predictions_seed103_s3_vlp_blocked.csv
+predictions_s4_mixed_dynamic: results/processed/baseline_predictions_seed103_s4_mixed_dynamic.csv
+baseline_metrics_table: results/tables/table_baseline_metrics_seed103.csv
+baseline_runtime_table: results/tables/table_baseline_runtime_seed103.csv
+baseline_summary: results/logs/baseline_summary_seed103.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_filters --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 103
+DSP FILTER TEST OK
+filtered_s1_clean_moving_average: results/processed/filtered_signals_seed103_s1_clean_moving_average.csv
+filtered_s1_clean_median: results/processed/filtered_signals_seed103_s1_clean_median.csv
+filtered_s1_clean_ema: results/processed/filtered_signals_seed103_s1_clean_ema.csv
+filtered_s2_wifi_degraded_moving_average: results/processed/filtered_signals_seed103_s2_wifi_degraded_moving_average.csv
+filtered_s2_wifi_degraded_median: results/processed/filtered_signals_seed103_s2_wifi_degraded_median.csv
+filtered_s2_wifi_degraded_ema: results/processed/filtered_signals_seed103_s2_wifi_degraded_ema.csv
+filtered_s3_vlp_blocked_moving_average: results/processed/filtered_signals_seed103_s3_vlp_blocked_moving_average.csv
+filtered_s3_vlp_blocked_median: results/processed/filtered_signals_seed103_s3_vlp_blocked_median.csv
+filtered_s3_vlp_blocked_ema: results/processed/filtered_signals_seed103_s3_vlp_blocked_ema.csv
+filtered_s4_mixed_dynamic_moving_average: results/processed/filtered_signals_seed103_s4_mixed_dynamic_moving_average.csv
+filtered_s4_mixed_dynamic_median: results/processed/filtered_signals_seed103_s4_mixed_dynamic_median.csv
+filtered_s4_mixed_dynamic_ema: results/processed/filtered_signals_seed103_s4_mixed_dynamic_ema.csv
+filter_signal_variance_table: results/tables/table_filter_signal_variance_seed103.csv
+filter_sanity_figure: results/figures/fig3_noisy_vs_filtered_signals.png
+dsp_filter_summary: results/logs/dsp_filter_summary_seed103.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 103
+DSP LOCALIZATION TEST OK
+dsp_localization_predictions: results/processed/dsp_localization_predictions_seed103.csv
+dsp_localization_metrics_table: results/tables/table_dsp_localization_metrics_seed103.csv
+dsp_localization_summary: results/logs/dsp_localization_summary_seed103.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.gsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 103 --estimate-method expected
+GSP EVALUATION TEST OK
+gsp_predictions: results/processed/gsp_predictions_seed103.csv
+gsp_metrics_table: results/tables/table_gsp_metrics_seed103.csv
+gsp_runtime_table: results/tables/table_gsp_runtime_seed103.csv
+gsp_evaluation_summary: results/logs/gsp_evaluation_summary_seed103.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.adaptive_fusion --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 103 --estimate-method argmax
+ADAPTIVE FUSION TEST OK
+adaptive_predictions: results/processed/adaptive_fusion_predictions_seed103.csv
+adaptive_metrics_table: results/tables/table_adaptive_fusion_metrics_seed103.csv
+adaptive_action_counts_table: results/tables/table_adaptive_action_counts_seed103.csv
+adaptive_runtime_table: results/tables/table_adaptive_runtime_seed103.csv
+adaptive_action_figure: results/figures/fig6_adaptive_actions_seed103.png
+adaptive_summary: results/logs/adaptive_fusion_summary_seed103.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.environment --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 104
+ENVIRONMENT TEST OK
+grid_cells: results/raw/grid_cells.csv
+trajectory: results/raw/trajectory_seed104.csv
+scenario_s1_clean: results/raw/scenario_masks_seed104_s1_clean.csv
+scenario_s2_wifi_degraded: results/raw/scenario_masks_seed104_s2_wifi_degraded.csv
+scenario_s3_vlp_blocked: results/raw/scenario_masks_seed104_s3_vlp_blocked.csv
+scenario_s4_mixed_dynamic: results/raw/scenario_masks_seed104_s4_mixed_dynamic.csv
+figure_layout: results/figures/fig1_layout_trajectory.png
+environment_summary: results/logs/environment_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.signal_models --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 104
+SIGNAL MODEL TEST OK
+signals_s1_clean: results/raw/signals_seed104_s1_clean.csv
+signals_s2_wifi_degraded: results/raw/signals_seed104_s2_wifi_degraded.csv
+signals_s3_vlp_blocked: results/raw/signals_seed104_s3_vlp_blocked.csv
+signals_s4_mixed_dynamic: results/raw/signals_seed104_s4_mixed_dynamic.csv
+signal_model_sanity_figure: results/figures/fig_signal_model_sanity.png
+signal_model_summary: results/logs/signal_model_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.baselines --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 104
+BASELINE TEST OK
+predictions_s1_clean: results/processed/baseline_predictions_seed104_s1_clean.csv
+predictions_s2_wifi_degraded: results/processed/baseline_predictions_seed104_s2_wifi_degraded.csv
+predictions_s3_vlp_blocked: results/processed/baseline_predictions_seed104_s3_vlp_blocked.csv
+predictions_s4_mixed_dynamic: results/processed/baseline_predictions_seed104_s4_mixed_dynamic.csv
+baseline_metrics_table: results/tables/table_baseline_metrics_seed104.csv
+baseline_runtime_table: results/tables/table_baseline_runtime_seed104.csv
+baseline_summary: results/logs/baseline_summary_seed104.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_filters --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 104
+DSP FILTER TEST OK
+filtered_s1_clean_moving_average: results/processed/filtered_signals_seed104_s1_clean_moving_average.csv
+filtered_s1_clean_median: results/processed/filtered_signals_seed104_s1_clean_median.csv
+filtered_s1_clean_ema: results/processed/filtered_signals_seed104_s1_clean_ema.csv
+filtered_s2_wifi_degraded_moving_average: results/processed/filtered_signals_seed104_s2_wifi_degraded_moving_average.csv
+filtered_s2_wifi_degraded_median: results/processed/filtered_signals_seed104_s2_wifi_degraded_median.csv
+filtered_s2_wifi_degraded_ema: results/processed/filtered_signals_seed104_s2_wifi_degraded_ema.csv
+filtered_s3_vlp_blocked_moving_average: results/processed/filtered_signals_seed104_s3_vlp_blocked_moving_average.csv
+filtered_s3_vlp_blocked_median: results/processed/filtered_signals_seed104_s3_vlp_blocked_median.csv
+filtered_s3_vlp_blocked_ema: results/processed/filtered_signals_seed104_s3_vlp_blocked_ema.csv
+filtered_s4_mixed_dynamic_moving_average: results/processed/filtered_signals_seed104_s4_mixed_dynamic_moving_average.csv
+filtered_s4_mixed_dynamic_median: results/processed/filtered_signals_seed104_s4_mixed_dynamic_median.csv
+filtered_s4_mixed_dynamic_ema: results/processed/filtered_signals_seed104_s4_mixed_dynamic_ema.csv
+filter_signal_variance_table: results/tables/table_filter_signal_variance_seed104.csv
+filter_sanity_figure: results/figures/fig3_noisy_vs_filtered_signals.png
+dsp_filter_summary: results/logs/dsp_filter_summary_seed104.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 104
+DSP LOCALIZATION TEST OK
+dsp_localization_predictions: results/processed/dsp_localization_predictions_seed104.csv
+dsp_localization_metrics_table: results/tables/table_dsp_localization_metrics_seed104.csv
+dsp_localization_summary: results/logs/dsp_localization_summary_seed104.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.gsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 104 --estimate-method expected
+GSP EVALUATION TEST OK
+gsp_predictions: results/processed/gsp_predictions_seed104.csv
+gsp_metrics_table: results/tables/table_gsp_metrics_seed104.csv
+gsp_runtime_table: results/tables/table_gsp_runtime_seed104.csv
+gsp_evaluation_summary: results/logs/gsp_evaluation_summary_seed104.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.adaptive_fusion --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 104 --estimate-method argmax
+ADAPTIVE FUSION TEST OK
+adaptive_predictions: results/processed/adaptive_fusion_predictions_seed104.csv
+adaptive_metrics_table: results/tables/table_adaptive_fusion_metrics_seed104.csv
+adaptive_action_counts_table: results/tables/table_adaptive_action_counts_seed104.csv
+adaptive_runtime_table: results/tables/table_adaptive_runtime_seed104.csv
+adaptive_action_figure: results/figures/fig6_adaptive_actions_seed104.png
+adaptive_summary: results/logs/adaptive_fusion_summary_seed104.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.environment --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 105
+ENVIRONMENT TEST OK
+grid_cells: results/raw/grid_cells.csv
+trajectory: results/raw/trajectory_seed105.csv
+scenario_s1_clean: results/raw/scenario_masks_seed105_s1_clean.csv
+scenario_s2_wifi_degraded: results/raw/scenario_masks_seed105_s2_wifi_degraded.csv
+scenario_s3_vlp_blocked: results/raw/scenario_masks_seed105_s3_vlp_blocked.csv
+scenario_s4_mixed_dynamic: results/raw/scenario_masks_seed105_s4_mixed_dynamic.csv
+figure_layout: results/figures/fig1_layout_trajectory.png
+environment_summary: results/logs/environment_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.signal_models --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 105
+SIGNAL MODEL TEST OK
+signals_s1_clean: results/raw/signals_seed105_s1_clean.csv
+signals_s2_wifi_degraded: results/raw/signals_seed105_s2_wifi_degraded.csv
+signals_s3_vlp_blocked: results/raw/signals_seed105_s3_vlp_blocked.csv
+signals_s4_mixed_dynamic: results/raw/signals_seed105_s4_mixed_dynamic.csv
+signal_model_sanity_figure: results/figures/fig_signal_model_sanity.png
+signal_model_summary: results/logs/signal_model_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.baselines --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 105
+BASELINE TEST OK
+predictions_s1_clean: results/processed/baseline_predictions_seed105_s1_clean.csv
+predictions_s2_wifi_degraded: results/processed/baseline_predictions_seed105_s2_wifi_degraded.csv
+predictions_s3_vlp_blocked: results/processed/baseline_predictions_seed105_s3_vlp_blocked.csv
+predictions_s4_mixed_dynamic: results/processed/baseline_predictions_seed105_s4_mixed_dynamic.csv
+baseline_metrics_table: results/tables/table_baseline_metrics_seed105.csv
+baseline_runtime_table: results/tables/table_baseline_runtime_seed105.csv
+baseline_summary: results/logs/baseline_summary_seed105.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_filters --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 105
+DSP FILTER TEST OK
+filtered_s1_clean_moving_average: results/processed/filtered_signals_seed105_s1_clean_moving_average.csv
+filtered_s1_clean_median: results/processed/filtered_signals_seed105_s1_clean_median.csv
+filtered_s1_clean_ema: results/processed/filtered_signals_seed105_s1_clean_ema.csv
+filtered_s2_wifi_degraded_moving_average: results/processed/filtered_signals_seed105_s2_wifi_degraded_moving_average.csv
+filtered_s2_wifi_degraded_median: results/processed/filtered_signals_seed105_s2_wifi_degraded_median.csv
+filtered_s2_wifi_degraded_ema: results/processed/filtered_signals_seed105_s2_wifi_degraded_ema.csv
+filtered_s3_vlp_blocked_moving_average: results/processed/filtered_signals_seed105_s3_vlp_blocked_moving_average.csv
+filtered_s3_vlp_blocked_median: results/processed/filtered_signals_seed105_s3_vlp_blocked_median.csv
+filtered_s3_vlp_blocked_ema: results/processed/filtered_signals_seed105_s3_vlp_blocked_ema.csv
+filtered_s4_mixed_dynamic_moving_average: results/processed/filtered_signals_seed105_s4_mixed_dynamic_moving_average.csv
+filtered_s4_mixed_dynamic_median: results/processed/filtered_signals_seed105_s4_mixed_dynamic_median.csv
+filtered_s4_mixed_dynamic_ema: results/processed/filtered_signals_seed105_s4_mixed_dynamic_ema.csv
+filter_signal_variance_table: results/tables/table_filter_signal_variance_seed105.csv
+filter_sanity_figure: results/figures/fig3_noisy_vs_filtered_signals.png
+dsp_filter_summary: results/logs/dsp_filter_summary_seed105.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 105
+DSP LOCALIZATION TEST OK
+dsp_localization_predictions: results/processed/dsp_localization_predictions_seed105.csv
+dsp_localization_metrics_table: results/tables/table_dsp_localization_metrics_seed105.csv
+dsp_localization_summary: results/logs/dsp_localization_summary_seed105.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.gsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 105 --estimate-method expected
+GSP EVALUATION TEST OK
+gsp_predictions: results/processed/gsp_predictions_seed105.csv
+gsp_metrics_table: results/tables/table_gsp_metrics_seed105.csv
+gsp_runtime_table: results/tables/table_gsp_runtime_seed105.csv
+gsp_evaluation_summary: results/logs/gsp_evaluation_summary_seed105.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.adaptive_fusion --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 105 --estimate-method argmax
+ADAPTIVE FUSION TEST OK
+adaptive_predictions: results/processed/adaptive_fusion_predictions_seed105.csv
+adaptive_metrics_table: results/tables/table_adaptive_fusion_metrics_seed105.csv
+adaptive_action_counts_table: results/tables/table_adaptive_action_counts_seed105.csv
+adaptive_runtime_table: results/tables/table_adaptive_runtime_seed105.csv
+adaptive_action_figure: results/figures/fig6_adaptive_actions_seed105.png
+adaptive_summary: results/logs/adaptive_fusion_summary_seed105.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.environment --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 106
+ENVIRONMENT TEST OK
+grid_cells: results/raw/grid_cells.csv
+trajectory: results/raw/trajectory_seed106.csv
+scenario_s1_clean: results/raw/scenario_masks_seed106_s1_clean.csv
+scenario_s2_wifi_degraded: results/raw/scenario_masks_seed106_s2_wifi_degraded.csv
+scenario_s3_vlp_blocked: results/raw/scenario_masks_seed106_s3_vlp_blocked.csv
+scenario_s4_mixed_dynamic: results/raw/scenario_masks_seed106_s4_mixed_dynamic.csv
+figure_layout: results/figures/fig1_layout_trajectory.png
+environment_summary: results/logs/environment_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.signal_models --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 106
+SIGNAL MODEL TEST OK
+signals_s1_clean: results/raw/signals_seed106_s1_clean.csv
+signals_s2_wifi_degraded: results/raw/signals_seed106_s2_wifi_degraded.csv
+signals_s3_vlp_blocked: results/raw/signals_seed106_s3_vlp_blocked.csv
+signals_s4_mixed_dynamic: results/raw/signals_seed106_s4_mixed_dynamic.csv
+signal_model_sanity_figure: results/figures/fig_signal_model_sanity.png
+signal_model_summary: results/logs/signal_model_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.baselines --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 106
+BASELINE TEST OK
+predictions_s1_clean: results/processed/baseline_predictions_seed106_s1_clean.csv
+predictions_s2_wifi_degraded: results/processed/baseline_predictions_seed106_s2_wifi_degraded.csv
+predictions_s3_vlp_blocked: results/processed/baseline_predictions_seed106_s3_vlp_blocked.csv
+predictions_s4_mixed_dynamic: results/processed/baseline_predictions_seed106_s4_mixed_dynamic.csv
+baseline_metrics_table: results/tables/table_baseline_metrics_seed106.csv
+baseline_runtime_table: results/tables/table_baseline_runtime_seed106.csv
+baseline_summary: results/logs/baseline_summary_seed106.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_filters --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 106
+DSP FILTER TEST OK
+filtered_s1_clean_moving_average: results/processed/filtered_signals_seed106_s1_clean_moving_average.csv
+filtered_s1_clean_median: results/processed/filtered_signals_seed106_s1_clean_median.csv
+filtered_s1_clean_ema: results/processed/filtered_signals_seed106_s1_clean_ema.csv
+filtered_s2_wifi_degraded_moving_average: results/processed/filtered_signals_seed106_s2_wifi_degraded_moving_average.csv
+filtered_s2_wifi_degraded_median: results/processed/filtered_signals_seed106_s2_wifi_degraded_median.csv
+filtered_s2_wifi_degraded_ema: results/processed/filtered_signals_seed106_s2_wifi_degraded_ema.csv
+filtered_s3_vlp_blocked_moving_average: results/processed/filtered_signals_seed106_s3_vlp_blocked_moving_average.csv
+filtered_s3_vlp_blocked_median: results/processed/filtered_signals_seed106_s3_vlp_blocked_median.csv
+filtered_s3_vlp_blocked_ema: results/processed/filtered_signals_seed106_s3_vlp_blocked_ema.csv
+filtered_s4_mixed_dynamic_moving_average: results/processed/filtered_signals_seed106_s4_mixed_dynamic_moving_average.csv
+filtered_s4_mixed_dynamic_median: results/processed/filtered_signals_seed106_s4_mixed_dynamic_median.csv
+filtered_s4_mixed_dynamic_ema: results/processed/filtered_signals_seed106_s4_mixed_dynamic_ema.csv
+filter_signal_variance_table: results/tables/table_filter_signal_variance_seed106.csv
+filter_sanity_figure: results/figures/fig3_noisy_vs_filtered_signals.png
+dsp_filter_summary: results/logs/dsp_filter_summary_seed106.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 106
+DSP LOCALIZATION TEST OK
+dsp_localization_predictions: results/processed/dsp_localization_predictions_seed106.csv
+dsp_localization_metrics_table: results/tables/table_dsp_localization_metrics_seed106.csv
+dsp_localization_summary: results/logs/dsp_localization_summary_seed106.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.gsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 106 --estimate-method expected
+GSP EVALUATION TEST OK
+gsp_predictions: results/processed/gsp_predictions_seed106.csv
+gsp_metrics_table: results/tables/table_gsp_metrics_seed106.csv
+gsp_runtime_table: results/tables/table_gsp_runtime_seed106.csv
+gsp_evaluation_summary: results/logs/gsp_evaluation_summary_seed106.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.adaptive_fusion --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 106 --estimate-method argmax
+ADAPTIVE FUSION TEST OK
+adaptive_predictions: results/processed/adaptive_fusion_predictions_seed106.csv
+adaptive_metrics_table: results/tables/table_adaptive_fusion_metrics_seed106.csv
+adaptive_action_counts_table: results/tables/table_adaptive_action_counts_seed106.csv
+adaptive_runtime_table: results/tables/table_adaptive_runtime_seed106.csv
+adaptive_action_figure: results/figures/fig6_adaptive_actions_seed106.png
+adaptive_summary: results/logs/adaptive_fusion_summary_seed106.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.environment --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 107
+ENVIRONMENT TEST OK
+grid_cells: results/raw/grid_cells.csv
+trajectory: results/raw/trajectory_seed107.csv
+scenario_s1_clean: results/raw/scenario_masks_seed107_s1_clean.csv
+scenario_s2_wifi_degraded: results/raw/scenario_masks_seed107_s2_wifi_degraded.csv
+scenario_s3_vlp_blocked: results/raw/scenario_masks_seed107_s3_vlp_blocked.csv
+scenario_s4_mixed_dynamic: results/raw/scenario_masks_seed107_s4_mixed_dynamic.csv
+figure_layout: results/figures/fig1_layout_trajectory.png
+environment_summary: results/logs/environment_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.signal_models --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 107
+SIGNAL MODEL TEST OK
+signals_s1_clean: results/raw/signals_seed107_s1_clean.csv
+signals_s2_wifi_degraded: results/raw/signals_seed107_s2_wifi_degraded.csv
+signals_s3_vlp_blocked: results/raw/signals_seed107_s3_vlp_blocked.csv
+signals_s4_mixed_dynamic: results/raw/signals_seed107_s4_mixed_dynamic.csv
+signal_model_sanity_figure: results/figures/fig_signal_model_sanity.png
+signal_model_summary: results/logs/signal_model_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.baselines --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 107
+BASELINE TEST OK
+predictions_s1_clean: results/processed/baseline_predictions_seed107_s1_clean.csv
+predictions_s2_wifi_degraded: results/processed/baseline_predictions_seed107_s2_wifi_degraded.csv
+predictions_s3_vlp_blocked: results/processed/baseline_predictions_seed107_s3_vlp_blocked.csv
+predictions_s4_mixed_dynamic: results/processed/baseline_predictions_seed107_s4_mixed_dynamic.csv
+baseline_metrics_table: results/tables/table_baseline_metrics_seed107.csv
+baseline_runtime_table: results/tables/table_baseline_runtime_seed107.csv
+baseline_summary: results/logs/baseline_summary_seed107.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_filters --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 107
+DSP FILTER TEST OK
+filtered_s1_clean_moving_average: results/processed/filtered_signals_seed107_s1_clean_moving_average.csv
+filtered_s1_clean_median: results/processed/filtered_signals_seed107_s1_clean_median.csv
+filtered_s1_clean_ema: results/processed/filtered_signals_seed107_s1_clean_ema.csv
+filtered_s2_wifi_degraded_moving_average: results/processed/filtered_signals_seed107_s2_wifi_degraded_moving_average.csv
+filtered_s2_wifi_degraded_median: results/processed/filtered_signals_seed107_s2_wifi_degraded_median.csv
+filtered_s2_wifi_degraded_ema: results/processed/filtered_signals_seed107_s2_wifi_degraded_ema.csv
+filtered_s3_vlp_blocked_moving_average: results/processed/filtered_signals_seed107_s3_vlp_blocked_moving_average.csv
+filtered_s3_vlp_blocked_median: results/processed/filtered_signals_seed107_s3_vlp_blocked_median.csv
+filtered_s3_vlp_blocked_ema: results/processed/filtered_signals_seed107_s3_vlp_blocked_ema.csv
+filtered_s4_mixed_dynamic_moving_average: results/processed/filtered_signals_seed107_s4_mixed_dynamic_moving_average.csv
+filtered_s4_mixed_dynamic_median: results/processed/filtered_signals_seed107_s4_mixed_dynamic_median.csv
+filtered_s4_mixed_dynamic_ema: results/processed/filtered_signals_seed107_s4_mixed_dynamic_ema.csv
+filter_signal_variance_table: results/tables/table_filter_signal_variance_seed107.csv
+filter_sanity_figure: results/figures/fig3_noisy_vs_filtered_signals.png
+dsp_filter_summary: results/logs/dsp_filter_summary_seed107.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 107
+DSP LOCALIZATION TEST OK
+dsp_localization_predictions: results/processed/dsp_localization_predictions_seed107.csv
+dsp_localization_metrics_table: results/tables/table_dsp_localization_metrics_seed107.csv
+dsp_localization_summary: results/logs/dsp_localization_summary_seed107.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.gsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 107 --estimate-method expected
+GSP EVALUATION TEST OK
+gsp_predictions: results/processed/gsp_predictions_seed107.csv
+gsp_metrics_table: results/tables/table_gsp_metrics_seed107.csv
+gsp_runtime_table: results/tables/table_gsp_runtime_seed107.csv
+gsp_evaluation_summary: results/logs/gsp_evaluation_summary_seed107.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.adaptive_fusion --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 107 --estimate-method argmax
+ADAPTIVE FUSION TEST OK
+adaptive_predictions: results/processed/adaptive_fusion_predictions_seed107.csv
+adaptive_metrics_table: results/tables/table_adaptive_fusion_metrics_seed107.csv
+adaptive_action_counts_table: results/tables/table_adaptive_action_counts_seed107.csv
+adaptive_runtime_table: results/tables/table_adaptive_runtime_seed107.csv
+adaptive_action_figure: results/figures/fig6_adaptive_actions_seed107.png
+adaptive_summary: results/logs/adaptive_fusion_summary_seed107.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.environment --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 108
+ENVIRONMENT TEST OK
+grid_cells: results/raw/grid_cells.csv
+trajectory: results/raw/trajectory_seed108.csv
+scenario_s1_clean: results/raw/scenario_masks_seed108_s1_clean.csv
+scenario_s2_wifi_degraded: results/raw/scenario_masks_seed108_s2_wifi_degraded.csv
+scenario_s3_vlp_blocked: results/raw/scenario_masks_seed108_s3_vlp_blocked.csv
+scenario_s4_mixed_dynamic: results/raw/scenario_masks_seed108_s4_mixed_dynamic.csv
+figure_layout: results/figures/fig1_layout_trajectory.png
+environment_summary: results/logs/environment_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.signal_models --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 108
+SIGNAL MODEL TEST OK
+signals_s1_clean: results/raw/signals_seed108_s1_clean.csv
+signals_s2_wifi_degraded: results/raw/signals_seed108_s2_wifi_degraded.csv
+signals_s3_vlp_blocked: results/raw/signals_seed108_s3_vlp_blocked.csv
+signals_s4_mixed_dynamic: results/raw/signals_seed108_s4_mixed_dynamic.csv
+signal_model_sanity_figure: results/figures/fig_signal_model_sanity.png
+signal_model_summary: results/logs/signal_model_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.baselines --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 108
+BASELINE TEST OK
+predictions_s1_clean: results/processed/baseline_predictions_seed108_s1_clean.csv
+predictions_s2_wifi_degraded: results/processed/baseline_predictions_seed108_s2_wifi_degraded.csv
+predictions_s3_vlp_blocked: results/processed/baseline_predictions_seed108_s3_vlp_blocked.csv
+predictions_s4_mixed_dynamic: results/processed/baseline_predictions_seed108_s4_mixed_dynamic.csv
+baseline_metrics_table: results/tables/table_baseline_metrics_seed108.csv
+baseline_runtime_table: results/tables/table_baseline_runtime_seed108.csv
+baseline_summary: results/logs/baseline_summary_seed108.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_filters --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 108
+DSP FILTER TEST OK
+filtered_s1_clean_moving_average: results/processed/filtered_signals_seed108_s1_clean_moving_average.csv
+filtered_s1_clean_median: results/processed/filtered_signals_seed108_s1_clean_median.csv
+filtered_s1_clean_ema: results/processed/filtered_signals_seed108_s1_clean_ema.csv
+filtered_s2_wifi_degraded_moving_average: results/processed/filtered_signals_seed108_s2_wifi_degraded_moving_average.csv
+filtered_s2_wifi_degraded_median: results/processed/filtered_signals_seed108_s2_wifi_degraded_median.csv
+filtered_s2_wifi_degraded_ema: results/processed/filtered_signals_seed108_s2_wifi_degraded_ema.csv
+filtered_s3_vlp_blocked_moving_average: results/processed/filtered_signals_seed108_s3_vlp_blocked_moving_average.csv
+filtered_s3_vlp_blocked_median: results/processed/filtered_signals_seed108_s3_vlp_blocked_median.csv
+filtered_s3_vlp_blocked_ema: results/processed/filtered_signals_seed108_s3_vlp_blocked_ema.csv
+filtered_s4_mixed_dynamic_moving_average: results/processed/filtered_signals_seed108_s4_mixed_dynamic_moving_average.csv
+filtered_s4_mixed_dynamic_median: results/processed/filtered_signals_seed108_s4_mixed_dynamic_median.csv
+filtered_s4_mixed_dynamic_ema: results/processed/filtered_signals_seed108_s4_mixed_dynamic_ema.csv
+filter_signal_variance_table: results/tables/table_filter_signal_variance_seed108.csv
+filter_sanity_figure: results/figures/fig3_noisy_vs_filtered_signals.png
+dsp_filter_summary: results/logs/dsp_filter_summary_seed108.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 108
+DSP LOCALIZATION TEST OK
+dsp_localization_predictions: results/processed/dsp_localization_predictions_seed108.csv
+dsp_localization_metrics_table: results/tables/table_dsp_localization_metrics_seed108.csv
+dsp_localization_summary: results/logs/dsp_localization_summary_seed108.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.gsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 108 --estimate-method expected
+GSP EVALUATION TEST OK
+gsp_predictions: results/processed/gsp_predictions_seed108.csv
+gsp_metrics_table: results/tables/table_gsp_metrics_seed108.csv
+gsp_runtime_table: results/tables/table_gsp_runtime_seed108.csv
+gsp_evaluation_summary: results/logs/gsp_evaluation_summary_seed108.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.adaptive_fusion --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 108 --estimate-method argmax
+ADAPTIVE FUSION TEST OK
+adaptive_predictions: results/processed/adaptive_fusion_predictions_seed108.csv
+adaptive_metrics_table: results/tables/table_adaptive_fusion_metrics_seed108.csv
+adaptive_action_counts_table: results/tables/table_adaptive_action_counts_seed108.csv
+adaptive_runtime_table: results/tables/table_adaptive_runtime_seed108.csv
+adaptive_action_figure: results/figures/fig6_adaptive_actions_seed108.png
+adaptive_summary: results/logs/adaptive_fusion_summary_seed108.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.environment --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 109
+ENVIRONMENT TEST OK
+grid_cells: results/raw/grid_cells.csv
+trajectory: results/raw/trajectory_seed109.csv
+scenario_s1_clean: results/raw/scenario_masks_seed109_s1_clean.csv
+scenario_s2_wifi_degraded: results/raw/scenario_masks_seed109_s2_wifi_degraded.csv
+scenario_s3_vlp_blocked: results/raw/scenario_masks_seed109_s3_vlp_blocked.csv
+scenario_s4_mixed_dynamic: results/raw/scenario_masks_seed109_s4_mixed_dynamic.csv
+figure_layout: results/figures/fig1_layout_trajectory.png
+environment_summary: results/logs/environment_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.signal_models --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 109
+SIGNAL MODEL TEST OK
+signals_s1_clean: results/raw/signals_seed109_s1_clean.csv
+signals_s2_wifi_degraded: results/raw/signals_seed109_s2_wifi_degraded.csv
+signals_s3_vlp_blocked: results/raw/signals_seed109_s3_vlp_blocked.csv
+signals_s4_mixed_dynamic: results/raw/signals_seed109_s4_mixed_dynamic.csv
+signal_model_sanity_figure: results/figures/fig_signal_model_sanity.png
+signal_model_summary: results/logs/signal_model_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.baselines --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 109
+BASELINE TEST OK
+predictions_s1_clean: results/processed/baseline_predictions_seed109_s1_clean.csv
+predictions_s2_wifi_degraded: results/processed/baseline_predictions_seed109_s2_wifi_degraded.csv
+predictions_s3_vlp_blocked: results/processed/baseline_predictions_seed109_s3_vlp_blocked.csv
+predictions_s4_mixed_dynamic: results/processed/baseline_predictions_seed109_s4_mixed_dynamic.csv
+baseline_metrics_table: results/tables/table_baseline_metrics_seed109.csv
+baseline_runtime_table: results/tables/table_baseline_runtime_seed109.csv
+baseline_summary: results/logs/baseline_summary_seed109.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_filters --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 109
+DSP FILTER TEST OK
+filtered_s1_clean_moving_average: results/processed/filtered_signals_seed109_s1_clean_moving_average.csv
+filtered_s1_clean_median: results/processed/filtered_signals_seed109_s1_clean_median.csv
+filtered_s1_clean_ema: results/processed/filtered_signals_seed109_s1_clean_ema.csv
+filtered_s2_wifi_degraded_moving_average: results/processed/filtered_signals_seed109_s2_wifi_degraded_moving_average.csv
+filtered_s2_wifi_degraded_median: results/processed/filtered_signals_seed109_s2_wifi_degraded_median.csv
+filtered_s2_wifi_degraded_ema: results/processed/filtered_signals_seed109_s2_wifi_degraded_ema.csv
+filtered_s3_vlp_blocked_moving_average: results/processed/filtered_signals_seed109_s3_vlp_blocked_moving_average.csv
+filtered_s3_vlp_blocked_median: results/processed/filtered_signals_seed109_s3_vlp_blocked_median.csv
+filtered_s3_vlp_blocked_ema: results/processed/filtered_signals_seed109_s3_vlp_blocked_ema.csv
+filtered_s4_mixed_dynamic_moving_average: results/processed/filtered_signals_seed109_s4_mixed_dynamic_moving_average.csv
+filtered_s4_mixed_dynamic_median: results/processed/filtered_signals_seed109_s4_mixed_dynamic_median.csv
+filtered_s4_mixed_dynamic_ema: results/processed/filtered_signals_seed109_s4_mixed_dynamic_ema.csv
+filter_signal_variance_table: results/tables/table_filter_signal_variance_seed109.csv
+filter_sanity_figure: results/figures/fig3_noisy_vs_filtered_signals.png
+dsp_filter_summary: results/logs/dsp_filter_summary_seed109.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 109
+DSP LOCALIZATION TEST OK
+dsp_localization_predictions: results/processed/dsp_localization_predictions_seed109.csv
+dsp_localization_metrics_table: results/tables/table_dsp_localization_metrics_seed109.csv
+dsp_localization_summary: results/logs/dsp_localization_summary_seed109.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.gsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 109 --estimate-method expected
+GSP EVALUATION TEST OK
+gsp_predictions: results/processed/gsp_predictions_seed109.csv
+gsp_metrics_table: results/tables/table_gsp_metrics_seed109.csv
+gsp_runtime_table: results/tables/table_gsp_runtime_seed109.csv
+gsp_evaluation_summary: results/logs/gsp_evaluation_summary_seed109.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.adaptive_fusion --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 109 --estimate-method argmax
+ADAPTIVE FUSION TEST OK
+adaptive_predictions: results/processed/adaptive_fusion_predictions_seed109.csv
+adaptive_metrics_table: results/tables/table_adaptive_fusion_metrics_seed109.csv
+adaptive_action_counts_table: results/tables/table_adaptive_action_counts_seed109.csv
+adaptive_runtime_table: results/tables/table_adaptive_runtime_seed109.csv
+adaptive_action_figure: results/figures/fig6_adaptive_actions_seed109.png
+adaptive_summary: results/logs/adaptive_fusion_summary_seed109.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.environment --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 110
+ENVIRONMENT TEST OK
+grid_cells: results/raw/grid_cells.csv
+trajectory: results/raw/trajectory_seed110.csv
+scenario_s1_clean: results/raw/scenario_masks_seed110_s1_clean.csv
+scenario_s2_wifi_degraded: results/raw/scenario_masks_seed110_s2_wifi_degraded.csv
+scenario_s3_vlp_blocked: results/raw/scenario_masks_seed110_s3_vlp_blocked.csv
+scenario_s4_mixed_dynamic: results/raw/scenario_masks_seed110_s4_mixed_dynamic.csv
+figure_layout: results/figures/fig1_layout_trajectory.png
+environment_summary: results/logs/environment_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.signal_models --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 110
+SIGNAL MODEL TEST OK
+signals_s1_clean: results/raw/signals_seed110_s1_clean.csv
+signals_s2_wifi_degraded: results/raw/signals_seed110_s2_wifi_degraded.csv
+signals_s3_vlp_blocked: results/raw/signals_seed110_s3_vlp_blocked.csv
+signals_s4_mixed_dynamic: results/raw/signals_seed110_s4_mixed_dynamic.csv
+signal_model_sanity_figure: results/figures/fig_signal_model_sanity.png
+signal_model_summary: results/logs/signal_model_summary.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.baselines --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 110
+BASELINE TEST OK
+predictions_s1_clean: results/processed/baseline_predictions_seed110_s1_clean.csv
+predictions_s2_wifi_degraded: results/processed/baseline_predictions_seed110_s2_wifi_degraded.csv
+predictions_s3_vlp_blocked: results/processed/baseline_predictions_seed110_s3_vlp_blocked.csv
+predictions_s4_mixed_dynamic: results/processed/baseline_predictions_seed110_s4_mixed_dynamic.csv
+baseline_metrics_table: results/tables/table_baseline_metrics_seed110.csv
+baseline_runtime_table: results/tables/table_baseline_runtime_seed110.csv
+baseline_summary: results/logs/baseline_summary_seed110.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_filters --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 110
+DSP FILTER TEST OK
+filtered_s1_clean_moving_average: results/processed/filtered_signals_seed110_s1_clean_moving_average.csv
+filtered_s1_clean_median: results/processed/filtered_signals_seed110_s1_clean_median.csv
+filtered_s1_clean_ema: results/processed/filtered_signals_seed110_s1_clean_ema.csv
+filtered_s2_wifi_degraded_moving_average: results/processed/filtered_signals_seed110_s2_wifi_degraded_moving_average.csv
+filtered_s2_wifi_degraded_median: results/processed/filtered_signals_seed110_s2_wifi_degraded_median.csv
+filtered_s2_wifi_degraded_ema: results/processed/filtered_signals_seed110_s2_wifi_degraded_ema.csv
+filtered_s3_vlp_blocked_moving_average: results/processed/filtered_signals_seed110_s3_vlp_blocked_moving_average.csv
+filtered_s3_vlp_blocked_median: results/processed/filtered_signals_seed110_s3_vlp_blocked_median.csv
+filtered_s3_vlp_blocked_ema: results/processed/filtered_signals_seed110_s3_vlp_blocked_ema.csv
+filtered_s4_mixed_dynamic_moving_average: results/processed/filtered_signals_seed110_s4_mixed_dynamic_moving_average.csv
+filtered_s4_mixed_dynamic_median: results/processed/filtered_signals_seed110_s4_mixed_dynamic_median.csv
+filtered_s4_mixed_dynamic_ema: results/processed/filtered_signals_seed110_s4_mixed_dynamic_ema.csv
+filter_signal_variance_table: results/tables/table_filter_signal_variance_seed110.csv
+filter_sanity_figure: results/figures/fig3_noisy_vs_filtered_signals.png
+dsp_filter_summary: results/logs/dsp_filter_summary_seed110.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.dsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 110
+DSP LOCALIZATION TEST OK
+dsp_localization_predictions: results/processed/dsp_localization_predictions_seed110.csv
+dsp_localization_metrics_table: results/tables/table_dsp_localization_metrics_seed110.csv
+dsp_localization_summary: results/logs/dsp_localization_summary_seed110.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.gsp_evaluation --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 110 --estimate-method expected
+GSP EVALUATION TEST OK
+gsp_predictions: results/processed/gsp_predictions_seed110.csv
+gsp_metrics_table: results/tables/table_gsp_metrics_seed110.csv
+gsp_runtime_table: results/tables/table_gsp_runtime_seed110.csv
+gsp_evaluation_summary: results/logs/gsp_evaluation_summary_seed110.json
+RETURN_CODE: 0
+
+RUN: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python -m src.adaptive_fusion --config /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml --seed 110 --estimate-method argmax
+ADAPTIVE FUSION TEST OK
+adaptive_predictions: results/processed/adaptive_fusion_predictions_seed110.csv
+adaptive_metrics_table: results/tables/table_adaptive_fusion_metrics_seed110.csv
+adaptive_action_counts_table: results/tables/table_adaptive_action_counts_seed110.csv
+adaptive_runtime_table: results/tables/table_adaptive_runtime_seed110.csv
+adaptive_action_figure: results/figures/fig6_adaptive_actions_seed110.png
+adaptive_summary: results/logs/adaptive_fusion_summary_seed110.json
+RETURN_CODE: 0
+
+PIPELINE_STATUS: PASS
+elapsed_seconds=117.210
