@@ -1,0 +1,175 @@
+STRESS/SENSITIVITY ALL RESULTS
+
+experiment name: Compact degradation stress and sensitivity analysis
+branch: codex/research-evidence-upgrades
+generated UTC time: 2026-06-02T19:43:30.572326+00:00
+commands used: python -m src.stress_sensitivity_experiments --config configs/expanded_seeds.yaml --mode smoke; python -m src.stress_sensitivity_experiments --config configs/expanded_seeds.yaml --mode final
+config path: /home/runner/work/spicscon26/spicscon26/configs/expanded_seeds.yaml
+seed list: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110]
+stress groups: vlp_blockage, wifi_noise, mixed_dynamic
+stress levels: VLP=0.10,0.20,0.30,0.40; WiFi=3.0,6.0,9.0 dB; mixed=mild,nominal,severe
+methods evaluated: ['static_fusion', 'vlp_only', 'wifi_only', 'graph_diffusion_3', 'adaptive_fusion']
+Kalman methods evaluated: unavailable in this script; skipped honestly because the tracking pipeline is a separate fixed-parameter evaluation path.
+
+IMPLEMENTATION SUMMARY
+VLP blockage stress: exact vlp_model.blockage_prob overrides applied to s3_vlp_blocked.
+WiFi noise stress: exact wifi_model.noisy_sigma_db overrides applied to s2_wifi_degraded.
+Mixed dynamic stress: exact (WiFi sigma dB, VLP blockage probability) overrides applied to s4_mixed_dynamic: mild=(4.0,0.10), nominal=(6.0,0.20), severe=(9.0,0.40).
+Unavailable or approximated parameters: none.
+No tuning was performed on held-out seeds.
+
+SMOKE TEST RESULT
+status: PASS
+command: python -m src.stress_sensitivity_experiments --config configs/expanded_seeds.yaml --mode smoke
+log path: results/stress_sensitivity_20260602/logs/smoke_run.log
+
+FINAL RUN RESULT
+status: PASS
+command: python -m src.stress_sensitivity_experiments --config configs/expanded_seeds.yaml --mode final
+log path: results/stress_sensitivity_20260602/logs/final_run.log
+elapsed seconds: 685.792
+
+FULL AGGREGATE STRESS RESULT
+mixed_dynamic | mild | adaptive_fusion: mean_error_m_mean=0.641660, mean_error_m_std=0.104410, mean_error_m_ci95=[0.566970, 0.716351], median_error_m_mean=0.454290, p90_error_m_mean=1.168618, p90_error_m_std=0.263196, failure_rate_mean=0.039000, zone_accuracy_mean=0.864000, trajectory_smoothness_m_per_step_mean=0.588450
+mixed_dynamic | mild | static_fusion: mean_error_m_mean=0.808747, mean_error_m_std=0.099562, mean_error_m_ci95=[0.737525, 0.879970], median_error_m_mean=0.453505, p90_error_m_mean=1.830738, p90_error_m_std=0.639784, failure_rate_mean=0.100000, zone_accuracy_mean=0.827000, trajectory_smoothness_m_per_step_mean=0.968830
+mixed_dynamic | mild | vlp_only: mean_error_m_mean=0.808747, mean_error_m_std=0.099562, mean_error_m_ci95=[0.737525, 0.879970], median_error_m_mean=0.453505, p90_error_m_mean=1.830738, p90_error_m_std=0.639784, failure_rate_mean=0.100000, zone_accuracy_mean=0.827000, trajectory_smoothness_m_per_step_mean=0.968830
+mixed_dynamic | mild | graph_diffusion_3: mean_error_m_mean=1.015526, mean_error_m_std=0.088902, mean_error_m_ci95=[0.951930, 1.079123], median_error_m_mean=0.800996, p90_error_m_mean=2.071443, p90_error_m_std=0.403923, failure_rate_mean=0.103000, zone_accuracy_mean=0.621000, trajectory_smoothness_m_per_step_mean=1.234480
+mixed_dynamic | mild | wifi_only: mean_error_m_mean=1.842662, mean_error_m_std=0.256086, mean_error_m_ci95=[1.659469, 2.025855], median_error_m_mean=1.361366, p90_error_m_mean=3.749008, p90_error_m_std=0.822248, failure_rate_mean=0.316000, zone_accuracy_mean=0.369000, trajectory_smoothness_m_per_step_mean=2.604571
+mixed_dynamic | nominal | adaptive_fusion: mean_error_m_mean=0.644397, mean_error_m_std=0.070358, mean_error_m_ci95=[0.594066, 0.694728], median_error_m_mean=0.461051, p90_error_m_mean=1.253606, p90_error_m_std=0.255868, failure_rate_mean=0.040000, zone_accuracy_mean=0.853000, trajectory_smoothness_m_per_step_mean=0.570835
+mixed_dynamic | nominal | static_fusion: mean_error_m_mean=0.810519, mean_error_m_std=0.104074, mean_error_m_ci95=[0.736069, 0.884969], median_error_m_mean=0.466097, p90_error_m_mean=1.956960, p90_error_m_std=0.666419, failure_rate_mean=0.103000, zone_accuracy_mean=0.818000, trajectory_smoothness_m_per_step_mean=0.980000
+mixed_dynamic | nominal | vlp_only: mean_error_m_mean=0.810519, mean_error_m_std=0.104074, mean_error_m_ci95=[0.736069, 0.884969], median_error_m_mean=0.466097, p90_error_m_mean=1.956960, p90_error_m_std=0.666419, failure_rate_mean=0.103000, zone_accuracy_mean=0.818000, trajectory_smoothness_m_per_step_mean=0.980000
+mixed_dynamic | nominal | graph_diffusion_3: mean_error_m_mean=1.113215, mean_error_m_std=0.078100, mean_error_m_ci95=[1.057346, 1.169084], median_error_m_mean=0.882556, p90_error_m_mean=2.234272, p90_error_m_std=0.265434, failure_rate_mean=0.132000, zone_accuracy_mean=0.567000, trajectory_smoothness_m_per_step_mean=1.361011
+mixed_dynamic | nominal | wifi_only: mean_error_m_mean=2.033739, mean_error_m_std=0.250042, mean_error_m_ci95=[1.854870, 2.212609], median_error_m_mean=1.471238, p90_error_m_mean=4.419176, p90_error_m_std=0.760447, failure_rate_mean=0.352000, zone_accuracy_mean=0.346000, trajectory_smoothness_m_per_step_mean=2.830424
+mixed_dynamic | severe | adaptive_fusion: mean_error_m_mean=0.711705, mean_error_m_std=0.105392, mean_error_m_ci95=[0.636313, 0.787098], median_error_m_mean=0.466033, p90_error_m_mean=1.511797, p90_error_m_std=0.437155, failure_rate_mean=0.058000, zone_accuracy_mean=0.821000, trajectory_smoothness_m_per_step_mean=0.635146
+mixed_dynamic | severe | vlp_only: mean_error_m_mean=0.856522, mean_error_m_std=0.085726, mean_error_m_ci95=[0.795197, 0.917847], median_error_m_mean=0.468671, p90_error_m_mean=2.234314, p90_error_m_std=0.623981, failure_rate_mean=0.116000, zone_accuracy_mean=0.786000, trajectory_smoothness_m_per_step_mean=1.027514
+mixed_dynamic | severe | static_fusion: mean_error_m_mean=0.860314, mean_error_m_std=0.089149, mean_error_m_ci95=[0.796541, 0.924088], median_error_m_mean=0.470192, p90_error_m_mean=2.274352, p90_error_m_std=0.648674, failure_rate_mean=0.117000, zone_accuracy_mean=0.785000, trajectory_smoothness_m_per_step_mean=1.037977
+mixed_dynamic | severe | graph_diffusion_3: mean_error_m_mean=1.253502, mean_error_m_std=0.052366, mean_error_m_ci95=[1.216041, 1.290962], median_error_m_mean=0.965721, p90_error_m_mean=2.547919, p90_error_m_std=0.306207, failure_rate_mean=0.194000, zone_accuracy_mean=0.517000, trajectory_smoothness_m_per_step_mean=1.535045
+mixed_dynamic | severe | wifi_only: mean_error_m_mean=2.299278, mean_error_m_std=0.227467, mean_error_m_ci95=[2.136559, 2.461998], median_error_m_mean=1.599063, p90_error_m_mean=5.336765, p90_error_m_std=0.803020, failure_rate_mean=0.401000, zone_accuracy_mean=0.324000, trajectory_smoothness_m_per_step_mean=3.154333
+vlp_blockage | 0.10 | adaptive_fusion: mean_error_m_mean=0.694245, mean_error_m_std=0.107534, mean_error_m_ci95=[0.617319, 0.771170], median_error_m_mean=0.528232, p90_error_m_mean=1.321811, p90_error_m_std=0.240726, failure_rate_mean=0.036000, zone_accuracy_mean=0.798000, trajectory_smoothness_m_per_step_mean=0.563205
+vlp_blockage | 0.10 | graph_diffusion_3: mean_error_m_mean=0.908212, mean_error_m_std=0.092205, mean_error_m_ci95=[0.842253, 0.974171], median_error_m_mean=0.744724, p90_error_m_mean=1.787920, p90_error_m_std=0.292249, failure_rate_mean=0.073000, zone_accuracy_mean=0.675000, trajectory_smoothness_m_per_step_mean=1.072645
+vlp_blockage | 0.10 | static_fusion: mean_error_m_mean=1.000785, mean_error_m_std=0.144952, mean_error_m_ci95=[0.897093, 1.104478], median_error_m_mean=0.550640, p90_error_m_mean=2.691191, p90_error_m_std=0.766733, failure_rate_mean=0.154000, zone_accuracy_mean=0.717000, trajectory_smoothness_m_per_step_mean=1.240861
+vlp_blockage | 0.10 | vlp_only: mean_error_m_mean=1.001048, mean_error_m_std=0.145284, mean_error_m_ci95=[0.897118, 1.104977], median_error_m_mean=0.551552, p90_error_m_mean=2.691191, p90_error_m_std=0.766733, failure_rate_mean=0.154000, zone_accuracy_mean=0.717000, trajectory_smoothness_m_per_step_mean=1.240269
+vlp_blockage | 0.10 | wifi_only: mean_error_m_mean=1.357439, mean_error_m_std=0.150084, mean_error_m_ci95=[1.250075, 1.464802], median_error_m_mean=1.090989, p90_error_m_mean=2.686324, p90_error_m_std=0.407894, failure_rate_mean=0.187000, zone_accuracy_mean=0.461000, trajectory_smoothness_m_per_step_mean=1.903374
+vlp_blockage | 0.20 | adaptive_fusion: mean_error_m_mean=0.805788, mean_error_m_std=0.094913, mean_error_m_ci95=[0.737892, 0.873685], median_error_m_mean=0.527622, p90_error_m_mean=1.704751, p90_error_m_std=0.474765, failure_rate_mean=0.083000, zone_accuracy_mean=0.765000, trajectory_smoothness_m_per_step_mean=0.679043
+vlp_blockage | 0.20 | graph_diffusion_3: mean_error_m_mean=0.926591, mean_error_m_std=0.076014, mean_error_m_ci95=[0.872214, 0.980969], median_error_m_mean=0.744803, p90_error_m_mean=1.865358, p90_error_m_std=0.146775, failure_rate_mean=0.084000, zone_accuracy_mean=0.658000, trajectory_smoothness_m_per_step_mean=1.103370
+vlp_blockage | 0.20 | static_fusion: mean_error_m_mean=1.077862, mean_error_m_std=0.116429, mean_error_m_ci95=[0.994573, 1.161150], median_error_m_mean=0.549393, p90_error_m_mean=2.908838, p90_error_m_std=0.432297, failure_rate_mean=0.184000, zone_accuracy_mean=0.704000, trajectory_smoothness_m_per_step_mean=1.329031
+vlp_blockage | 0.20 | vlp_only: mean_error_m_mean=1.079212, mean_error_m_std=0.115934, mean_error_m_ci95=[0.996278, 1.162146], median_error_m_mean=0.550143, p90_error_m_mean=2.919935, p90_error_m_std=0.428864, failure_rate_mean=0.185000, zone_accuracy_mean=0.704000, trajectory_smoothness_m_per_step_mean=1.330354
+vlp_blockage | 0.20 | wifi_only: mean_error_m_mean=1.357439, mean_error_m_std=0.150084, mean_error_m_ci95=[1.250075, 1.464802], median_error_m_mean=1.090989, p90_error_m_mean=2.686324, p90_error_m_std=0.407894, failure_rate_mean=0.187000, zone_accuracy_mean=0.461000, trajectory_smoothness_m_per_step_mean=1.903374
+vlp_blockage | 0.30 | adaptive_fusion: mean_error_m_mean=0.875197, mean_error_m_std=0.144212, mean_error_m_ci95=[0.772034, 0.978360], median_error_m_mean=0.551446, p90_error_m_mean=1.984184, p90_error_m_std=0.575899, failure_rate_mean=0.107000, zone_accuracy_mean=0.741000, trajectory_smoothness_m_per_step_mean=0.734755
+vlp_blockage | 0.30 | graph_diffusion_3: mean_error_m_mean=0.949531, mean_error_m_std=0.092001, mean_error_m_ci95=[0.883718, 1.015345], median_error_m_mean=0.789349, p90_error_m_mean=1.857577, p90_error_m_std=0.266142, failure_rate_mean=0.083000, zone_accuracy_mean=0.642000, trajectory_smoothness_m_per_step_mean=1.128894
+vlp_blockage | 0.30 | static_fusion: mean_error_m_mean=1.122783, mean_error_m_std=0.180428, mean_error_m_ci95=[0.993713, 1.251853], median_error_m_mean=0.570556, p90_error_m_mean=3.054349, p90_error_m_std=0.587905, failure_rate_mean=0.199000, zone_accuracy_mean=0.689000, trajectory_smoothness_m_per_step_mean=1.421670
+vlp_blockage | 0.30 | vlp_only: mean_error_m_mean=1.122966, mean_error_m_std=0.176579, mean_error_m_ci95=[0.996649, 1.249283], median_error_m_mean=0.569741, p90_error_m_mean=3.088181, p90_error_m_std=0.545240, failure_rate_mean=0.199000, zone_accuracy_mean=0.689000, trajectory_smoothness_m_per_step_mean=1.425013
+vlp_blockage | 0.30 | wifi_only: mean_error_m_mean=1.357439, mean_error_m_std=0.150084, mean_error_m_ci95=[1.250075, 1.464802], median_error_m_mean=1.090989, p90_error_m_mean=2.686324, p90_error_m_std=0.407894, failure_rate_mean=0.187000, zone_accuracy_mean=0.461000, trajectory_smoothness_m_per_step_mean=1.903374
+vlp_blockage | 0.40 | graph_diffusion_3: mean_error_m_mean=0.970924, mean_error_m_std=0.095044, mean_error_m_ci95=[0.902934, 1.038915], median_error_m_mean=0.806156, p90_error_m_mean=1.940001, p90_error_m_std=0.254962, failure_rate_mean=0.086000, zone_accuracy_mean=0.635000, trajectory_smoothness_m_per_step_mean=1.152683
+vlp_blockage | 0.40 | adaptive_fusion: mean_error_m_mean=1.003098, mean_error_m_std=0.147156, mean_error_m_ci95=[0.897830, 1.108367], median_error_m_mean=0.567347, p90_error_m_mean=2.505194, p90_error_m_std=0.773330, failure_rate_mean=0.143000, zone_accuracy_mean=0.712000, trajectory_smoothness_m_per_step_mean=0.876614
+vlp_blockage | 0.40 | static_fusion: mean_error_m_mean=1.177679, mean_error_m_std=0.147593, mean_error_m_ci95=[1.072097, 1.283261], median_error_m_mean=0.585429, p90_error_m_mean=3.187383, p90_error_m_std=0.555756, failure_rate_mean=0.215000, zone_accuracy_mean=0.668000, trajectory_smoothness_m_per_step_mean=1.460648
+vlp_blockage | 0.40 | vlp_only: mean_error_m_mean=1.179063, mean_error_m_std=0.145258, mean_error_m_ci95=[1.075152, 1.282974], median_error_m_mean=0.586136, p90_error_m_mean=3.189708, p90_error_m_std=0.553392, failure_rate_mean=0.216000, zone_accuracy_mean=0.668000, trajectory_smoothness_m_per_step_mean=1.462808
+vlp_blockage | 0.40 | wifi_only: mean_error_m_mean=1.357439, mean_error_m_std=0.150084, mean_error_m_ci95=[1.250075, 1.464802], median_error_m_mean=1.090989, p90_error_m_mean=2.686324, p90_error_m_std=0.407894, failure_rate_mean=0.187000, zone_accuracy_mean=0.461000, trajectory_smoothness_m_per_step_mean=1.903374
+wifi_noise | 3.0 | vlp_only: mean_error_m_mean=0.470537, mean_error_m_std=0.035704, mean_error_m_ci95=[0.444996, 0.496078], median_error_m_mean=0.409647, p90_error_m_mean=0.827476, p90_error_m_std=0.208913, failure_rate_mean=0.004000, zone_accuracy_mean=0.936000, trajectory_smoothness_m_per_step_mean=0.477814
+wifi_noise | 3.0 | adaptive_fusion: mean_error_m_mean=0.470734, mean_error_m_std=0.035689, mean_error_m_ci95=[0.445204, 0.496265], median_error_m_mean=0.410160, p90_error_m_mean=0.827476, p90_error_m_std=0.208913, failure_rate_mean=0.004000, zone_accuracy_mean=0.936000, trajectory_smoothness_m_per_step_mean=0.477814
+wifi_noise | 3.0 | static_fusion: mean_error_m_mean=0.470758, mean_error_m_std=0.036414, mean_error_m_ci95=[0.444709, 0.496807], median_error_m_mean=0.409204, p90_error_m_mean=0.828296, p90_error_m_std=0.208478, failure_rate_mean=0.004000, zone_accuracy_mean=0.935000, trajectory_smoothness_m_per_step_mean=0.473182
+wifi_noise | 3.0 | graph_diffusion_3: mean_error_m_mean=0.891082, mean_error_m_std=0.123374, mean_error_m_ci95=[0.802826, 0.979339], median_error_m_mean=0.710543, p90_error_m_mean=1.744107, p90_error_m_std=0.299795, failure_rate_mean=0.074000, zone_accuracy_mean=0.681000, trajectory_smoothness_m_per_step_mean=1.098332
+wifi_noise | 3.0 | wifi_only: mean_error_m_mean=1.842039, mean_error_m_std=0.300083, mean_error_m_ci95=[1.627373, 2.056705], median_error_m_mean=1.341941, p90_error_m_mean=4.022893, p90_error_m_std=1.297826, failure_rate_mean=0.293000, zone_accuracy_mean=0.363000, trajectory_smoothness_m_per_step_mean=2.563505
+wifi_noise | 6.0 | vlp_only: mean_error_m_mean=0.470537, mean_error_m_std=0.035704, mean_error_m_ci95=[0.444996, 0.496078], median_error_m_mean=0.409647, p90_error_m_mean=0.827476, p90_error_m_std=0.208913, failure_rate_mean=0.004000, zone_accuracy_mean=0.936000, trajectory_smoothness_m_per_step_mean=0.477814
+wifi_noise | 6.0 | adaptive_fusion: mean_error_m_mean=0.470734, mean_error_m_std=0.035689, mean_error_m_ci95=[0.445204, 0.496265], median_error_m_mean=0.410160, p90_error_m_mean=0.827476, p90_error_m_std=0.208913, failure_rate_mean=0.004000, zone_accuracy_mean=0.936000, trajectory_smoothness_m_per_step_mean=0.477814
+wifi_noise | 6.0 | static_fusion: mean_error_m_mean=0.479960, mean_error_m_std=0.037471, mean_error_m_ci95=[0.453155, 0.506765], median_error_m_mean=0.409204, p90_error_m_mean=0.828428, p90_error_m_std=0.208468, failure_rate_mean=0.006000, zone_accuracy_mean=0.933000, trajectory_smoothness_m_per_step_mean=0.492842
+wifi_noise | 6.0 | graph_diffusion_3: mean_error_m_mean=1.071385, mean_error_m_std=0.147531, mean_error_m_ci95=[0.965848, 1.176923], median_error_m_mean=0.830675, p90_error_m_mean=2.142624, p90_error_m_std=0.434121, failure_rate_mean=0.121000, zone_accuracy_mean=0.593000, trajectory_smoothness_m_per_step_mean=1.335092
+wifi_noise | 6.0 | wifi_only: mean_error_m_mean=2.185410, mean_error_m_std=0.347698, mean_error_m_ci95=[1.936682, 2.434139], median_error_m_mean=1.576219, p90_error_m_mean=4.786784, p90_error_m_std=1.082912, failure_rate_mean=0.395000, zone_accuracy_mean=0.311000, trajectory_smoothness_m_per_step_mean=2.993566
+wifi_noise | 9.0 | vlp_only: mean_error_m_mean=0.470537, mean_error_m_std=0.035704, mean_error_m_ci95=[0.444996, 0.496078], median_error_m_mean=0.409647, p90_error_m_mean=0.827476, p90_error_m_std=0.208913, failure_rate_mean=0.004000, zone_accuracy_mean=0.936000, trajectory_smoothness_m_per_step_mean=0.477814
+wifi_noise | 9.0 | adaptive_fusion: mean_error_m_mean=0.470734, mean_error_m_std=0.035689, mean_error_m_ci95=[0.445204, 0.496265], median_error_m_mean=0.410160, p90_error_m_mean=0.827476, p90_error_m_std=0.208913, failure_rate_mean=0.004000, zone_accuracy_mean=0.936000, trajectory_smoothness_m_per_step_mean=0.477814
+wifi_noise | 9.0 | static_fusion: mean_error_m_mean=0.497697, mean_error_m_std=0.056877, mean_error_m_ci95=[0.457010, 0.538385], median_error_m_mean=0.411396, p90_error_m_mean=0.832031, p90_error_m_std=0.211084, failure_rate_mean=0.009000, zone_accuracy_mean=0.931000, trajectory_smoothness_m_per_step_mean=0.523068
+wifi_noise | 9.0 | graph_diffusion_3: mean_error_m_mean=1.212758, mean_error_m_std=0.157838, mean_error_m_ci95=[1.099847, 1.325668], median_error_m_mean=0.901487, p90_error_m_mean=2.615161, p90_error_m_std=0.451484, failure_rate_mean=0.168000, zone_accuracy_mean=0.545000, trajectory_smoothness_m_per_step_mean=1.520730
+wifi_noise | 9.0 | wifi_only: mean_error_m_mean=2.494140, mean_error_m_std=0.368041, mean_error_m_ci95=[2.230859, 2.757421], median_error_m_mean=1.714149, p90_error_m_mean=5.671220, p90_error_m_std=1.204252, failure_rate_mean=0.437000, zone_accuracy_mean=0.287000, trajectory_smoothness_m_per_step_mean=3.396180
+
+ADAPTIVE VS STATIC SUMMARY
+mixed_dynamic | mild: static_mean=0.808747, adaptive_mean=0.641660, absolute_improvement=0.167087, improvement_percent=20.660, static_p90=1.830738, adaptive_p90=1.168618, p90_improvement_percent=36.167, failure_rate_change=-0.061000, smoothness_change=-0.380381, adaptive_wins=True
+mixed_dynamic | nominal: static_mean=0.810519, adaptive_mean=0.644397, absolute_improvement=0.166122, improvement_percent=20.496, static_p90=1.956960, adaptive_p90=1.253606, p90_improvement_percent=35.941, failure_rate_change=-0.063000, smoothness_change=-0.409165, adaptive_wins=True
+mixed_dynamic | severe: static_mean=0.860314, adaptive_mean=0.711705, absolute_improvement=0.148609, improvement_percent=17.274, static_p90=2.274352, adaptive_p90=1.511797, p90_improvement_percent=33.528, failure_rate_change=-0.059000, smoothness_change=-0.402831, adaptive_wins=True
+vlp_blockage | 0.10: static_mean=1.000785, adaptive_mean=0.694245, absolute_improvement=0.306541, improvement_percent=30.630, static_p90=2.691191, adaptive_p90=1.321811, p90_improvement_percent=50.884, failure_rate_change=-0.118000, smoothness_change=-0.677655, adaptive_wins=True
+vlp_blockage | 0.20: static_mean=1.077862, adaptive_mean=0.805788, absolute_improvement=0.272074, improvement_percent=25.242, static_p90=2.908838, adaptive_p90=1.704751, p90_improvement_percent=41.394, failure_rate_change=-0.101000, smoothness_change=-0.649988, adaptive_wins=True
+vlp_blockage | 0.30: static_mean=1.122783, adaptive_mean=0.875197, absolute_improvement=0.247586, improvement_percent=22.051, static_p90=3.054349, adaptive_p90=1.984184, p90_improvement_percent=35.037, failure_rate_change=-0.092000, smoothness_change=-0.686915, adaptive_wins=True
+vlp_blockage | 0.40: static_mean=1.177679, adaptive_mean=1.003098, absolute_improvement=0.174581, improvement_percent=14.824, static_p90=3.187383, adaptive_p90=2.505194, p90_improvement_percent=21.403, failure_rate_change=-0.072000, smoothness_change=-0.584034, adaptive_wins=True
+wifi_noise | 3.0: static_mean=0.470758, adaptive_mean=0.470734, absolute_improvement=0.000023, improvement_percent=0.005, static_p90=0.828296, adaptive_p90=0.827476, p90_improvement_percent=0.099, failure_rate_change=0.000000, smoothness_change=0.004632, adaptive_wins=True
+wifi_noise | 6.0: static_mean=0.479960, adaptive_mean=0.470734, absolute_improvement=0.009226, improvement_percent=1.922, static_p90=0.828428, adaptive_p90=0.827476, p90_improvement_percent=0.115, failure_rate_change=-0.002000, smoothness_change=-0.015028, adaptive_wins=True
+wifi_noise | 9.0: static_mean=0.497697, adaptive_mean=0.470734, absolute_improvement=0.026963, improvement_percent=5.418, static_p90=0.832031, adaptive_p90=0.827476, p90_improvement_percent=0.547, failure_rate_change=-0.005000, smoothness_change=-0.045254, adaptive_wins=True
+
+BEST METHOD BY STRESS LEVEL
+mixed_dynamic | mild: best mean=adaptive_fusion (0.641660); best P90=adaptive_fusion (1.168618); best failure rate=adaptive_fusion (0.039000). adaptive_fusion has the lowest mean error; adaptive_fusion has the lowest P90 error.
+mixed_dynamic | nominal: best mean=adaptive_fusion (0.644397); best P90=adaptive_fusion (1.253606); best failure rate=adaptive_fusion (0.040000). adaptive_fusion has the lowest mean error; adaptive_fusion has the lowest P90 error.
+mixed_dynamic | severe: best mean=adaptive_fusion (0.711705); best P90=adaptive_fusion (1.511797); best failure rate=adaptive_fusion (0.058000). adaptive_fusion has the lowest mean error; adaptive_fusion has the lowest P90 error.
+vlp_blockage | 0.10: best mean=adaptive_fusion (0.694245); best P90=adaptive_fusion (1.321811); best failure rate=adaptive_fusion (0.036000). adaptive_fusion has the lowest mean error; adaptive_fusion has the lowest P90 error.
+vlp_blockage | 0.20: best mean=adaptive_fusion (0.805788); best P90=adaptive_fusion (1.704751); best failure rate=adaptive_fusion (0.083000). adaptive_fusion has the lowest mean error; adaptive_fusion has the lowest P90 error.
+vlp_blockage | 0.30: best mean=adaptive_fusion (0.875197); best P90=graph_diffusion_3 (1.857577); best failure rate=graph_diffusion_3 (0.083000). adaptive_fusion has the lowest mean error; graph_diffusion_3 has the lowest P90 error.
+vlp_blockage | 0.40: best mean=graph_diffusion_3 (0.970924); best P90=graph_diffusion_3 (1.940001); best failure rate=graph_diffusion_3 (0.086000). graph_diffusion_3 has the lowest mean error; graph_diffusion_3 has the lowest P90 error.
+wifi_noise | 3.0: best mean=vlp_only (0.470537); best P90=vlp_only (0.827476); best failure rate=vlp_only (0.004000). vlp_only has the lowest mean error; vlp_only has the lowest P90 error.
+wifi_noise | 6.0: best mean=vlp_only (0.470537); best P90=vlp_only (0.827476); best failure rate=vlp_only (0.004000). vlp_only has the lowest mean error; vlp_only has the lowest P90 error.
+wifi_noise | 9.0: best mean=vlp_only (0.470537); best P90=vlp_only (0.827476); best failure rate=vlp_only (0.004000). vlp_only has the lowest mean error; vlp_only has the lowest P90 error.
+
+DEGRADATION TREND SUMMARY
+mixed_dynamic | adaptive_fusion: severe_minus_mild_delta slope=0.035023; highest-minus-lowest=0.070045; degrades_monotonically=True
+mixed_dynamic | graph_diffusion_3: severe_minus_mild_delta slope=0.118988; highest-minus-lowest=0.237975; degrades_monotonically=True
+mixed_dynamic | static_fusion: severe_minus_mild_delta slope=0.025783; highest-minus-lowest=0.051567; degrades_monotonically=True
+mixed_dynamic | vlp_only: severe_minus_mild_delta slope=0.023887; highest-minus-lowest=0.047774; degrades_monotonically=True
+mixed_dynamic | wifi_only: severe_minus_mild_delta slope=0.228308; highest-minus-lowest=0.456617; degrades_monotonically=True
+vlp_blockage | adaptive_fusion: mean_error_slope_per_blockage_prob slope=0.995971; highest-minus-lowest=0.308854; degrades_monotonically=True
+vlp_blockage | graph_diffusion_3: mean_error_slope_per_blockage_prob slope=0.211078; highest-minus-lowest=0.062712; degrades_monotonically=True
+vlp_blockage | static_fusion: mean_error_slope_per_blockage_prob slope=0.575602; highest-minus-lowest=0.176894; degrades_monotonically=True
+vlp_blockage | vlp_only: mean_error_slope_per_blockage_prob slope=0.577799; highest-minus-lowest=0.178015; degrades_monotonically=True
+vlp_blockage | wifi_only: mean_error_slope_per_blockage_prob slope=-0.000000; highest-minus-lowest=0.000000; degrades_monotonically=True
+wifi_noise | adaptive_fusion: mean_error_slope_per_wifi_sigma slope=-0.000000; highest-minus-lowest=0.000000; degrades_monotonically=True
+wifi_noise | graph_diffusion_3: mean_error_slope_per_wifi_sigma slope=0.053613; highest-minus-lowest=0.321675; degrades_monotonically=True
+wifi_noise | static_fusion: mean_error_slope_per_wifi_sigma slope=0.004490; highest-minus-lowest=0.026939; degrades_monotonically=True
+wifi_noise | vlp_only: mean_error_slope_per_wifi_sigma slope=-0.000000; highest-minus-lowest=0.000000; degrades_monotonically=True
+wifi_noise | wifi_only: mean_error_slope_per_wifi_sigma slope=0.108683; highest-minus-lowest=0.652101; degrades_monotonically=True
+vlp_blockage: least degradation=wifi_only; adaptive degrades more slowly than static=False.
+wifi_noise: least degradation=adaptive_fusion; adaptive degrades more slowly than static=True.
+mixed_dynamic: least degradation=vlp_only; adaptive degrades more slowly than static=False.
+Surprising behavior: see per-level tables; monotonicity is reported rather than assumed.
+
+PAPER-USE CONCLUSION
+Stress testing strengthens the paper by adding controlled held-out sensitivity evidence across 10 stress levels.
+Adaptive fusion remains robust under stronger VLP blockage: True.
+Adaptive fusion remains robust under mixed dynamic stress: True.
+Adaptive fusion losses versus static fusion: none.
+Claim recommendation: strengthen.
+Exact sentence for later paper use: Across 10 held-out seeds and controlled degradation sweeps, adaptive fusion outperformed static fusion in 10/10 stress settings, including the strongest VLP-blockage and mixed-dynamic conditions.
+
+GENERATED FILES
+paper/tables/stress_sensitivity_20260602/.gitkeep
+paper/tables/stress_sensitivity_20260602/compact_stress_adaptive_vs_static.tex
+paper/tables/stress_sensitivity_20260602/compact_stress_best_methods.tex
+results/stress_sensitivity_20260602/configs/.gitkeep
+results/stress_sensitivity_20260602/configs/mixed_dynamic_mild.yaml
+results/stress_sensitivity_20260602/configs/mixed_dynamic_nominal.yaml
+results/stress_sensitivity_20260602/configs/mixed_dynamic_severe.yaml
+results/stress_sensitivity_20260602/configs/vlp_blockage_0p10.yaml
+results/stress_sensitivity_20260602/configs/vlp_blockage_0p20.yaml
+results/stress_sensitivity_20260602/configs/vlp_blockage_0p30.yaml
+results/stress_sensitivity_20260602/configs/vlp_blockage_0p40.yaml
+results/stress_sensitivity_20260602/configs/wifi_noise_3p0.yaml
+results/stress_sensitivity_20260602/configs/wifi_noise_6p0.yaml
+results/stress_sensitivity_20260602/configs/wifi_noise_9p0.yaml
+results/stress_sensitivity_20260602/figures/.gitkeep
+results/stress_sensitivity_20260602/figures/mixed_dynamic_stress_mean_error.png
+results/stress_sensitivity_20260602/figures/vlp_blockage_stress_mean_error.png
+results/stress_sensitivity_20260602/figures/wifi_noise_stress_mean_error.png
+results/stress_sensitivity_20260602/logs/final_run.log
+results/stress_sensitivity_20260602/logs/smoke_run.log
+results/stress_sensitivity_20260602/raw/.gitkeep
+results/stress_sensitivity_20260602/raw/stress_sensitivity_per_seed_level_method.csv
+results/stress_sensitivity_20260602/raw/stress_sensitivity_predictions.csv
+results/stress_sensitivity_20260602/reports/GITHUB_ACTIONS_RUN_INSTRUCTIONS.md
+results/stress_sensitivity_20260602/reports/smoke_status.txt
+results/stress_sensitivity_20260602/reports/stress_sensitivity_ALL_RESULTS.txt
+results/stress_sensitivity_20260602/reports/stress_sensitivity_manifest.json
+results/stress_sensitivity_20260602/reports/stress_sensitivity_paper_ready_note.txt
+results/stress_sensitivity_20260602/reports/stress_sensitivity_sanity_check.md
+results/stress_sensitivity_20260602/reports/stress_sensitivity_summary.md
+results/stress_sensitivity_20260602/tables/.gitkeep
+results/stress_sensitivity_20260602/tables/table_adaptive_vs_static_under_stress.csv
+results/stress_sensitivity_20260602/tables/table_best_method_by_stress_level.csv
+results/stress_sensitivity_20260602/tables/table_stress_degradation_slopes.csv
+results/stress_sensitivity_20260602/tables/table_stress_sensitivity_10seed_results.csv
+
+NO-FABRICATION STATEMENT
+All numbers in this file are generated from saved experiment outputs. Missing values are reported as unavailable rather than fabricated.

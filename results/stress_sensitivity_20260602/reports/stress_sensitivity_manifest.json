@@ -1,0 +1,165 @@
+{
+  "generated_utc": "2026-06-02T19:43:30.582516+00:00",
+  "base_config": "configs/expanded_seeds.yaml",
+  "seeds": [
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110
+  ],
+  "methods": [
+    "static_fusion",
+    "vlp_only",
+    "wifi_only",
+    "graph_diffusion_3",
+    "adaptive_fusion"
+  ],
+  "conditions": [
+    {
+      "group": "vlp_blockage",
+      "level": "0.10",
+      "parameter": "blockage_prob",
+      "value": 0.1,
+      "scenario": "s3_vlp_blocked",
+      "overrides": {
+        "vlp_model.blockage_prob": 0.1
+      }
+    },
+    {
+      "group": "vlp_blockage",
+      "level": "0.20",
+      "parameter": "blockage_prob",
+      "value": 0.2,
+      "scenario": "s3_vlp_blocked",
+      "overrides": {
+        "vlp_model.blockage_prob": 0.2
+      }
+    },
+    {
+      "group": "vlp_blockage",
+      "level": "0.30",
+      "parameter": "blockage_prob",
+      "value": 0.3,
+      "scenario": "s3_vlp_blocked",
+      "overrides": {
+        "vlp_model.blockage_prob": 0.3
+      }
+    },
+    {
+      "group": "vlp_blockage",
+      "level": "0.40",
+      "parameter": "blockage_prob",
+      "value": 0.4,
+      "scenario": "s3_vlp_blocked",
+      "overrides": {
+        "vlp_model.blockage_prob": 0.4
+      }
+    },
+    {
+      "group": "wifi_noise",
+      "level": "3.0",
+      "parameter": "noisy_sigma_db",
+      "value": 3.0,
+      "scenario": "s2_wifi_degraded",
+      "overrides": {
+        "wifi_model.noisy_sigma_db": 3.0
+      }
+    },
+    {
+      "group": "wifi_noise",
+      "level": "6.0",
+      "parameter": "noisy_sigma_db",
+      "value": 6.0,
+      "scenario": "s2_wifi_degraded",
+      "overrides": {
+        "wifi_model.noisy_sigma_db": 6.0
+      }
+    },
+    {
+      "group": "wifi_noise",
+      "level": "9.0",
+      "parameter": "noisy_sigma_db",
+      "value": 9.0,
+      "scenario": "s2_wifi_degraded",
+      "overrides": {
+        "wifi_model.noisy_sigma_db": 9.0
+      }
+    },
+    {
+      "group": "mixed_dynamic",
+      "level": "mild",
+      "parameter": "wifi_sigma_db+blockage_prob",
+      "value": 0.0,
+      "scenario": "s4_mixed_dynamic",
+      "overrides": {
+        "wifi_model.noisy_sigma_db": 4.0,
+        "vlp_model.blockage_prob": 0.1
+      }
+    },
+    {
+      "group": "mixed_dynamic",
+      "level": "nominal",
+      "parameter": "wifi_sigma_db+blockage_prob",
+      "value": 1.0,
+      "scenario": "s4_mixed_dynamic",
+      "overrides": {
+        "wifi_model.noisy_sigma_db": 6.0,
+        "vlp_model.blockage_prob": 0.2
+      }
+    },
+    {
+      "group": "mixed_dynamic",
+      "level": "severe",
+      "parameter": "wifi_sigma_db+blockage_prob",
+      "value": 2.0,
+      "scenario": "s4_mixed_dynamic",
+      "overrides": {
+        "wifi_model.noisy_sigma_db": 9.0,
+        "vlp_model.blockage_prob": 0.4
+      }
+    }
+  ],
+  "generated_files": [
+    "paper/tables/stress_sensitivity_20260602/.gitkeep",
+    "paper/tables/stress_sensitivity_20260602/compact_stress_adaptive_vs_static.tex",
+    "paper/tables/stress_sensitivity_20260602/compact_stress_best_methods.tex",
+    "results/stress_sensitivity_20260602/configs/.gitkeep",
+    "results/stress_sensitivity_20260602/configs/mixed_dynamic_mild.yaml",
+    "results/stress_sensitivity_20260602/configs/mixed_dynamic_nominal.yaml",
+    "results/stress_sensitivity_20260602/configs/mixed_dynamic_severe.yaml",
+    "results/stress_sensitivity_20260602/configs/vlp_blockage_0p10.yaml",
+    "results/stress_sensitivity_20260602/configs/vlp_blockage_0p20.yaml",
+    "results/stress_sensitivity_20260602/configs/vlp_blockage_0p30.yaml",
+    "results/stress_sensitivity_20260602/configs/vlp_blockage_0p40.yaml",
+    "results/stress_sensitivity_20260602/configs/wifi_noise_3p0.yaml",
+    "results/stress_sensitivity_20260602/configs/wifi_noise_6p0.yaml",
+    "results/stress_sensitivity_20260602/configs/wifi_noise_9p0.yaml",
+    "results/stress_sensitivity_20260602/figures/.gitkeep",
+    "results/stress_sensitivity_20260602/figures/mixed_dynamic_stress_mean_error.png",
+    "results/stress_sensitivity_20260602/figures/vlp_blockage_stress_mean_error.png",
+    "results/stress_sensitivity_20260602/figures/wifi_noise_stress_mean_error.png",
+    "results/stress_sensitivity_20260602/logs/final_run.log",
+    "results/stress_sensitivity_20260602/logs/smoke_run.log",
+    "results/stress_sensitivity_20260602/raw/.gitkeep",
+    "results/stress_sensitivity_20260602/raw/stress_sensitivity_per_seed_level_method.csv",
+    "results/stress_sensitivity_20260602/raw/stress_sensitivity_predictions.csv",
+    "results/stress_sensitivity_20260602/reports/GITHUB_ACTIONS_RUN_INSTRUCTIONS.md",
+    "results/stress_sensitivity_20260602/reports/smoke_status.txt",
+    "results/stress_sensitivity_20260602/reports/stress_sensitivity_ALL_RESULTS.txt",
+    "results/stress_sensitivity_20260602/reports/stress_sensitivity_manifest.json",
+    "results/stress_sensitivity_20260602/reports/stress_sensitivity_paper_ready_note.txt",
+    "results/stress_sensitivity_20260602/reports/stress_sensitivity_sanity_check.md",
+    "results/stress_sensitivity_20260602/reports/stress_sensitivity_summary.md",
+    "results/stress_sensitivity_20260602/tables/.gitkeep",
+    "results/stress_sensitivity_20260602/tables/table_adaptive_vs_static_under_stress.csv",
+    "results/stress_sensitivity_20260602/tables/table_best_method_by_stress_level.csv",
+    "results/stress_sensitivity_20260602/tables/table_stress_degradation_slopes.csv",
+    "results/stress_sensitivity_20260602/tables/table_stress_sensitivity_10seed_results.csv"
+  ]
+}

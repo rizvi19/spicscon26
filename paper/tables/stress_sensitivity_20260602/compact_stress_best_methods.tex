@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Best methods by stress level.}
+\label{tab:stress_best}
+\begin{tabular}{lllll}
+\toprule
+stress\_group & stress\_level & best\_mean\_error\_method & best\_mean\_error\_m & best\_p90\_error\_method \\
+\midrule
+mixed\_dynamic & mild & adaptive\_fusion & 0.642 & adaptive\_fusion \\
+mixed\_dynamic & nominal & adaptive\_fusion & 0.644 & adaptive\_fusion \\
+mixed\_dynamic & severe & adaptive\_fusion & 0.712 & adaptive\_fusion \\
+vlp\_blockage & 0.10 & adaptive\_fusion & 0.694 & adaptive\_fusion \\
+vlp\_blockage & 0.20 & adaptive\_fusion & 0.806 & adaptive\_fusion \\
+vlp\_blockage & 0.30 & adaptive\_fusion & 0.875 & graph\_diffusion\_3 \\
+vlp\_blockage & 0.40 & graph\_diffusion\_3 & 0.971 & graph\_diffusion\_3 \\
+wifi\_noise & 3.0 & vlp\_only & 0.471 & vlp\_only \\
+wifi\_noise & 6.0 & vlp\_only & 0.471 & vlp\_only \\
+wifi\_noise & 9.0 & vlp\_only & 0.471 & vlp\_only \\
+\bottomrule
+\end{tabular}
+\end{table}

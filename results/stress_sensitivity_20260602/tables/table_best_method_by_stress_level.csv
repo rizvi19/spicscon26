@@ -1,0 +1,11 @@
+stress_group,stress_level,stress_value,best_mean_error_method,best_mean_error_m,best_p90_error_method,best_p90_error_m,best_failure_rate_method,best_failure_rate,interpretation
+mixed_dynamic,mild,0.0,adaptive_fusion,0.6416601554952612,adaptive_fusion,1.1686181686152104,adaptive_fusion,0.03899999999999999,adaptive_fusion has the lowest mean error; adaptive_fusion has the lowest P90 error.
+mixed_dynamic,nominal,1.0,adaptive_fusion,0.6443970627885326,adaptive_fusion,1.253605735757128,adaptive_fusion,0.039999999999999994,adaptive_fusion has the lowest mean error; adaptive_fusion has the lowest P90 error.
+mixed_dynamic,severe,2.0,adaptive_fusion,0.7117052635443835,adaptive_fusion,1.5117966367536009,adaptive_fusion,0.05800000000000001,adaptive_fusion has the lowest mean error; adaptive_fusion has the lowest P90 error.
+vlp_blockage,0.10,0.1,adaptive_fusion,0.6942445279140191,adaptive_fusion,1.3218111232575065,adaptive_fusion,0.036,adaptive_fusion has the lowest mean error; adaptive_fusion has the lowest P90 error.
+vlp_blockage,0.20,0.2,adaptive_fusion,0.8057881411934626,adaptive_fusion,1.7047508866368932,adaptive_fusion,0.08300000000000002,adaptive_fusion has the lowest mean error; adaptive_fusion has the lowest P90 error.
+vlp_blockage,0.30,0.3,adaptive_fusion,0.8751970030837442,graph_diffusion_3,1.8575769144284433,graph_diffusion_3,0.08299999999999999,adaptive_fusion has the lowest mean error; graph_diffusion_3 has the lowest P90 error.
+vlp_blockage,0.40,0.4,graph_diffusion_3,0.9709243149088828,graph_diffusion_3,1.9400008606616646,graph_diffusion_3,0.08600000000000001,graph_diffusion_3 has the lowest mean error; graph_diffusion_3 has the lowest P90 error.
+wifi_noise,3.0,3.0,vlp_only,0.47053703608896236,vlp_only,0.8274763953544128,vlp_only,0.004,vlp_only has the lowest mean error; vlp_only has the lowest P90 error.
+wifi_noise,6.0,6.0,vlp_only,0.47053703608896236,vlp_only,0.8274763953544128,vlp_only,0.004,vlp_only has the lowest mean error; vlp_only has the lowest P90 error.
+wifi_noise,9.0,9.0,vlp_only,0.47053703608896236,vlp_only,0.8274763953544128,vlp_only,0.004,vlp_only has the lowest mean error; vlp_only has the lowest P90 error.

@@ -1,0 +1,86 @@
+project:
+  name: spicscon2026_graph_dsp_rl_indoor
+  seed_train:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  seed_test:
+  - 101
+  - 102
+  - 103
+  - 104
+  - 105
+  - 106
+  - 107
+  - 108
+  - 109
+  - 110
+room:
+  width_m: 10
+  height_m: 10
+  grid_size: 10
+anchors:
+  wifi_ap:
+  - - 1
+    - 1
+  - - 9
+    - 1
+  - - 5
+    - 9
+  leds:
+  - - 2
+    - 2
+  - - 8
+    - 2
+  - - 2
+    - 8
+  - - 8
+    - 8
+trajectory:
+  num_trajectories: 50
+  steps_per_trajectory: 100
+  max_step_m: 0.5
+wifi_model:
+  p0_dbm: -40
+  path_loss_n: 2.2
+  base_sigma_db: 2.0
+  noisy_sigma_db: 6.0
+  multipath_burst_prob: 0.12
+  shadowing_db_range:
+  - 3
+  - 9
+vlp_model:
+  led_power: 1.0
+  receiver_height_m: 1.0
+  ceiling_height_m: 3.0
+  base_sigma: 0.02
+  blockage_loss: 0.75
+  blockage_prob: 0.1
+dsp:
+  moving_average_window: 5
+  median_window: 5
+  ema_alpha: 0.35
+gsp:
+  neighbor_type: 4
+  smoothing_alpha: 0.25
+  lambda_values:
+  - 0.05
+  - 0.1
+  - 0.2
+  - 0.5
+rl:
+  policy_type: contextual_bandit
+  actions:
+  - wifi_heavy
+  - vlp_heavy
+  - balanced
+  - graph_prior_heavy
+  - recovery
+  epsilon: 0.15
+  learning_rate: 0.2
+  reward_type: negative_error
+metrics:
+  failure_threshold_m: 2.0
+  zone_radius_m: 1.0
