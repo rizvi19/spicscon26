@@ -1,0 +1,105 @@
+name: Tracking baseline evidence
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tracking-baseline-evidence:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out research evidence branch
+        uses: actions/checkout@v4
+        with:
+          ref: codex/research-evidence-upgrades
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install requirements
+        id: dependencies
+        shell: bash
+        run: |
+          mkdir -p results/tracking_baseline_20260602/logs
+          set +e
+          python -m pip install -r requirements.txt 2>&1 | tee results/tracking_baseline_20260602/logs/github_actions_dependency_install.log
+          status=${PIPESTATUS[0]}
+          echo "DEPENDENCY_INSTALL_STATUS=${status}" | tee -a "$GITHUB_ENV"
+          echo "Dependency install status: ${status}"
+          exit "${status}"
+
+      - name: Run smoke tracking baseline
+        id: smoke
+        shell: bash
+        run: |
+          set +e
+          python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode smoke 2>&1 | tee results/tracking_baseline_20260602/logs/github_actions_smoke_command.log
+          status=${PIPESTATUS[0]}
+          echo "SMOKE_STATUS=${status}" | tee -a "$GITHUB_ENV"
+          echo "Smoke status: ${status}"
+          exit "${status}"
+
+      - name: Run final ten-seed tracking baseline
+        id: final
+        shell: bash
+        run: |
+          set +e
+          python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode final 2>&1 | tee results/tracking_baseline_20260602/logs/github_actions_final_command.log
+          status=${PIPESTATUS[0]}
+          echo "FINAL_STATUS=${status}" | tee -a "$GITHUB_ENV"
+          echo "Final status: ${status}"
+          exit "${status}"
+
+      - name: Print diagnostic status and failure log tails
+        if: always()
+        shell: bash
+        run: |
+          echo "Dependency install status: ${DEPENDENCY_INSTALL_STATUS:-not-run}"
+          echo "Smoke status: ${SMOKE_STATUS:-not-run}"
+          echo "Final status: ${FINAL_STATUS:-not-run}"
+
+          if [[ "${DEPENDENCY_INSTALL_STATUS:-not-run}" != "0" ]]; then
+            echo "Dependency installation did not pass. Last 120 lines:"
+            tail -n 120 results/tracking_baseline_20260602/logs/github_actions_dependency_install.log || true
+          fi
+
+          if [[ "${SMOKE_STATUS:-not-run}" != "0" ]]; then
+            echo "Smoke did not pass. Last 120 lines of available smoke logs:"
+            tail -n 120 results/tracking_baseline_20260602/logs/github_actions_smoke_command.log || true
+            tail -n 120 results/tracking_baseline_20260602/logs/smoke_run.log || true
+          fi
+
+          if [[ "${FINAL_STATUS:-not-run}" != "0" ]]; then
+            echo "Final run did not pass. Last 120 lines of available final logs:"
+            tail -n 120 results/tracking_baseline_20260602/logs/github_actions_final_command.log || true
+            tail -n 120 results/tracking_baseline_20260602/logs/final_run.log || true
+          fi
+
+      - name: Upload tracking evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tracking-baseline-evidence-${{ github.run_id }}
+          if-no-files-found: error
+          path: |
+            results/tracking_baseline_20260602/
+            paper/tables/tracking_baseline_20260602/
+
+      - name: Commit generated evidence to research branch
+        if: success()
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -f results/tracking_baseline_20260602 paper/tables/tracking_baseline_20260602
+          if git diff --cached --quiet; then
+            echo "No generated tracking evidence changes to commit."
+          else
+            git commit -m "Record tracking baseline evidence workflow outputs"
+            git push origin HEAD:codex/research-evidence-upgrades
+          fi

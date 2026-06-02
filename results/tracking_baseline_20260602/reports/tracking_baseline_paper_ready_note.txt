@@ -1,0 +1,1 @@
+Paper-ready wording is unavailable until the tracking-baseline-evidence GitHub Actions workflow completes. No numeric scientific claim should be pasted into the paper from the blocked local run. The implemented evaluator will generate a 3--6 sentence evidence-backed note after smoke and final ten-seed execution pass.
