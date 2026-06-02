@@ -1,0 +1,6 @@
+Command: python -m pip install -r requirements.txt
+Status: BLOCKED
+Observed error excerpt:
+WARNING: Retrying after connection broken by OSError('Tunnel connection failed: 403 Forbidden'): /simple/numpy/
+ERROR: Could not find a version that satisfies the requirement numpy (from versions: none)
+ERROR: No matching distribution found for numpy

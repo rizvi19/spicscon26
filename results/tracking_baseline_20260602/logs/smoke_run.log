@@ -1,0 +1,8 @@
+Tracking baseline local smoke run
+Command: python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode smoke
+Status: BLOCKED BEFORE PIPELINE EXECUTION
+Reason: ModuleNotFoundError: No module named 'matplotlib'
+Dependency-install follow-up: python -m pip install -r requirements.txt
+Dependency-install status: BLOCKED
+Dependency-install reason: package index proxy returned 403 Forbidden; scientific Python dependencies are not preinstalled in this container.
+No numerical results were generated locally. Run the GitHub Actions tracking-baseline-evidence workflow to generate complete evidence.

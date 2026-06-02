@@ -1,0 +1,10 @@
+{
+  "status": "local_execution_blocked",
+  "date": "2026-06-02",
+  "branch": "codex/tracking-baseline-evidence",
+  "reason": "Scientific Python dependencies are absent and pip installation is blocked by a package-index proxy 403 response.",
+  "required_action": "Please run the tracking-baseline-evidence workflow from GitHub Actions.",
+  "intended_final_command": "python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode final",
+  "test_seeds_used_for_tuning": false,
+  "numeric_results_generated_locally": false
+}
