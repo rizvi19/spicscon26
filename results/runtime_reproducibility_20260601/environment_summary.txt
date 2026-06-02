@@ -1,0 +1,43 @@
+Expanded 10-seed environment summary
+====================================
+
+Evidence source
+---------------
+GitHub Actions run: https://github.com/rizvi19/spicscon26/actions/runs/26768081083
+Workflow branch: codex/research-evidence-upgrades
+Status-report timestamp (UTC): 2026-06-01T16:53:51Z
+
+Python
+------
+Python executable observed in saved smoke log: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python
+Python version observed from executable path: 3.11.15
+The saved logs do not include a separate `python --version` output from the successful GitHub Actions run.
+
+OS / runner
+-----------
+GitHub Actions runner label from workflow configuration: ubuntu-latest
+Exact resolved runner image version: not available
+CPU model: not available
+Memory size: not available
+
+Dependencies from requirements.txt
+----------------------------------
+- numpy
+- scipy
+- pandas
+- matplotlib
+- scikit-learn
+- networkx
+- pyyaml
+- tqdm
+- joblib
+- tabulate
+- jinja2
+
+Completion status
+-----------------
+GitHub Actions completed dependency install, smoke run, and final ten-seed run with status 0.
+
+Missing information
+-------------------
+Exact resolved runner image version, CPU model, memory size, a separate successful-run `python --version` line, per-seed elapsed timings, and per-stage elapsed timings are not available in the saved logs.
