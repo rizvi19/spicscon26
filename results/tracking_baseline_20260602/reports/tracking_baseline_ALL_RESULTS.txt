@@ -1,0 +1,60 @@
+Tracking baseline ALL RESULTS
+Experiment: fixed-parameter constant-velocity Kalman tracking baseline
+Branch: codex/tracking-baseline-evidence
+Local execution date: 2026-06-02
+Intended final command: python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode final
+Config path: configs/expanded_seeds.yaml
+Seed list: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110]
+Number of seeds: 10
+Scenarios: [s1_clean, s2_wifi_degraded, s3_vlp_blocked, s4_mixed_dynamic]
+Methods evaluated when workflow executes: [kalman_wifi_only, kalman_vlp_only, kalman_static_fusion, kalman_static_fusion_median]
+
+IMPLEMENTATION SUMMARY
+Tracking baseline: fixed-parameter constant-velocity Kalman filter
+State vector: [x, y, vx, vy]
+Transition model: x_t=x_(t-1)+vx; y_t=y_(t-1)+vy; dt=1
+Measurement model: observed localization estimate [x_observed, y_observed]
+Initialization: first observed estimate and zero velocity; ground truth is not used
+Q setting: process_acceleration_variance=0.04
+R setting: measurement_variance=1.0
+Parameter selection: fixed before held-out-seed evaluation; not trained or tuned
+Test seeds 101-110 used for tuning: no
+Optional graph variant: skipped; baseline and median-filtered per-step streams directly support the standard reviewer-requested tracking comparison.
+
+SMOKE TEST RESULT
+Status: BLOCKED IN LOCAL CONTAINER BEFORE PIPELINE EXECUTION
+Command: python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode smoke
+Log path: results/tracking_baseline_20260602/logs/smoke_run.log
+Reason: required scientific Python dependencies are absent, and dependency installation is blocked by a package-index proxy 403 response.
+
+FINAL RUN RESULT
+Status: NOT RUN LOCALLY BECAUSE SMOKE COULD NOT EXECUTE
+Command: python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode final
+Log path after workflow execution: results/tracking_baseline_20260602/logs/final_run.log
+Required action: Please run the tracking-baseline-evidence workflow from GitHub Actions.
+
+FULL AGGREGATE TABLE
+Unavailable until the GitHub Actions workflow completes. No values are fabricated.
+
+COMPARISON AGAINST EXISTING METHODS
+Unavailable until the GitHub Actions workflow completes. No values are fabricated.
+
+SPECIAL DIFFICULT-SCENARIO SUMMARY
+s3_vlp_blocked: unavailable until the GitHub Actions workflow completes.
+s4_mixed_dynamic: unavailable until the GitHub Actions workflow completes.
+
+SCIENTIFIC CONCLUSION
+Unavailable until the GitHub Actions workflow completes. The implemented evaluator will report honestly whether tracking helps, fails to help, or beats adaptive fusion in any scenario.
+
+FILES GENERATED LOCALLY
+results/tracking_baseline_20260602/logs/smoke_run.log
+results/tracking_baseline_20260602/logs/dependency_install_attempt.log
+results/tracking_baseline_20260602/reports/tracking_baseline_ALL_RESULTS.txt
+results/tracking_baseline_20260602/reports/tracking_baseline_sanity_check.md
+results/tracking_baseline_20260602/reports/tracking_baseline_manifest.json
+results/tracking_baseline_20260602/reports/tracking_baseline_summary.md
+results/tracking_baseline_20260602/reports/tracking_baseline_paper_ready_note.txt
+results/tracking_baseline_20260602/reports/GITHUB_ACTIONS_RUN_INSTRUCTIONS.md
+
+NO-FABRICATION STATEMENT
+All numbers in this file are generated from the saved experiment outputs. Missing values are reported as unavailable rather than fabricated.
