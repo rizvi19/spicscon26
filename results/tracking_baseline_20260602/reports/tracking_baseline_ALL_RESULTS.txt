@@ -1,60 +1,101 @@
 Tracking baseline ALL RESULTS
 Experiment: fixed-parameter constant-velocity Kalman tracking baseline
 Branch: codex/tracking-baseline-evidence
-Local execution date: 2026-06-02
-Intended final command: python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode final
+Generated UTC: 2026-06-02T17:56:44.240137+00:00
+Command used: python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode final
 Config path: configs/expanded_seeds.yaml
 Seed list: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110]
 Number of seeds: 10
-Scenarios: [s1_clean, s2_wifi_degraded, s3_vlp_blocked, s4_mixed_dynamic]
-Methods evaluated when workflow executes: [kalman_wifi_only, kalman_vlp_only, kalman_static_fusion, kalman_static_fusion_median]
+Scenarios: ['s1_clean', 's2_wifi_degraded', 's3_vlp_blocked', 's4_mixed_dynamic']
+Methods evaluated: ['kalman_wifi_only', 'kalman_vlp_only', 'kalman_static_fusion', 'kalman_static_fusion_median']
 
 IMPLEMENTATION SUMMARY
-Tracking baseline: fixed-parameter constant-velocity Kalman filter
 State vector: [x, y, vx, vy]
-Transition model: x_t=x_(t-1)+vx; y_t=y_(t-1)+vy; dt=1
-Measurement model: observed localization estimate [x_observed, y_observed]
+Transition: x_t=x_(t-1)+vx; y_t=y_(t-1)+vy; dt=1
+Measurement: observed localization estimate [x_observed, y_observed]
 Initialization: first observed estimate and zero velocity; ground truth is not used
 Q setting: process_acceleration_variance=0.04
 R setting: measurement_variance=1.0
-Parameter selection: fixed before held-out-seed evaluation; not trained or tuned
+Parameters: fixed before evaluation; not trained or tuned
 Test seeds 101-110 used for tuning: no
-Optional graph variant: skipped; baseline and median-filtered per-step streams directly support the standard reviewer-requested tracking comparison.
 
 SMOKE TEST RESULT
-Status: BLOCKED IN LOCAL CONTAINER BEFORE PIPELINE EXECUTION
+PASS
 Command: python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode smoke
 Log path: results/tracking_baseline_20260602/logs/smoke_run.log
-Reason: required scientific Python dependencies are absent, and dependency installation is blocked by a package-index proxy 403 response.
 
 FINAL RUN RESULT
-Status: NOT RUN LOCALLY BECAUSE SMOKE COULD NOT EXECUTE
+PASS
 Command: python -m src.tracking_baseline_experiments --config configs/expanded_seeds.yaml --mode final
-Log path after workflow execution: results/tracking_baseline_20260602/logs/final_run.log
-Required action: Please run the tracking-baseline-evidence workflow from GitHub Actions.
+Log path: results/tracking_baseline_20260602/logs/final_run.log
+Elapsed seconds: 76.279
 
 FULL AGGREGATE TABLE
-Unavailable until the GitHub Actions workflow completes. No values are fabricated.
+scenario=s1_clean | method=kalman_static_fusion | mean_error_m_mean=0.375822 | mean_error_m_std=0.030591 | mean_error_m_ci95_low=0.353938 | mean_error_m_ci95_high=0.397705 | median_error_m_mean=0.332457 | p90_error_m_mean=0.676073 | p90_error_m_std=0.090084 | p90_error_m_ci95_low=0.611631 | p90_error_m_ci95_high=0.740515 | failure_rate_mean=0.000000 | trajectory_smoothness_m_per_step_mean=0.348363 | zone_accuracy_mean=0.973000
+scenario=s1_clean | method=kalman_static_fusion_median | mean_error_m_mean=0.716382 | mean_error_m_std=0.046601 | mean_error_m_ci95_low=0.683045 | mean_error_m_ci95_high=0.749718 | median_error_m_mean=0.716439 | p90_error_m_mean=1.112844 | p90_error_m_std=0.077197 | p90_error_m_ci95_low=1.057620 | p90_error_m_ci95_high=1.168068 | failure_rate_mean=0.000000 | trajectory_smoothness_m_per_step_mean=0.324420 | zone_accuracy_mean=0.840000
+scenario=s1_clean | method=kalman_vlp_only | mean_error_m_mean=0.375040 | mean_error_m_std=0.030962 | mean_error_m_ci95_low=0.352890 | mean_error_m_ci95_high=0.397189 | median_error_m_mean=0.331333 | p90_error_m_mean=0.674340 | p90_error_m_std=0.092327 | p90_error_m_ci95_low=0.608293 | p90_error_m_ci95_high=0.740387 | failure_rate_mean=0.000000 | trajectory_smoothness_m_per_step_mean=0.348432 | zone_accuracy_mean=0.973000
+scenario=s1_clean | method=kalman_wifi_only | mean_error_m_mean=1.005645 | mean_error_m_std=0.128122 | mean_error_m_ci95_low=0.913993 | mean_error_m_ci95_high=1.097298 | median_error_m_mean=0.792882 | p90_error_m_mean=1.994072 | p90_error_m_std=0.434996 | p90_error_m_ci95_low=1.682895 | p90_error_m_ci95_high=2.305249 | failure_rate_mean=0.099000 | trajectory_smoothness_m_per_step_mean=0.811814 | zone_accuracy_mean=0.636000
+scenario=s2_wifi_degraded | method=kalman_static_fusion | mean_error_m_mean=0.381299 | mean_error_m_std=0.046666 | mean_error_m_ci95_low=0.347917 | mean_error_m_ci95_high=0.414682 | median_error_m_mean=0.332335 | p90_error_m_mean=0.692041 | p90_error_m_std=0.147643 | p90_error_m_ci95_low=0.586423 | p90_error_m_ci95_high=0.797658 | failure_rate_mean=0.002000 | trajectory_smoothness_m_per_step_mean=0.360270 | zone_accuracy_mean=0.969000
+scenario=s2_wifi_degraded | method=kalman_static_fusion_median | mean_error_m_mean=0.717233 | mean_error_m_std=0.053318 | mean_error_m_ci95_low=0.679091 | mean_error_m_ci95_high=0.755374 | median_error_m_mean=0.713111 | p90_error_m_mean=1.087944 | p90_error_m_std=0.090864 | p90_error_m_ci95_low=1.022944 | p90_error_m_ci95_high=1.152945 | failure_rate_mean=0.001000 | trajectory_smoothness_m_per_step_mean=0.326950 | zone_accuracy_mean=0.838000
+scenario=s2_wifi_degraded | method=kalman_vlp_only | mean_error_m_mean=0.368192 | mean_error_m_std=0.033439 | mean_error_m_ci95_low=0.344271 | mean_error_m_ci95_high=0.392112 | median_error_m_mean=0.329108 | p90_error_m_mean=0.659471 | p90_error_m_std=0.099676 | p90_error_m_ci95_low=0.588167 | p90_error_m_ci95_high=0.730775 | failure_rate_mean=0.000000 | trajectory_smoothness_m_per_step_mean=0.354538 | zone_accuracy_mean=0.977000
+scenario=s2_wifi_degraded | method=kalman_wifi_only | mean_error_m_mean=1.577876 | mean_error_m_std=0.315089 | mean_error_m_ci95_low=1.352475 | mean_error_m_ci95_high=1.803277 | median_error_m_mean=1.276326 | p90_error_m_mean=3.185023 | p90_error_m_std=0.684523 | p90_error_m_ci95_low=2.695344 | p90_error_m_ci95_high=3.674701 | failure_rate_mean=0.270000 | trajectory_smoothness_m_per_step_mean=1.175180 | zone_accuracy_mean=0.414000
+scenario=s3_vlp_blocked | method=kalman_static_fusion | mean_error_m_mean=0.813788 | mean_error_m_std=0.071854 | mean_error_m_ci95_low=0.762386 | mean_error_m_ci95_high=0.865189 | median_error_m_mean=0.537716 | p90_error_m_mean=1.849488 | p90_error_m_std=0.198487 | p90_error_m_ci95_low=1.707499 | p90_error_m_ci95_high=1.991477 | failure_rate_mean=0.089000 | trajectory_smoothness_m_per_step_mean=0.652689 | zone_accuracy_mean=0.724000
+scenario=s3_vlp_blocked | method=kalman_static_fusion_median | mean_error_m_mean=0.941839 | mean_error_m_std=0.099675 | mean_error_m_ci95_low=0.870536 | mean_error_m_ci95_high=1.013142 | median_error_m_mean=0.806207 | p90_error_m_mean=1.621939 | p90_error_m_std=0.290888 | p90_error_m_ci95_low=1.413850 | p90_error_m_ci95_high=1.830028 | failure_rate_mean=0.066000 | trajectory_smoothness_m_per_step_mean=0.459159 | zone_accuracy_mean=0.667000
+scenario=s3_vlp_blocked | method=kalman_vlp_only | mean_error_m_mean=0.815198 | mean_error_m_std=0.072120 | mean_error_m_ci95_low=0.763606 | mean_error_m_ci95_high=0.866790 | median_error_m_mean=0.537716 | p90_error_m_mean=1.863519 | p90_error_m_std=0.198360 | p90_error_m_ci95_low=1.721620 | p90_error_m_ci95_high=2.005417 | failure_rate_mean=0.091000 | trajectory_smoothness_m_per_step_mean=0.652800 | zone_accuracy_mean=0.725000
+scenario=s3_vlp_blocked | method=kalman_wifi_only | mean_error_m_mean=0.960884 | mean_error_m_std=0.134539 | mean_error_m_ci95_low=0.864640 | mean_error_m_ci95_high=1.057127 | median_error_m_mean=0.815604 | p90_error_m_mean=1.791773 | p90_error_m_std=0.352768 | p90_error_m_ci95_low=1.539418 | p90_error_m_ci95_high=2.044128 | failure_rate_mean=0.074000 | trajectory_smoothness_m_per_step_mean=0.770431 | zone_accuracy_mean=0.641000
+scenario=s4_mixed_dynamic | method=kalman_static_fusion | mean_error_m_mean=0.651270 | mean_error_m_std=0.085788 | mean_error_m_ci95_low=0.589901 | mean_error_m_ci95_high=0.712639 | median_error_m_mean=0.422774 | p90_error_m_mean=1.528054 | p90_error_m_std=0.292980 | p90_error_m_ci95_low=1.318469 | p90_error_m_ci95_high=1.737640 | failure_rate_mean=0.057000 | trajectory_smoothness_m_per_step_mean=0.534801 | zone_accuracy_mean=0.817000
+scenario=s4_mixed_dynamic | method=kalman_static_fusion_median | mean_error_m_mean=0.842247 | mean_error_m_std=0.061625 | mean_error_m_ci95_low=0.798163 | mean_error_m_ci95_high=0.886331 | median_error_m_mean=0.755796 | p90_error_m_mean=1.368505 | p90_error_m_std=0.163925 | p90_error_m_ci95_low=1.251240 | p90_error_m_ci95_high=1.485769 | failure_rate_mean=0.039000 | trajectory_smoothness_m_per_step_mean=0.393302 | zone_accuracy_mean=0.736000
+scenario=s4_mixed_dynamic | method=kalman_vlp_only | mean_error_m_mean=0.651270 | mean_error_m_std=0.085788 | mean_error_m_ci95_low=0.589901 | mean_error_m_ci95_high=0.712639 | median_error_m_mean=0.422774 | p90_error_m_mean=1.528054 | p90_error_m_std=0.292980 | p90_error_m_ci95_low=1.318469 | p90_error_m_ci95_high=1.737640 | failure_rate_mean=0.057000 | trajectory_smoothness_m_per_step_mean=0.534801 | zone_accuracy_mean=0.817000
+scenario=s4_mixed_dynamic | method=kalman_wifi_only | mean_error_m_mean=1.428671 | mean_error_m_std=0.200348 | mean_error_m_ci95_low=1.285350 | mean_error_m_ci95_high=1.571991 | median_error_m_mean=1.117920 | p90_error_m_mean=2.984412 | p90_error_m_std=0.581419 | p90_error_m_ci95_low=2.568489 | p90_error_m_ci95_high=3.400334 | failure_rate_mean=0.224000 | trajectory_smoothness_m_per_step_mean=1.098764 | zone_accuracy_mean=0.454000
 
 COMPARISON AGAINST EXISTING METHODS
-Unavailable until the GitHub Actions workflow completes. No values are fabricated.
+s1_clean: best existing=static_fusion (0.467132 m); best tracking=kalman_vlp_only (0.375040 m); adaptive_fusion=0.467598 m; static_fusion=0.467132 m; tracking helped vs static=yes; tracking beat adaptive=yes; Best tracking beats adaptive fusion on mean error.
+s2_wifi_degraded: best existing=vlp_only (0.470537 m); best tracking=kalman_vlp_only (0.368192 m); adaptive_fusion=0.470734 m; static_fusion=0.479960 m; tracking helped vs static=yes; tracking beat adaptive=yes; Best tracking beats adaptive fusion on mean error.
+s3_vlp_blocked: best existing=adaptive_fusion (0.805788 m); best tracking=kalman_static_fusion (0.813788 m); adaptive_fusion=0.805788 m; static_fusion=1.077862 m; tracking helped vs static=yes; tracking beat adaptive=no; Adaptive fusion retains lower mean error than best tracking.
+s4_mixed_dynamic: best existing=adaptive_fusion (0.644397 m); best tracking=kalman_static_fusion (0.651270 m); adaptive_fusion=0.644397 m; static_fusion=0.810519 m; tracking helped vs static=yes; tracking beat adaptive=no; Adaptive fusion retains lower mean error than best tracking.
 
 SPECIAL DIFFICULT-SCENARIO SUMMARY
-s3_vlp_blocked: unavailable until the GitHub Actions workflow completes.
-s4_mixed_dynamic: unavailable until the GitHub Actions workflow completes.
+s3_vlp_blocked
+static_fusion: mean=1.077862, p90=2.908838, failure=0.184000, smoothness=1.329031
+adaptive_fusion: mean=0.805788, p90=1.704751, failure=0.083000, smoothness=0.679043
+best tracking (kalman_static_fusion): mean=0.813788, p90=1.849488, failure=0.089000, smoothness=0.652689
+best tracking vs static mean-error improvement (negative means degradation): 24.500%
+best tracking vs adaptive mean-error improvement (negative means degradation): -0.993%
+Interpretation: adaptive fusion remains better on mean error than tracking.
+s4_mixed_dynamic
+static_fusion: mean=0.810519, p90=1.956960, failure=0.103000, smoothness=0.980000
+adaptive_fusion: mean=0.644397, p90=1.253606, failure=0.040000, smoothness=0.570835
+best tracking (kalman_static_fusion): mean=0.651270, p90=1.528054, failure=0.057000, smoothness=0.534801
+best tracking vs static mean-error improvement (negative means degradation): 19.648%
+best tracking vs adaptive mean-error improvement (negative means degradation): -1.067%
+Interpretation: adaptive fusion remains better on mean error than tracking.
 
 SCIENTIFIC CONCLUSION
-Unavailable until the GitHub Actions workflow completes. The implemented evaluator will report honestly whether tracking helps, fails to help, or beats adaptive fusion in any scenario.
+The standard temporal baseline strengthens the evidence by addressing a reviewer-relevant omission.
+Adaptive fusion remains competitive, although tracking wins in at least one scenario as reported above.
+The main claim should be preserved; tracking is a complementary standard baseline rather than grounds for overclaiming.
+Recommendation: add the tracking baseline to a future paper table.
+Limitation: Q/R are fixed transparent values and were not tuned; this is an honest baseline rather than an optimized tracker.
+Optional graph tracking was skipped because the core standard tracking comparison is supported directly by available baseline and median-filtered per-step streams.
 
-FILES GENERATED LOCALLY
+FILES GENERATED
+results/tracking_baseline_20260602/raw/tracking_baseline_per_seed_scenario_method.csv
+results/tracking_baseline_20260602/raw/tracking_baseline_predictions.csv
+results/tracking_baseline_20260602/tables/table_tracking_baseline_10seed_results.csv
+results/tracking_baseline_20260602/tables/table_tracking_vs_existing_methods.csv
+results/tracking_baseline_20260602/tables/table_tracking_delta_summary.csv
+results/tracking_baseline_20260602/tables/table_tracking_best_method_by_scenario.csv
+results/tracking_baseline_20260602/figures/tracking_vs_adaptive_mean_error.png
+results/tracking_baseline_20260602/figures/tracking_vs_adaptive_p90_error.png
 results/tracking_baseline_20260602/logs/smoke_run.log
-results/tracking_baseline_20260602/logs/dependency_install_attempt.log
+results/tracking_baseline_20260602/logs/final_run.log
+paper/tables/tracking_baseline_20260602/compact_tracking_results.tex
+paper/tables/tracking_baseline_20260602/compact_tracking_vs_adaptive.tex
 results/tracking_baseline_20260602/reports/tracking_baseline_ALL_RESULTS.txt
-results/tracking_baseline_20260602/reports/tracking_baseline_sanity_check.md
-results/tracking_baseline_20260602/reports/tracking_baseline_manifest.json
 results/tracking_baseline_20260602/reports/tracking_baseline_summary.md
+results/tracking_baseline_20260602/reports/tracking_baseline_sanity_check.md
 results/tracking_baseline_20260602/reports/tracking_baseline_paper_ready_note.txt
-results/tracking_baseline_20260602/reports/GITHUB_ACTIONS_RUN_INSTRUCTIONS.md
+results/tracking_baseline_20260602/reports/tracking_baseline_manifest.json
 
 NO-FABRICATION STATEMENT
 All numbers in this file are generated from the saved experiment outputs. Missing values are reported as unavailable rather than fabricated.

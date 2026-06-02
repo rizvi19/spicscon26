@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\caption{Best Kalman tracker versus adaptive fusion.}
+\label{tab:tracking_vs_adaptive}
+\begin{tabular}{llrrr}
+\toprule
+scenario & best_tracking_method & best_tracking_mean_error_m & adaptive_fusion_mean_error_m & tracking_beats_adaptive \\
+\midrule
+s1_clean & kalman_vlp_only & 0.375 & 0.468 & True \\
+s2_wifi_degraded & kalman_vlp_only & 0.368 & 0.471 & True \\
+s3_vlp_blocked & kalman_static_fusion & 0.814 & 0.806 & False \\
+s4_mixed_dynamic & kalman_static_fusion & 0.651 & 0.644 & False \\
+\bottomrule
+\end{tabular}
+\end{table}

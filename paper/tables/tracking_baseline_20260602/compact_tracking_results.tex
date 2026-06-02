@@ -1,0 +1,27 @@
+\begin{table}[t]
+\centering
+\caption{Fixed-parameter Kalman tracking results.}
+\label{tab:tracking_results}
+\begin{tabular}{llrrr}
+\toprule
+scenario & method_label & mean_error_m_mean & p90_error_m_mean & failure_rate_mean \\
+\midrule
+s1_clean & kalman_static_fusion & 0.376 & 0.676 & 0.000 \\
+s1_clean & kalman_static_fusion_median & 0.716 & 1.113 & 0.000 \\
+s1_clean & kalman_vlp_only & 0.375 & 0.674 & 0.000 \\
+s1_clean & kalman_wifi_only & 1.006 & 1.994 & 0.099 \\
+s2_wifi_degraded & kalman_static_fusion & 0.381 & 0.692 & 0.002 \\
+s2_wifi_degraded & kalman_static_fusion_median & 0.717 & 1.088 & 0.001 \\
+s2_wifi_degraded & kalman_vlp_only & 0.368 & 0.659 & 0.000 \\
+s2_wifi_degraded & kalman_wifi_only & 1.578 & 3.185 & 0.270 \\
+s3_vlp_blocked & kalman_static_fusion & 0.814 & 1.849 & 0.089 \\
+s3_vlp_blocked & kalman_static_fusion_median & 0.942 & 1.622 & 0.066 \\
+s3_vlp_blocked & kalman_vlp_only & 0.815 & 1.864 & 0.091 \\
+s3_vlp_blocked & kalman_wifi_only & 0.961 & 1.792 & 0.074 \\
+s4_mixed_dynamic & kalman_static_fusion & 0.651 & 1.528 & 0.057 \\
+s4_mixed_dynamic & kalman_static_fusion_median & 0.842 & 1.369 & 0.039 \\
+s4_mixed_dynamic & kalman_vlp_only & 0.651 & 1.528 & 0.057 \\
+s4_mixed_dynamic & kalman_wifi_only & 1.429 & 2.984 & 0.224 \\
+\bottomrule
+\end{tabular}
+\end{table}

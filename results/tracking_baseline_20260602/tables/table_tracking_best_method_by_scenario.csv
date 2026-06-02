@@ -1,0 +1,5 @@
+scenario,best_existing_method,best_existing_mean_error_m,best_tracking_method,best_tracking_mean_error_m,adaptive_fusion_mean_error_m,tracking_beats_adaptive
+s1_clean,static_fusion,0.4671324994587579,kalman_vlp_only,0.37503958587665087,0.4675982237532868,True
+s2_wifi_degraded,vlp_only,0.4705370360889624,kalman_vlp_only,0.3681918647573978,0.470734438310943,True
+s3_vlp_blocked,adaptive_fusion,0.8057881411934629,kalman_static_fusion,0.8137876736427812,0.8057881411934629,False
+s4_mixed_dynamic,adaptive_fusion,0.6443970627885327,kalman_static_fusion,0.6512699156350564,0.6443970627885327,False
