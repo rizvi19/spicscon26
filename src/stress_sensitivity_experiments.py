@@ -132,8 +132,8 @@ def report(raw,agg,comp,bestdf,slopesdf,elapsed,base):
   d=slopesdf[slopesdf.stress_group==group]; least=d.loc[d.highest_minus_lowest_mean_error_m.idxmin()]; a=d[d.method_label=='adaptive_fusion'].iloc[0]; s=d[d.method_label=='static_fusion'].iloc[0]; lines.append(f'{group}: least degradation={least.method_label}; adaptive degrades more slowly than static={a.highest_minus_lowest_mean_error_m < s.highest_minus_lowest_mean_error_m}.')
  losses_df = comp.loc[~comp["adaptive_wins"], ["stress_group", "stress_level"]]
  loses = [
-  f"{row.stress_group}/{row.stress_level}"
-  for row in losses_df.itertuples(index=False)
+     f"{row.stress_group}/{row.stress_level}"
+     for row in losses_df.itertuples(index=False)
  ]
  lines+=['Surprising behavior: see per-level tables; monotonicity is reported rather than assumed.','','PAPER-USE CONCLUSION',f'Stress testing strengthens the paper by adding controlled held-out sensitivity evidence across {total} stress levels.',f'Adaptive fusion remains robust under stronger VLP blockage: {bool(comp[comp.stress_group=="vlp_blockage"].adaptive_wins.all())}.',f'Adaptive fusion remains robust under mixed dynamic stress: {bool(comp[comp.stress_group=="mixed_dynamic"].adaptive_wins.all())}.',f'Adaptive fusion losses versus static fusion: {loses if loses else "none"}.',f'Claim recommendation: {"strengthen" if wins==total else "preserve with qualification"}.',f'Exact sentence for later paper use: Across 10 held-out seeds and controlled degradation sweeps, adaptive fusion outperformed static fusion in {wins}/{total} stress settings, including the strongest VLP-blockage and mixed-dynamic conditions.','','GENERATED FILES']+files+['','NO-FABRICATION STATEMENT','All numbers in this file are generated from saved experiment outputs. Missing values are reported as unavailable rather than fabricated.']
  alltxt.write_text('\n'.join(lines)+'\n')
