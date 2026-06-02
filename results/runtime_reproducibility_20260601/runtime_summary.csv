@@ -1,0 +1,9 @@
+item,value,unit,source_file,note
+smoke elapsed time,23.450,seconds,results/expanded_seed_20260601/logs/github_actions_smoke_command.log,Extracted from the saved GitHub Actions command wrapper output.
+final expanded run elapsed time,115.672,seconds,results/expanded_seed_20260601/logs/github_actions_final_command.log,Extracted from the saved GitHub Actions command wrapper output.
+total final run time,115.672,seconds,results/expanded_seed_20260601/logs/github_actions_final_command.log,The saved wrapper elapsed time for the final ten-seed pipeline.
+per-seed runtime,not available,,results/expanded_seed_20260601/logs/final_run.log,Seed-level elapsed timing was not recorded in the current logs.
+per-stage runtime,not available,,results/expanded_seed_20260601/logs/final_run.log,Per-stage runtime was not recorded in the current logs.
+workflow run URL,https://github.com/rizvi19/spicscon26/actions/runs/26768081083,,results/expanded_seed_20260601/reports/github_actions_run_status.md,Saved GitHub Actions workflow run.
+branch name,codex/research-evidence-upgrades,,results/expanded_seed_20260601/reports/github_actions_run_status.md,Branch recorded by the successful workflow.
+timestamp,2026-06-01T16:53:51Z,UTC,results/expanded_seed_20260601/reports/github_actions_run_status.md,Workflow status report generation timestamp.
