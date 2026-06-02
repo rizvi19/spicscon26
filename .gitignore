@@ -47,3 +47,6 @@ Thumbs.db
 
 # Isolated expanded-seed stage workspace
 .expanded_seed_work/
+
+# Isolated stress/sensitivity stage workspace
+.stress_sensitivity_work/
